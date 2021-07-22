@@ -6,39 +6,30 @@
   "repo": "https://github.com/xream/scripts/tree/main",
   "apps": [
     {
-      "id": "xream.mifit.step",
-      "name": "小米运动: 步数",
+      "id": "xream.10010.query",
+      "name": "联通余量",
       "descs_html": [
-        "<a href=\"mifit://\">打开小米运动</a>",
-        "<a href=\"wechat://\">打开微信</a>",
+        "<a href=\"chinaunicom://?open=%7B%22openType%22:%22url%22,%22title%22:%22%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2%22,%22openUrl%22:%22https://m.client.10010.com/mobileService/openPlatform/openPlatLine.htm?to_url=https://img.client.10010.com/yuliangchaxun2/index.html?linkType=unicomNewShare&mobileA=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&businessName=%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2&businessCode=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&shareType=1&mobileB=F8A34DFF6F9346E68343756DB268C5A5&duanlianjieabc=0tygAa4n%22%7D\">打开中国联通/余量查询</a>",
         "<a onClick=\"window.location.reload(true);\">刷新</a>"
       ],
       "keys": [
-        "mifit_step_enabled",
-        "mifit_step_num"
+        "10010_query_cookie"
       ],
       "author": "@xream",
-      "repo": "",
+      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/10010",
       "script": "",
       "settings": [
         {
-          "id": "mifit_step_enabled",
-          "name": "启用",
-          "val": false,
-          "type": "boolean",
-          "desc": "刷新/关闭再开启以确认生效"
-        },
-        {
-          "id": "mifit_step_num",
-          "name": "步数",
-          "val": 4321,
-          "type": "number",
-          "desc": "先设置一个小于5000的数 打开小米运动 同步; 然后设置更高的数字 再打开小米运动 同步"
+          "id": "10010_query_cookie",
+          "name": "Cookie",
+          "val": "",
+          "type": "text",
+          "desc": ""
         }
       ],
       "icons": [
-        "https://i.loli.net/2021/07/13/KQJPZGN1o83YDBz.png",
-        "https://i.loli.net/2021/07/13/KQJPZGN1o83YDBz.png"
+        "https://i.loli.net/2021/07/22/wHSEh17GkOIxJ3m.png",
+        "https://i.loli.net/2021/07/22/9ovr3FEMnGsyuhk.png"
       ]
     }
   ]
