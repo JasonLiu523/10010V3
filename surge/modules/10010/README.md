@@ -36,6 +36,8 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 [联通余量.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/10010/联通余量.js)
 
+![小组件设置](https://i.loli.net/2021/07/22/3mnxdtJ8TFMfazu.jpg)
+
 ## 预览
 
 ![小组件](https://i.loli.net/2021/07/22/vFj9uLMp6BbZmWP.jpg)
