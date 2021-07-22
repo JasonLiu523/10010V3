@@ -35,3 +35,11 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 依赖: [「小件件」开发环境.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/10010/联通余量.js)
 
 [联通余量.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/「小件件」开发环境.js)
+
+## 预览
+
+![小组件](https://i.loli.net/2021/07/22/vFj9uLMp6BbZmWP.jpg)
+
+![通知](https://i.loli.net/2021/07/22/n8JeRBoYXc51O97.jpg)
+
+![其他](https://i.loli.net/2021/07/22/MguJz9LR8QlDqok.jpg)
