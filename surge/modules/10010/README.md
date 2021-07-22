@@ -32,9 +32,9 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 ## Scriptable
 
-依赖: [「小件件」开发环境.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/10010/联通余量.js)
+依赖: [「小件件」开发环境.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/「小件件」开发环境.js)
 
-[联通余量.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/「小件件」开发环境.js)
+[联通余量.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/10010/联通余量.js)
 
 ## 预览
 

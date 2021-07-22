@@ -232,6 +232,7 @@ class Widget extends Base {
       this.name = pkgRes.packageName;
       this.list = [{
         name: '话费',
+        color: 'e2e2e2',
         value: `¥${balanceRes.curntbalancecust}`
       }, ];
 
@@ -252,10 +253,16 @@ class Widget extends Base {
             use = parseFloat(use)
             if (!isNaN(remain)) {
               if (remain > 0) {
+                let remainTxt = remain.toFixed(2)
+                if (remainTxt > 1024) {
+                  remainTxt = `${(remainTxt/1024).toFixed(2)}G`
+                } else {
+                  remainTxt = `${remainTxt}M`
+                }
                 this.list.push({
                   name,
                   color: 'FF0000',
-                  value: `${remain.toFixed(2)}M`
+                  value: `${remainTxt}`
                 });
               }
             } else if (!isNaN(use)) {
@@ -276,6 +283,7 @@ class Widget extends Base {
       });
       this.list.push({
         name: '更新',
+        color: 'e2e2e2',
         value: [new Date().getHours(), new Date().getMinutes()]
           .map(i => String(i).padStart(2, "0"))
           .join(':'),
