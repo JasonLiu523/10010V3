@@ -193,7 +193,7 @@ class Widget extends Base {
       } else {
         shouldFetch = true
       }
-      // shouldFetch = true
+// shouldFetch = true
       if (shouldFetch) {
 
         let Cookie
@@ -206,14 +206,14 @@ class Widget extends Base {
           const boxjsRes = await boxjsReq.loadJSON();
           Cookie = boxjsRes.datas['10010_query_cookie'];
           console.log('✅ 从 boxjs 读取 Cookie')
-          console.log(`🍪 ${Cookie}`)
+          //           console.log(`🍪 ${Cookie}`)
         } catch (e) {
           console.log('❌ 从 boxjs 读取 Cookie 失败')
           console.error(e)
           try {
             Cookie = Keychain.get(this.cookieCacheKey)
             console.log('✅ 从 Keychain 读取 Cookie')
-            console.log(`🍪 ${Cookie}`)
+            //             console.log(`🍪 ${Cookie}`)
           } catch (e) {
             console.log('❌ 从 Keychain 读取 Cookie 失败')
             console.error(e)
@@ -232,9 +232,10 @@ class Widget extends Base {
           };
           // req.body = ``;
           // return await req.loadJSON();
-          const res = await req.loadString();
+          let res = await req.loadString();
           console.log(res)
-          return JSON.parse(res);
+          res = JSON.parse(res)
+          return res
         };
         const pkgReq = async () => {
           const req = new Request(
@@ -248,66 +249,76 @@ class Widget extends Base {
           };
           // req.body = ``;
           // return await req.loadJSON();
-          const res = await req.loadString();
+          let res = await req.loadString();
           console.log(res)
-          return JSON.parse(res);
+          res = JSON.parse(res)
+          return res
         };
         const [balanceRes, pkgRes] = await Promise.all([
           balanceReq(),
           pkgReq(),
         ]);
         this.name = pkgRes.packageName;
+        const balanceResDesc = balanceRes.code === '9998' ? '🚧 联通维护' : '暂无数据'
         this.list = [{
           name: '话费',
           color: 'e2e2e2',
-          value: `¥${balanceRes.curntbalancecust}`
+          value: `¥${balanceRes.curntbalancecust || balanceResDesc}`
         }, ];
 
-        pkgRes.resources.map(({
-          details,
-          type
-        }) => {
-          if (type === 'flow') {
-            details.map(detail => {
-              let {
-                addUpItemName,
-                feePolicyName,
-                remain,
-                use
-              } = detail
-              const name = feePolicyName || addUpItemName
-              remain = parseFloat(remain)
-              use = parseFloat(use)
-              if (!isNaN(remain)) {
-                if (remain > 0) {
-                  let remainTxt = remain.toFixed(2)
-                  if (remainTxt > 1024) {
-                    remainTxt = `${(remainTxt/1024).toFixed(2)}G`
+        if (pkgRes.resources) {
+          pkgRes.resources.map(({
+            details,
+            type
+          }) => {
+            if (type === 'flow') {
+              details.map(detail => {
+                let {
+                  addUpItemName,
+                  feePolicyName,
+                  remain,
+                  use
+                } = detail
+                const name = feePolicyName || addUpItemName
+                remain = parseFloat(remain)
+                use = parseFloat(use)
+                if (!isNaN(remain)) {
+                  if (remain > 0) {
+                    let remainTxt = remain.toFixed(2)
+                    if (remainTxt > 1024) {
+                      remainTxt = `${(remainTxt/1024).toFixed(2)}G`
+                    } else {
+                      remainTxt = `${remainTxt}M`
+                    }
+                    this.list.push({
+                      name,
+                      color: 'FF0000',
+                      value: `${remainTxt}`
+                    });
+                  }
+                } else if (!isNaN(use)) {
+                  let useTxt = use.toFixed(2)
+                  if (useTxt > 1024) {
+                    useTxt = `${(useTxt/1024).toFixed(2)}G`
                   } else {
-                    remainTxt = `${remainTxt}M`
+                    useTxt = `${useTxt}M`
                   }
                   this.list.push({
                     name,
-                    color: 'FF0000',
-                    value: `${remainTxt}`
+                    color: '32CD32',
+                    value: `${useTxt}`
                   });
                 }
-              } else if (!isNaN(use)) {
-                let useTxt = use.toFixed(2)
-                if (useTxt > 1024) {
-                  useTxt = `${(useTxt/1024).toFixed(2)}G`
-                } else {
-                  useTxt = `${useTxt}M`
-                }
-                this.list.push({
-                  name,
-                  color: '32CD32',
-                  value: `${useTxt}`
-                });
-              }
-            })
-          }
-        });
+              })
+            }
+          });
+        } else {
+          this.list.push({
+            name: '流量',
+            color: 'FF0000',
+            value: pkgRes.code === '9998' ? '🚧 联通维护' : '暂无数据'
+          })
+        }
         this.list.push({
           name: '更新',
           color: 'e2e2e2',
