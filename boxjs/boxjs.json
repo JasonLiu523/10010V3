@@ -1,0 +1,45 @@
+{
+  "id": "xream.app.sub",
+  "name": "@xream 的应用订阅",
+  "author": "@xream",
+  "icon": "https://i.loli.net/2021/01/18/VqW7FpRATyz8Z3X.png",
+  "repo": "https://github.com/xream/scripts/tree/main",
+  "apps": [
+    {
+      "id": "xream.mifit.step",
+      "name": "小米运动: 步数",
+      "descs_html": [
+        "<a href=\"mifit://\">打开小米运动</a>",
+        "<a href=\"wechat://\">打开微信</a>",
+        "<a onClick=\"window.location.reload(true);\">刷新</a>"
+      ],
+      "keys": [
+        "mifit_step_enabled",
+        "mifit_step_num"
+      ],
+      "author": "@xream",
+      "repo": "",
+      "script": "",
+      "settings": [
+        {
+          "id": "mifit_step_enabled",
+          "name": "启用",
+          "val": false,
+          "type": "boolean",
+          "desc": "刷新/关闭再开启以确认生效"
+        },
+        {
+          "id": "mifit_step_num",
+          "name": "步数",
+          "val": 4321,
+          "type": "number",
+          "desc": "先设置一个小于5000的数 打开小米运动 同步; 然后设置更高的数字 再打开小米运动 同步"
+        }
+      ],
+      "icons": [
+        "https://i.loli.net/2021/07/13/KQJPZGN1o83YDBz.png",
+        "https://i.loli.net/2021/07/13/KQJPZGN1o83YDBz.png"
+      ]
+    }
+  ]
+}
