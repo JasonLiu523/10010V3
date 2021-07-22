@@ -26,6 +26,7 @@ class Widget extends Base {
     super(arg);
     this.name = '联通余量';
     this.cacheKey = '10010_query'
+    this.cookieCacheKey = '10010_query_cookie'
     this.url = 'chinaunicom://?open=%7B%22openType%22:%22url%22,%22title%22:%22%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2%22,%22openUrl%22:%22https://m.client.10010.com/mobileService/openPlatform/openPlatLine.htm?to_url=https://img.client.10010.com/yuliangchaxun2/index.html?linkType=unicomNewShare&mobileA=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&businessName=%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2&businessCode=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&shareType=1&mobileB=F8A34DFF6F9346E68343756DB268C5A5&duanlianjieabc=0tygAa4n%22%7D'
     this.setupGradient = async () => {
       // Requirements: sunrise
@@ -174,128 +175,160 @@ class Widget extends Base {
    */
   async render() {
     try {
-    const interval = this.arg || 60
-    this.interval = interval
-    let shouldFetch
+      const interval = this.arg || 60
+      this.interval = interval
+      let shouldFetch
 
-    if (Keychain.contains(this.cacheKey)) {
-      const cache = JSON.parse(Keychain.get(this.cacheKey));
-      const list = cache.list
-      const time = cache.time
-      if ((new Date().getTime() - time) / 1000 / 60 > interval) {
-        shouldFetch = true
+      if (Keychain.contains(this.cacheKey)) {
+        const cache = JSON.parse(Keychain.get(this.cacheKey));
+        const list = cache.list
+        const time = cache.time
+        if ((new Date().getTime() - time) / 1000 / 60 > interval) {
+          shouldFetch = true
+        } else {
+          list[list.length - 1].value += `/${interval}分`
+          this.list = list
+        }
+
       } else {
-        list[list.length - 1].value += `/${interval}分`
-        this.list = list
+        shouldFetch = true
       }
+      // shouldFetch = true
+      if (shouldFetch) {
 
-    } else {
-      shouldFetch = true
-    }
-// shouldFetch = true
-    if (shouldFetch) {
+        let Cookie
+        try {
+          const boxjsReq = new Request(
+            'http://boxjs.net/query/boxdata'
+          );
+          boxjsReq.timeoutInterval = 3;
+          boxjsReq.method = 'GET';
+          const boxjsRes = await boxjsReq.loadJSON();
+          Cookie = boxjsRes.datas['10010_query_cookie'];
+          console.log('✅ 从 boxjs 读取 Cookie')
+          console.log(`🍪 ${Cookie}`)
+        } catch (e) {
+          console.log('❌ 从 boxjs 读取 Cookie 失败')
+          console.error(e)
+          try {
+            Cookie = Keychain.get(this.cookieCacheKey)
+            console.log('✅ 从 Keychain 读取 Cookie')
+            console.log(`🍪 ${Cookie}`)
+          } catch (e) {
+            console.log('❌ 从 Keychain 读取 Cookie 失败')
+            console.error(e)
+          }
+        }
 
-      const balanceReq = async () => {
-        const req = new Request(
-          'https://m.client.10010.com/servicequerybusiness/balancenew/accountBalancenew.htm'
-        );
-        req.method = 'GET';
-        req.headers = {
-          // 'Content-Type': 'application/x-www-form-urlencoded',
+        const balanceReq = async () => {
+          const req = new Request(
+            'https://m.client.10010.com/servicequerybusiness/balancenew/accountBalancenew.htm'
+          );
+          // req.timeoutInterval = 30;
+          req.method = 'GET';
+          req.headers = {
+            Cookie,
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          };
+          // req.body = ``;
+          // return await req.loadJSON();
+          const res = await req.loadString();
+          console.log(res)
+          return JSON.parse(res);
         };
-        // req.body = ``;
-        // return await req.loadJSON();
-        const res = await req.loadString();
-        console.log(res)
-        return JSON.parse(res);
-      };
-      const pkgReq = async () => {
-        const req = new Request(
-          'https://m.client.10010.com/servicequerybusiness/operationservice/queryOcsPackageFlowLeftContent'
-        );
-        req.method = 'GET';
-        req.headers = {
-          // 'Content-Type': 'application/x-www-form-urlencoded',
+        const pkgReq = async () => {
+          const req = new Request(
+            'https://m.client.10010.com/servicequerybusiness/operationservice/queryOcsPackageFlowLeftContent'
+          );
+          // req.timeoutInterval = 30;
+          req.method = 'GET';
+          req.headers = {
+            Cookie,
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          };
+          // req.body = ``;
+          // return await req.loadJSON();
+          const res = await req.loadString();
+          console.log(res)
+          return JSON.parse(res);
         };
-        // req.body = ``;
-        // return await req.loadJSON();
-        const res = await req.loadString();
-        console.log(res)
-        return JSON.parse(res);
-      };
-      const [balanceRes, pkgRes] = await Promise.all([
-        balanceReq(),
-        pkgReq(),
-      ]);
-      // console.log(balanceRes)
-      // console.log(pkgRes)
-      this.name = pkgRes.packageName;
-      this.list = [{
-        name: '话费',
-        color: 'e2e2e2',
-        value: `¥${balanceRes.curntbalancecust}`
-      }, ];
+        const [balanceRes, pkgRes] = await Promise.all([
+          balanceReq(),
+          pkgReq(),
+        ]);
+        this.name = pkgRes.packageName;
+        this.list = [{
+          name: '话费',
+          color: 'e2e2e2',
+          value: `¥${balanceRes.curntbalancecust}`
+        }, ];
 
-      pkgRes.resources.map(({
-        details,
-        type
-      }) => {
-        if (type === 'flow') {
-          details.map(detail => {
-            let {
-              addUpItemName,
-              feePolicyName,
-              remain,
-              use
-            } = detail
-            const name = feePolicyName || addUpItemName
-            remain = parseFloat(remain)
-            use = parseFloat(use)
-            if (!isNaN(remain)) {
-              if (remain > 0) {
-                let remainTxt = remain.toFixed(2)
-                if (remainTxt > 1024) {
-                  remainTxt = `${(remainTxt/1024).toFixed(2)}G`
+        pkgRes.resources.map(({
+          details,
+          type
+        }) => {
+          if (type === 'flow') {
+            details.map(detail => {
+              let {
+                addUpItemName,
+                feePolicyName,
+                remain,
+                use
+              } = detail
+              const name = feePolicyName || addUpItemName
+              remain = parseFloat(remain)
+              use = parseFloat(use)
+              if (!isNaN(remain)) {
+                if (remain > 0) {
+                  let remainTxt = remain.toFixed(2)
+                  if (remainTxt > 1024) {
+                    remainTxt = `${(remainTxt/1024).toFixed(2)}G`
+                  } else {
+                    remainTxt = `${remainTxt}M`
+                  }
+                  this.list.push({
+                    name,
+                    color: 'FF0000',
+                    value: `${remainTxt}`
+                  });
+                }
+              } else if (!isNaN(use)) {
+                let useTxt = use.toFixed(2)
+                if (useTxt > 1024) {
+                  useTxt = `${(useTxt/1024).toFixed(2)}G`
                 } else {
-                  remainTxt = `${remainTxt}M`
+                  useTxt = `${useTxt}M`
                 }
                 this.list.push({
                   name,
-                  color: 'FF0000',
-                  value: `${remainTxt}`
+                  color: '32CD32',
+                  value: `${useTxt}`
                 });
               }
-            } else if (!isNaN(use)) {
-              let useTxt = use.toFixed(2)
-              if (useTxt > 1024) {
-                useTxt = `${(useTxt/1024).toFixed(2)}G`
-              } else {
-                useTxt = `${useTxt}M`
-              }
-              this.list.push({
-                name,
-                color: '32CD32',
-                value: `${useTxt}`
-              });
-            }
+            })
+          }
+        });
+        this.list.push({
+          name: '更新',
+          color: 'e2e2e2',
+          value: [new Date().getHours(), new Date().getMinutes()]
+            .map(i => String(i).padStart(2, "0"))
+            .join(':'),
+        });
+        Keychain.set(
+          this.cacheKey,
+          JSON.stringify({
+            list: this.list,
+            time: new Date().getTime()
           })
+        );
+        if (Cookie) {
+          Keychain.set(this.cookieCacheKey, Cookie);
+          console.log('✅ 本次请求成功 保存 Cookie 到  Keychain')
         }
-      });
-      this.list.push({
-        name: '更新',
-        color: 'e2e2e2',
-        value: [new Date().getHours(), new Date().getMinutes()]
-          .map(i => String(i).padStart(2, "0"))
-          .join(':'),
-      });
-      Keychain.set(
-        this.cacheKey,
-        JSON.stringify({
-          list: this.list,
-          time: new Date().getTime()
-        })
-      );
-    }
+      }
+
+
 
       return await this[`${this.widgetFamily}Widget`]();
     } catch (e) {
