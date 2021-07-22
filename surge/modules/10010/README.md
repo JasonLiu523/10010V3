@@ -32,6 +32,12 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 ## Scriptable
 
+### BoxJs 订阅(可跳过)
+
+使用 [BoxJs](https://chavyleung.gitbook.io/boxjs) 添加 [订阅](https://raw.githubusercontent.com/xream/scripts/main/boxjs/boxjs.json) 后, Scriptable 脚本可支持缓存 Cookie
+
+### 脚本
+
 依赖: [「小件件」开发环境.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/「小件件」开发环境.js)
 
 [联通余量.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/10010/联通余量.js)
