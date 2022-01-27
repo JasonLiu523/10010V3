@@ -90,46 +90,43 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 通过启用 `V2P 是否在直接执行脚本时同步一次` 并保存, 再手动执行脚本实现单次同步
 
-也可在 `JSMANAGE(JS 文件管理)` 中的 `store/cookie 常量储存管理` 中手动设置, 参考以下内容(摘自 BoxJs, 以 BoxJs 配置项为准), 自行设置 KEY 和 VALUE 即可
+也可在 `JSMANAGE(JS 文件管理)` 中的 `store/cookie 常量储存管理` 中手动设置, 参考以下内容(字段说明 以 [BoxJs 配置项](https://github.com/xream/scripts/blob/main/boxjs/boxjs.json)为准 ), 自行设置 KEY 和 VALUE 即可
 
 ```JSON
-[
-  {
-    "id": "@10010_query.name",
-    "name": "自定义名称(默认为套餐名)",
-    "val": "",
-    "type": "text",
-    "desc": ""
+{
+  "ignore_flow": "10",
+  "same": "false",
+  "no_url": "true",
+  "v2p_disabled": "false",
+  "name": "@xream 米粉",
+  "maintenance_disabled": "true",
+  "cookie_notification_disabled": "false",
+  "autoSign": "true",
+  "mobile": "",
+  "password": "",
+  "appId": "",
+  "rsapublicKeyEncodeAPI": "https://rsapublickeyencode-kesbkwnyc07x.runkit.sh/",
+  "other_pkg": "(日租|学习强国)",
+  "exclude_remain_pkg": "(学习强国后向定向流量|套餐内专享免费流量)",
+  "cookie_disabled": "false",
+  "device": {
+    "deviceOS": "",
+    "deviceBrand": "",
+    "deviceModel": "",
+    "buildSn": "",
+    "deviceId": ""
   },
-  {
-    "id": "@10010_query.ignore_flow",
-    "name": "流量变化忽略阈值(单位 M)",
-    "val": 0,
-    "type": "number",
-    "desc": "忽略小于此数值的流量变化"
+  "encoded": {
+    "mobile": "",
+    "password": "",
+    "original": {
+      "mobile": "",
+      "password": ""
+    }
   },
-  {
-    "id": "@10010_query.same",
-    "name": "当前时间段内无用量变化时, 也进行通知",
-    "val": false,
-    "type": "boolean",
-    "desc": "默认当前时间段内有用量变化时才进行通知"
-  },
-  {
-    "id": "@10010_query.no_url",
-    "name": "不在通知中附加 URL",
-    "val": false,
-    "type": "boolean",
-    "desc": "默认附加"
-  },
-  {
-    "id": "@10010_query.v2p.disabled",
-    "name": "V2P 禁止脚本执行",
-    "val": false,
-    "type": "boolean",
-    "desc": "开启后, V2P 端脚本将不会执行"
-  }
-]
+  "last": {},
+  "cookie": ""
+}
 ```
 
 #### 多账号使用
@@ -162,6 +159,53 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 在 V2P 上, 上传或保存脚本 `10010_query.js` 的内容, 命名为 `__YAA__10010_query.js`.
 
 之后, 脚本 `__YAA__10010_query.js` 执行时, 会自动从脚本名中获取 store key 名 `YAA` 并使用.
+
+## 青龙
+
+拉取单独文件 `ql raw https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010/10010_query.js`
+
+设置定时任务 `task raw_10010_10010_query.js`
+
+配置文件 `10010_query.json`
+
+参考以下内容(字段说明 以 [BoxJs 配置项](https://github.com/xream/scripts/blob/main/boxjs/boxjs.json)为准 ), 自行设置 KEY 和 VALUE 即可
+
+```JSON
+{
+  "ignore_flow": "10",
+  "same": "false",
+  "no_url": "true",
+  "v2p_disabled": "false",
+  "name": "@xream 米粉",
+  "maintenance_disabled": "true",
+  "cookie_notification_disabled": "false",
+  "autoSign": "true",
+  "mobile": "",
+  "password": "",
+  "appId": "",
+  "rsapublicKeyEncodeAPI": "https://rsapublickeyencode-kesbkwnyc07x.runkit.sh/",
+  "other_pkg": "(日租|学习强国)",
+  "exclude_remain_pkg": "(学习强国后向定向流量|套餐内专享免费流量)",
+  "cookie_disabled": "false",
+  "device": {
+    "deviceOS": "",
+    "deviceBrand": "",
+    "deviceModel": "",
+    "buildSn": "",
+    "deviceId": ""
+  },
+  "encoded": {
+    "mobile": "",
+    "password": "",
+    "original": {
+      "mobile": "",
+      "password": ""
+    }
+  },
+  "last": {},
+  "cookie": ""
+}
+```
 
 #### 配置
 

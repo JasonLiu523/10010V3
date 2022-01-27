@@ -20,12 +20,20 @@ const $$ = {
   //   'chinaunicom://?open=%7B%22openType%22:%22url%22,%22title%22:%22%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2%22,%22openUrl%22:%22https://m.client.10010.com/mobileService/openPlatform/openPlatLine.htm?to_url=https://img.client.10010.com/yuliangchaxun2/index.html?linkType=unicomNewShare&mobileA=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&businessName=%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2&businessCode=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&shareType=1&mobileB=F8A34DFF6F9346E68343756DB268C5A5&duanlianjieabc=0tygAa4n%22%7D',
   notify: (subTitle, content) => {
     const name = $.read('name')
-    $.notify(
-      name ? String(name) : $$.title,
-      isV2P ? '' : subTitle,
-      isV2P ? `${subTitle}\n${content}` : content,
-      String($.read('no_url')) === 'true' ? undefined : { 'open-url': $$.open_url }
-    )
+    let notify
+    try {
+      notify = $.env.isNode ? require('./sendNotify') : ''
+    } catch (e) {}
+    if (notify && notify.sendNotify) {
+      notify.sendNotify(`${name ? String(name) : $$.title}\n${subTitle}\n${content}`)
+    } else {
+      $.notify(
+        name ? String(name) : $$.title,
+        isV2P ? '' : subTitle,
+        isV2P ? `${subTitle}\n${content}` : content,
+        String($.read('no_url')) === 'true' ? undefined : { 'open-url': $$.open_url }
+      )
+    }
   },
 }
 const getQueryStringParams = query =>
@@ -45,6 +53,8 @@ var userAgentTpl = {
   p: 'Mozilla/5.0 (iPad; CPU OS 14_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 unicom{version:iphone_c@8.0600}{systemVersion:dis}{yw_code:}',
 }
 const $ = API($$.name, $$.debug)
+
+$.write('inited', 'inited')
 
 const now = new Date().getTime()
 
@@ -203,11 +213,13 @@ let result
           },
         })
       } catch (e) {
-        e.message = `余量查询网络错误 ${e.message}`
+        e.message = `余量查询错误 ${e.message}`
+        $.error(`${e}`)
         isUndergoingMaintenance = true
         throw e
       }
       queryBody = _.get(queryRes, 'body')
+
       $.log(`ℹ️ 余量查询响应: ${$.stringify(queryRes.body)}`)
       try {
         queryBody = JSON.parse(queryBody)
