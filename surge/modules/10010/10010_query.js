@@ -7,6 +7,15 @@ if (isV2P && typeof __name !== 'undefined') {
     console.log(`V2P 尝试从脚本名称中读取 store key: ${customName}`)
   }
 }
+if (!customName) {
+  try {
+    let matchedFilename = String(__filename).match(/\/__(.*)__10010_query/)
+    if (matchedFilename) {
+      customName = matchedFilename[1]
+      console.log(`尝试从文件名称中读取 store key: ${customName}`)
+    }
+  } catch (e) {}
+}
 
 const $$ = {
   debug: true, // 调试模式
@@ -25,7 +34,7 @@ const $$ = {
       notify = $.env.isNode ? require('./sendNotify') : ''
     } catch (e) {}
     if (notify && notify.sendNotify) {
-      notify.sendNotify(`${name ? String(name) : $$.title}\n${subTitle}\n${content}`)
+      notify.sendNotify(`${name ? String(name) : $$.title}\n${subTitle}\n${content}`, '')
     } else {
       $.notify(
         name ? String(name) : $$.title,

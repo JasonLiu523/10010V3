@@ -207,6 +207,14 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 }
 ```
 
+#### 多账号使用
+
+新建一个脚本 `__miku__10010_query.js`, 并将原脚本 `10010_query.js` 中的内容复制过来.
+
+新建 `miku.json` 或运行一次 `__miku__10010_query.js` 自动生成 `miku.json`
+
+编辑 `miku.json`
+
 #### 配置
 
 正确设置 BoxJs 后, Cookie 会自动同步到 V2P
