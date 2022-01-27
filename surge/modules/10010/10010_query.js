@@ -581,8 +581,11 @@ async function autoSign() {
   let password = $.read('password')
   const appId = $.read('appId')
   const rsapublicKeyEncodeAPI = $.read('rsapublicKeyEncodeAPI')
-  if (!mobile || !password || !appId || !rsapublicKeyEncodeAPI) {
-    throw new Error('请先设置手机号、密码、appId、加密接口')
+  if (!mobile || !password || !appId) {
+    throw new Error('请先设置手机号、密码、appId')
+  }
+  if (!$.env.isNode && !rsapublicKeyEncodeAPI) {
+    throw new Error('请先设置加密接口')
   }
   mobile = String(mobile)
   password = String(password)
@@ -616,7 +619,7 @@ async function autoSign() {
     $.log(`ℹ️ 读取加密信息: ${$.stringify(encoded)}`)
     mobile = encoded.mobile
     password = encoded.password
-  } else {
+  } else if (rsapublicKeyEncodeAPI) {
     // 开源 'https://runkit.com/xream/rsapublickeyencode'
     try {
       const encodedRes = await $.http.post({
@@ -642,6 +645,30 @@ async function autoSign() {
       e.message = `加密失败 ${e.message}`
       throw e
     }
+  } else {
+    const crypto = require('crypto')
+
+    const publicKey = `-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDc+CZK9bBA9IU+gZUOc6
+FUGu7yO9WpTNB0PzmgFBh96Mg1WrovD1oqZ+eIF4LjvxKXGOdI79JRdve9
+NPhQo07+uqGQgE4imwNnRx7PFtCRryiIEcUoavuNtuRVoBAm6qdB0Srctg
+aqGfLgKvZHOnwTjyNqjBUxzMeQlEC2czEMSwIDAQAB
+-----END PUBLIC KEY-----`.toString('ascii')
+
+    const rsapublicKeyEncode = function (data) {
+      let crypted = crypto
+        .publicEncrypt(
+          {
+            key: publicKey,
+            padding: crypto.constants.RSA_PKCS1_PADDING,
+          },
+          Buffer.from(data + '')
+        )
+        .toString('base64')
+      return crypted
+    }
+    mobile = rsapublicKeyEncode(mobile)
+    password = rsapublicKeyEncode(password)
   }
 
   var appInfo = {
