@@ -27,7 +27,7 @@ v2 版本使用 [OpenAPI](https://github.com/Peng-YM/QuanX/tree/master/Tools/Ope
 
 注意事项:
 
-- 设置中的 `加密接口` 用于加密手机号和密码, 可打开 [rsapublickeyencode](https://runkit.com/xream/rsapublickeyencode) 自己部署/Clone 后点击 endpoint 得到地址, 填入设置
+- 设置中的 `加密接口` 用于在非 Node 环境中加密手机号和密码, 可打开 [rsapublickeyencode](https://runkit.com/xream/rsapublickeyencode) 自己部署/Clone 后点击 endpoint 得到地址, 填入设置
 
 ## 懒人 Surge Module
 
@@ -169,6 +169,8 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 配置文件 `10010_query.json`
 
 参考以下内容(字段说明 以 [BoxJs 配置项](https://github.com/xream/scripts/blob/main/boxjs/boxjs.json)为准 ), 自行设置 KEY 和 VALUE 即可
+
+注意: 青龙 为 Node 环境, 不提供 `rsapublicKeyEncodeAPI` 加密接口时, 自动进行本地加密
 
 ```JSON
 {
