@@ -217,6 +217,21 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 编辑 `miku.json`
 
+若要实现多账号使用不同的通知方式, 可参考如下操作:
+
+例如, 默认使用的是钉钉, 现在希望账号 miku 使用 Bark.
+
+可以在 `__miku__10010_query.js` 最上方添加如下代码:
+
+```JavaScript
+process.env.DD_BOT_TOKEN=undefined
+process.env.DD_BOT_SECRET=undefined
+
+process.env.BARK_PUSH="https://api.day.app/123456789"
+```
+
+意思是清除默认的钉钉的环境变量, 并设置 Bark 的环境变量
+
 #### 配置
 
 正确设置 BoxJs 后, Cookie 会自动同步到 V2P
