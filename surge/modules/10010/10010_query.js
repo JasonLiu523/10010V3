@@ -437,6 +437,14 @@ let result
     } else {
       remainingFlowTxt = `${remainingFlow.toFixed(2)}M`
     }
+    if (!isNaN(freeFlow) && freeFlow >= 0) {
+      if (freeFlow >= 1000) {
+        freeFlowTxt = `${(freeFlow / 1024).toFixed(2)}G`
+      } else {
+        freeFlowTxt = `${freeFlow.toFixed(2)}M`
+      }
+    }
+    $.log(`🆓 免流(修正后): ${freeFlowTxt}, ${freeFlow}`)
 
     let last = $.read('last')
     $.log(`ℹ️ 上次查询结果: ${$.stringify(last)}`)
