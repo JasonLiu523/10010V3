@@ -21,9 +21,13 @@ v2 版本使用 [OpenAPI](https://github.com/Peng-YM/QuanX/tree/master/Tools/Ope
 
 - 同步配置至 V2P
 
+- 自动登录
+
 - 更多自定义项
 
-- 自动登录
+  - `free_pkg(免流流量包名正则)` 和 `exclude_remain_pkg(不计算剩余流量的流量包名正则)` 简要说明(字段说明 以 [BoxJs 配置项](https://github.com/xream/scripts/blob/main/boxjs/boxjs.json)为准)
+
+    - 部分用户反馈冰钉开副卡后免流显示异常. 因为联通未将钉钉定向计入免流字段. 需设置 `free_pkg(免流流量包名正则)` 和 `exclude_remain_pkg(不计算剩余流量的流量包名正则)` 为 `(钉钉定向免流资费|套餐内专享免费流量)`
 
 注意事项:
 
@@ -108,6 +112,7 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
   "rsapublicKeyEncodeAPI": "https://rsapublickeyencode-kesbkwnyc07x.runkit.sh/",
   "other_pkg": "(日租|学习强国)",
   "exclude_remain_pkg": "(学习强国后向定向流量|套餐内专享免费流量)",
+  "free_pkg": "(钉钉定向免流资费|套餐内专享免费流量)",
   "cookie_disabled": "false",
   "device": {
     "deviceOS": "",
@@ -188,6 +193,7 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
   "rsapublicKeyEncodeAPI": "https://rsapublickeyencode-kesbkwnyc07x.runkit.sh/",
   "other_pkg": "(日租|学习强国)",
   "exclude_remain_pkg": "(学习强国后向定向流量|套餐内专享免费流量)",
+  "free_pkg": "(钉钉定向免流资费|套餐内专享免费流量)",
   "cookie_disabled": "false",
   "device": {
     "deviceOS": "",
@@ -236,30 +242,44 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 
 正确设置 BoxJs 后, Cookie 会自动同步到 V2P
 
-其他配置可在 `JSMANAGE(JS 文件管理)` 中的 `store/cookie 常量储存管理` 中手动设置, 参考以下内容(摘自 BoxJs), 自行设置 KEY 和 VALUE 即可
+其他配置可在 `JSMANAGE(JS 文件管理)` 中的 `store/cookie 常量储存管理` 中手动设置, 参考以下内容(字段说明 以 [BoxJs 配置项](https://github.com/xream/scripts/blob/main/boxjs/boxjs.json)为准 ), 自行设置 KEY 和 VALUE 即可
 
 ```JSON
-[{
-  "id": "10010_same",
-  "name": "当前时间段内无用量时, 也进行通知",
-  "val": false,
-  "type": "boolean",
-  "desc": "默认不通知"
-},
 {
-  "id": "10010_ignore_flow",
-  "name": "流量变化忽略阈值(单位 M)",
-  "val": 0,
-  "type": "number",
-  "desc": "忽略小于此数值的流量变化"
-},
-{
-  "id": "10010_no_url",
-  "name": "不在通知中附加 URL",
-  "val": false,
-  "type": "boolean",
-  "desc": "默认附加"
-}]
+  "ignore_flow": "10",
+  "same": "false",
+  "no_url": "true",
+  "v2p_disabled": "false",
+  "name": "@xream 米粉",
+  "maintenance_disabled": "true",
+  "cookie_notification_disabled": "false",
+  "autoSign": "true",
+  "mobile": "",
+  "password": "",
+  "appId": "",
+  "rsapublicKeyEncodeAPI": "https://rsapublickeyencode-kesbkwnyc07x.runkit.sh/",
+  "other_pkg": "(日租|学习强国)",
+  "exclude_remain_pkg": "(学习强国后向定向流量|套餐内专享免费流量)",
+  "free_pkg": "(钉钉定向免流资费|套餐内专享免费流量)",
+  "cookie_disabled": "false",
+  "device": {
+    "deviceOS": "",
+    "deviceBrand": "",
+    "deviceModel": "",
+    "buildSn": "",
+    "deviceId": ""
+  },
+  "encoded": {
+    "mobile": "",
+    "password": "",
+    "original": {
+      "mobile": "",
+      "password": ""
+    }
+  },
+  "last": {},
+  "cookie": ""
+}
 ```
 
 ## Scriptable
