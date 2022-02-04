@@ -354,6 +354,8 @@ let result
     $.log(`需要单独显示的流量包名正则 ${otherPkgRegExpStr}`)
     const excludeRemainPkgRegExpStr = $.read('exclude_remain_pkg')
     $.log(`不计算剩余流量的流量包名正则 ${excludeRemainPkgRegExpStr}`)
+    const freePkgRegExpStr = $.read('free_pkg')
+    $.log(`免流流量包名正则 ${freePkgRegExpStr}`)
     let otherPkgs = []
     let remainingFlow = 0
     let remainingFlowTxt
@@ -395,6 +397,19 @@ let result
               }
               if (excludeRemainPkgName) {
                 $.log(`ℹ️ 不计算剩余流量的流量包名: ${excludeRemainPkgName}`)
+              }
+
+              let freePkgName
+
+              if (freePkgRegExpStr) {
+                const freePkgMatchedArray = pkgFullName.match(new RegExp(freePkgRegExpStr))
+                if (freePkgMatchedArray) {
+                  freePkgName = freePkgMatchedArray[1]
+                }
+              }
+              if (freePkgName) {
+                $.log(`ℹ️ 免流流量包名: ${freePkgName}, ${use}`)
+                freeFlow += use
               }
 
               if (otherPkgName) {
