@@ -29,6 +29,8 @@ v2 版本使用 [OpenAPI](https://github.com/Peng-YM/QuanX/tree/master/Tools/Ope
 
     - 部分用户反馈冰钉开副卡后免流显示异常. 因为联通未将钉钉定向计入免流字段. 需设置 `free_pkg(免流流量包名正则)` 和 `exclude_remain_pkg(不计算剩余流量的流量包名正则)` 为 `(钉钉定向免流资费|套餐内专享免费流量)`
 
+    - 流邦或类似的套餐 需要设置 `exclude_remain_pkg(不计算剩余流量的流量包名正则)` 为 `(头条系APP免流|套餐内专享免费流量)`
+
 注意事项:
 
 - 设置中的 `加密接口` 用于在非 Node 环境中加密手机号和密码, 可打开 [rsapublickeyencode](https://runkit.com/xream/rsapublickeyencode) 自己部署/Clone 后点击 endpoint 得到地址, 填入设置
@@ -61,7 +63,7 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 ## BoxJs 订阅
 
-使用 [BoxJs](https://chavyleung.gitbook.io/boxjs) 添加 [订阅](https://raw.githubusercontent.com/xream/scripts/main/boxjs/boxjs.json) 后, Scriptable 脚本可支持缓存 Cookie
+使用 [BoxJs 测试版](https://chavyleung.gitbook.io/boxjs) 添加 [订阅](https://raw.githubusercontent.com/xream/scripts/main/boxjs/boxjs.json) 后, Scriptable 脚本可支持缓存 Cookie
 
 可设置:
 
@@ -283,6 +285,8 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 ```
 
 ## Scriptable
+
+> 目前仍可用 暂停维护 欢迎 PR
 
 ## 脚本
 

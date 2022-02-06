@@ -63,7 +63,7 @@ var userAgentTpl = {
 }
 const $ = API($$.name, $$.debug)
 
-$.write('inited', 'inited')
+$.write(Date.now(), 'lastRunAt')
 
 const now = new Date().getTime()
 
@@ -437,6 +437,7 @@ let result
     } else {
       remainingFlowTxt = `${remainingFlow.toFixed(2)}M`
     }
+
     if (!isNaN(freeFlow) && freeFlow >= 0) {
       if (freeFlow >= 1000) {
         freeFlowTxt = `${(freeFlow / 1024).toFixed(2)}G`
