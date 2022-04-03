@@ -154,3 +154,6 @@ packages/api/payloadConfig.json
 /*.json
 /*.yaml
 test.js
+
+ql.js
+sendNotify.js

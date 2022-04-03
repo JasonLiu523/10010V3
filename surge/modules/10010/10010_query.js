@@ -32,7 +32,9 @@ const $$ = {
     let notify
     try {
       notify = $.env.isNode ? require('./sendNotify') : ''
-    } catch (e) {}
+    } catch (e) {
+      $.error(`❌ appId ${e.message || e}`)
+    }
     if (notify && notify.sendNotify) {
       notify.sendNotify(`${name ? String(name) : $$.title}\n${subTitle}\n${content}`, '')
     } else {
