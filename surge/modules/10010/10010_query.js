@@ -215,6 +215,8 @@ const main = async () => {
         isWifi = conf.ssid
       } else if ($.env.isSurge) {
         isWifi = $network.wifi.ssid
+      } else {
+        isWifi = $network.wifi.ssid
       }
     } catch (e) {}
     if (isWifi && String($.read('wifi')) !== 'true') {
