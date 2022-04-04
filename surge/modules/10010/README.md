@@ -25,6 +25,8 @@ v2 版本使用 [OpenAPI](https://github.com/Peng-YM/QuanX/tree/master/Tools/Ope
 
 - 更多自定义项
 
+  - 当前时间段内有*非免流*才会通知
+
   - `free_pkg(免流流量包名正则)` 和 `exclude_remain_pkg(不计算剩余流量的流量包名正则)` 简要说明(字段说明 以 [BoxJs 配置项](https://github.com/xream/scripts/blob/main/boxjs/boxjs.json)为准)
 
     - 部分用户反馈冰钉开副卡后免流显示异常. 因为联通未将钉钉定向计入免流字段. 需设置 `free_pkg(免流流量包名正则)` 和 `exclude_remain_pkg(不计算剩余流量的流量包名正则)` 为 `(钉钉定向免流资费|套餐内专享免费流量)`
@@ -33,7 +35,7 @@ v2 版本使用 [OpenAPI](https://github.com/Peng-YM/QuanX/tree/master/Tools/Ope
 
 注意事项:
 
-- 设置中的 `加密接口` 用于在非 Node 环境中加密手机号和密码, 可打开 [rsapublickeyencode](https://runkit.com/xream/rsapublickeyencode) 自己部署/Clone 后点击 endpoint 得到地址, 填入设置. 如果你看不懂的话, 直接填我的也行(不保证永久有效): `https://rsapublickeyencode-kesbkwnyc07x.runkit.sh`
+- 最新版全部本地加密 ~~设置中的 `加密接口` 用于在非 Node 环境中加密手机号和密码, 可打开 [rsapublickeyencode](https://runkit.com/xream/rsapublickeyencode) 自己部署/Clone 后点击 endpoint 得到地址, 填入设置. 如果你看不懂的话, 直接填我的也行(不保证永久有效): `https://rsapublickeyencode-kesbkwnyc07x.runkit.sh`~~
 
 ## 懒人 Surge Module
 
@@ -85,7 +87,7 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 ## 其实你并不需要获取 Cookie
 
-有些用户不理解 MitM/解密 HTTPS/生成安装信任证书等前置知识, 其实你只需要提供 appId, 手机号, 密码和远程加密接口, 开启自动登录就能进行查询.
+有些用户不理解 MitM/解密 HTTPS/生成安装信任证书等前置知识, 其实你只需要提供 appId, 手机号, 密码~~和远程加密接口~~, 开启自动登录就能进行查询.
 
 > appId 获取最方便的方法就是手机文件管理器，找到路径为 Unicom/appid 的文件打开复制
 
@@ -98,7 +100,7 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 因为我比较懒 只会返回 appId 和 cookie 方便你使用本bot或用于其他流量监控工具
 ```
 
-> 设置中的 `加密接口` 用于在非 Node 环境中加密手机号和密码, 可打开 [rsapublickeyencode](https://runkit.com/xream/rsapublickeyencode) 自己部署/Clone 后点击 endpoint 得到地址, 填入设置. 如果你看不懂的话, 直接填我的也行(不保证永久有效): `https://rsapublickeyencode-kesbkwnyc07x.runkit.sh`
+> 最新版全部本地加密 ~~设置中的 `加密接口` 用于在非 Node 环境中加密手机号和密码, 可打开 [rsapublickeyencode](https://runkit.com/xream/rsapublickeyencode) 自己部署/Clone 后点击 endpoint 得到地址, 填入设置. 如果你看不懂的话, 直接填我的也行(不保证永久有效): `https://rsapublickeyencode-kesbkwnyc07x.runkit.sh`~~
 
 ## 获取 Cookie
 

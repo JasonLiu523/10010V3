@@ -72,13 +72,6 @@
           "desc": "联通客户端登录时抓取到的 appId"
         },
         {
-          "id": "@10010_query.rsapublicKeyEncodeAPI",
-          "name": "加密接口",
-          "val": "",
-          "type": "text",
-          "desc": "用于加密手机号和密码, 可以 clone https://runkit.com/xream/rsapublickeyencode 点击 endpoint 得到地址"
-        },
-        {
           "id": "@10010_query.name",
           "name": "自定义名称(默认为套餐名)",
           "val": "",
@@ -126,6 +119,13 @@
           "val": false,
           "type": "boolean",
           "desc": "默认当前时间段内有用量变化时才进行通知"
+        },
+        {
+          "id": "@10010_query.remaining_flow_only",
+          "name": "当前时间段内有*非免流*才会通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认关闭, 所有用量都会通知. 开启后, 当前时间段内有*非免流*才会通知"
         },
         {
           "id": "@10010_query.maintenance_disabled",
@@ -210,93 +210,24 @@
           "val": "",
           "type": "text",
           "desc": "例如 Nginx 配置了 auth_basic, 填写此项"
-        }
-      ],
-      "icons": [
-        "https://i.loli.net/2021/07/22/wHSEh17GkOIxJ3m.png",
-        "https://i.loli.net/2021/07/22/9ovr3FEMnGsyuhk.png"
-      ]
-    },
-    {
-      "id": "xream.10010.query",
-      "name": "联通余量(停止维护 即将删除)",
-      "descs_html": [
-        "<a href=\"chinaunicom://?open=%7B%22openType%22:%22url%22,%22title%22:%22%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2%22,%22openUrl%22:%22https://m.client.10010.com/mobileService/openPlatform/openPlatLine.htm?to_url=https://img.client.10010.com/yuliangchaxun2/index.html?linkType=unicomNewShare&mobileA=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&businessName=%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2&businessCode=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&shareType=1&mobileB=F8A34DFF6F9346E68343756DB268C5A5&duanlianjieabc=0tygAa4n%22%7D\">打开中国联通/余量查询</a>",
-        "<a onClick=\"window.location.reload(true);\">刷新</a>"
-      ],
-      "keys": [
-        "10010_query_cookie"
-      ],
-      "author": "@xream",
-      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/10010",
-      "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010/check.js",
-      "settings": [
+        },
         {
-          "id": "10010_query_cookie",
-          "name": "Cookie",
+          "id": "@10010_query.last.time",
+          "name": "上次执行时间",
           "val": "",
           "type": "text",
           "desc": ""
         },
         {
-          "id": "10010_wifi",
-          "name": "使用 WiFi 时, 也进行检查",
-          "val": false,
-          "type": "boolean",
-          "desc": "Surge/Loon 默认不检查; 其他 app 总是检查"
-        },
-        {
-          "id": "10010_same",
-          "name": "当前时间段内无用量时, 也进行通知",
-          "val": false,
-          "type": "boolean",
-          "desc": "默认不通知"
-        },
-        {
-          "id": "10010_ignore_flow",
-          "name": "流量变化忽略阈值(单位 M)",
-          "val": 0,
-          "type": "number",
-          "desc": "忽略小于此数值的流量变化"
-        },
-        {
-          "id": "10010_no_url",
-          "name": "不在通知中附加 URL",
-          "val": false,
-          "type": "boolean",
-          "desc": "默认附加"
-        },
-        {
-          "id": "10010_v2p_webhook_sync",
-          "name": "是否同步到 V2P",
-          "val": false,
-          "type": "boolean",
-          "desc": "默认不同步"
-        },
-        {
-          "id": "10010_v2p_webhook_baseUrl",
-          "name": "V2P 地址",
-          "val": "https://",
-          "type": "text",
-          "desc": "形如 https://v2p.com"
-        },
-        {
-          "id": "10010_v2p_webhook_token",
-          "name": "V2P webhook token",
+          "id": "@10010_query.last.sumFlow",
+          "name": "上次总流量",
           "val": "",
           "type": "text",
           "desc": ""
         },
         {
-          "id": "10010_v2p_webhook_username",
-          "name": "V2P Basic Auth 用户名",
-          "val": "",
-          "type": "text",
-          "desc": ""
-        },
-        {
-          "id": "10010_v2p_webhook_password",
-          "name": "V2P Basic Auth 密码",
+          "id": "@10010_query.last.freeFlow",
+          "name": "上次总免流量",
           "val": "",
           "type": "text",
           "desc": ""
