@@ -392,7 +392,7 @@ async function notify(title, subtitle, body) {
   }
 
   if (notify && notify.sendNotify) {
-    await notify.sendNotify(`${title}`, '${subtitle}\n${body}')
+    await notify.sendNotify(`${title}`, `${subtitle}\n${body}`)
   } else if ($.isV2p()) {
     $.msg(title, '', `${subtitle}\n${body}`)
   } else {
