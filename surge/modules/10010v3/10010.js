@@ -146,7 +146,7 @@ async function query({ cookie }) {
     freePkgRegExp = new RegExp(freePkgRegExpStr)
     console.log(`叠加到免流流量的流量包名正则: ${freePkgRegExp}`)
   }
-  const otherPkgRegExpStr = $.getdata(KEY_OTHER_PKG) || '(音乐|游戏)'
+  const otherPkgRegExpStr = $.getdata(KEY_OTHER_PKG)
   let otherPkgRegExp
   if (otherPkgRegExpStr) {
     otherPkgRegExp = new RegExp(otherPkgRegExpStr)
