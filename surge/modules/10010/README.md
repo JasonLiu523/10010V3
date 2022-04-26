@@ -1,5 +1,15 @@
 # 联通余量
 
+## 联通余量(v3) 测试中
+
+无需抓包 使用短信验证码登录 简化操作 增加了通知模板等自定义
+
+[https://github.com/xream/scripts/tree/main/surge/modules/10010v3](https://github.com/xream/scripts/tree/main/surge/modules/10010v3)
+
+---
+
+> 以下为 v2 内容
+
 <table style="padding: 10px">
 
   <tr>
@@ -11,7 +21,7 @@
   </tr>
 </table>
 
-> 🆕 联通余量(v2)
+> 联通余量(v2)
 
 v2 版本使用 [OpenAPI](https://github.com/Peng-YM/QuanX/tree/master/Tools/OpenAPI), so WORA.
 
@@ -39,11 +49,11 @@ v2 版本使用 [OpenAPI](https://github.com/Peng-YM/QuanX/tree/master/Tools/Ope
 
 ## 懒人 Surge Module
 
-🆕 [联通余量(v2)](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010/10010v2.sgmodule)
+[联通余量(v2)](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010/10010v2.sgmodule)
 
 ## 手动设置 Scripts
 
-### 🆕 联通余量(v2)
+### 联通余量(v2)
 
 Shadowrocket 也支持 使用类似 Surge
 
@@ -108,7 +118,7 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 ## V2P
 
-### 🆕 联通余量(v2)
+### 联通余量(v2)
 
 在 `TASK(定时任务)` 中, 点击`添加单个任务`, 设置 `联通余量`, `cron定时`, `30 */5 * * * *`, `运行JS`, `https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010/10010_query.js`
 

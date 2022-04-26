@@ -75,7 +75,7 @@ async function sign({  mobile, code  }) {
   $.setdata(cookie, KEY_COOKIE)
   $.setdata(appId, KEY_APPID)
   $.setdata('', KEY_CODE)
-  $.msg(`10010`, `登录成功 请刷新`, `${dsc}`)
+  $.msg(`10010`, `登录成功`, `请刷新后 设置密码 并保存`)
 
 }
 function random(length) {
