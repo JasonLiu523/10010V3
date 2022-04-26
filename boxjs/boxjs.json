@@ -6,6 +6,192 @@
   "repo": "https://github.com/xream/scripts/tree/main",
   "apps": [
     {
+      "id": "xream.10010v3",
+      "name": "联通余量(v3)",
+      "descs_html": [
+        "<a href=\"https://github.com/xream/scripts/tree/main/surge/modules/10010v3\">查看文档</a>",
+        "<b>登录方式一</b>",
+        "仅填写手机号密码和appId 保存 即可自动登录",
+        "<b>登录方式二</b>",
+        "1. 填写手机号, 保存, 执行发送验证码",
+        "2. 填写验证码, 保存, 执行用验证码登录",
+        "3. 先刷新, 再设置密码, 保存. 以后即可自动登录",
+        "<a onClick=\"window.location.reload(true);\">刷新</a>"
+      ],
+      "keys": [
+        "@xream.10010.disabled",
+        "@xream.10010.requestNotifyDisabled",
+        "@xream.10010.cookie",
+        "@xream.10010.mobile",
+        "@xream.10010.password",
+        "@xream.10010.appId",
+        "@xream.10010.excludeRemainPkg",
+        "@xream.10010.freePkg",
+        "@xream.10010.otherPkg",
+        "@xream.10010.ignoreFlow",
+        "@xream.10010.remainFlowOnly",
+        "@xream.10010.title",
+        "@xream.10010.subtitle",
+        "@xream.10010.body",
+        "@xream.10010.otherPkgTpl",
+        "@xream.10010.detail"
+      ],
+      "author": "@xream",
+      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/10010v3",
+      "scripts": [
+        {
+          "name": "发送验证码(填手机号,保存,再执行)",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010_send_sms.js"
+        },
+        {
+          "name": "用验证码登录(填手机号,验证码,保存,再执行)",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010_sms_sign.js"
+        },
+        {
+          "name": "手动执行",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js"
+        }
+      ],
+      "settings": [
+        {
+          "id": "@xream.10010.disabled",
+          "name": "禁用",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.10010.mobile",
+          "name": "手机号",
+          "val": "",
+          "type": "text",
+          "desc": "联通客户端登录手机号"
+        },
+        {
+          "id": "@xream.10010.code",
+          "name": "验证码(执行验证码登录才需要填)",
+          "placeholder": "",
+          "val": "",
+          "type": "text",
+          "desc": "登录短信验证码"
+        },
+        {
+          "id": "@xream.10010.password",
+          "name": "密码",
+          "val": "",
+          "type": "text",
+          "desc": "联通客户端登录密码"
+        },
+        {
+          "id": "@xream.10010.appId",
+          "name": "appId(仅填写手机号密码和appId 即可自动登录)",
+          "val": "",
+          "type": "text",
+          "desc": "联通客户端 appId"
+        },
+        {
+          "id": "@xream.10010.cookie",
+          "name": "Cookie(一般情况下不需要手动填)",
+          "val": "",
+          "type": "text",
+          "desc": "Cookie"
+        },
+        {
+          "id": "@xream.10010.excludeRemainPkg",
+          "name": "不计算剩余流量的流量包名正则",
+          "val": "",
+          "type": "text",
+          "desc": "在联通原始值不正确时 进行修正. 例 (定向流量|免流资费|免费流量) , 匹配的包不计算剩余"
+        },
+        {
+          "id": "@xream.10010.freePkg",
+          "name": "叠加到免流流量的流量包名正则",
+          "val": "",
+          "type": "text",
+          "desc": "在联通原始值不正确时 进行修正. 例 设置 (定向流量|免流资费|免费流量), 匹配的包叠加到总免流流量"
+        },
+        {
+          "id": "@xream.10010.otherPkg",
+          "name": "需要单独显示的流量包名正则",
+          "val": "",
+          "type": "text",
+          "desc": "例 设置 (加油包|福利|学习强国), 将显示 剩余 536.98M 加油包 46.12M 福利 490.86M 学习强国 1234.56M 免流 41.66G"
+        },
+        {
+          "id": "@xream.10010.ignoreFlow",
+          "name": "流量变化忽略阈值(单位 M)",
+          "val": 0,
+          "type": "number",
+          "desc": "小于此数值的流量变化不通知"
+        },
+        {
+          "id": "@xream.10010.remainFlowOnly",
+          "name": "当前时间段内有*非免流*才会通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认关闭, 所有用量都会通知. 开启后, 当前时间段内有*非免流*才会通知"
+        },
+        {
+          "id": "@xream.10010.title",
+          "name": "通知标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: [套], 例: 流邦卡19元套餐"
+        },
+        {
+          "id": "@xream.10010.subtitle",
+          "name": "通知副标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: 时长 [时] 跳 [跳] 免 [免], 例: 时长 1分钟 跳 10M 免 10M"
+        },
+        {
+          "id": "@xream.10010.body",
+          "name": "通知正文模板",
+          "val": "",
+          "type": "textarea",
+          "desc": "默认: 剩余 [剩] [单] 免流 [总免], 例: 剩余 5.03G 福利 1G 免流 26.35G"
+        },
+        {
+          "id": "@xream.10010.otherPkgTpl",
+          "name": "通知单独显示的包名模板(即 [单] 的内部模板)",
+          "val": "",
+          "type": "textarea",
+          "desc": "默认: [包] 剩余[剩] 已用[用], 例: 福利包 剩余 1G 已用 1G"
+        },
+        {
+          "id": "@xream.10010.requestNotifyDisabled",
+          "name": "禁用作为请求脚本使用时的通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.10010.detailText",
+          "name": "详情文本",
+          "val": "",
+          "type": "textarea",
+          "placeholder": "",
+          "autoGrow": false,
+          "rows": 8,
+          "desc": ""
+        },
+        {
+          "id": "@xream.10010.detail",
+          "name": "详情数据",
+          "val": "",
+          "type": "textarea",
+          "placeholder": "",
+          "autoGrow": false,
+          "desc": ""
+        }
+      ],
+      "icons": [
+        "https://i.loli.net/2021/07/22/wHSEh17GkOIxJ3m.png",
+        "https://i.loli.net/2021/07/22/9ovr3FEMnGsyuhk.png"
+      ]
+    },
+    {
       "id": "xream.10010_query",
       "name": "联通余量(v2)",
       "descs_html": [
@@ -230,192 +416,6 @@
           "name": "上次总免流量",
           "val": "",
           "type": "text",
-          "desc": ""
-        }
-      ],
-      "icons": [
-        "https://i.loli.net/2021/07/22/wHSEh17GkOIxJ3m.png",
-        "https://i.loli.net/2021/07/22/9ovr3FEMnGsyuhk.png"
-      ]
-    },
-    {
-      "id": "xream.10010v3",
-      "name": "联通余量(v3)",
-      "descs_html": [
-        "<a href=\"https://github.com/xream/scripts/tree/main/surge/modules/10010v3\">查看文档</a>",
-        "<b>登录方式一</b>",
-        "仅填写手机号密码和appId 保存 即可自动登录",
-        "<b>登录方式二</b>",
-        "1. 填写手机号, 保存, 执行发送验证码",
-        "2. 填写验证码, 保存, 执行用验证码登录",
-        "3. 先刷新, 再设置密码, 保存. 以后即可自动登录",
-        "<a onClick=\"window.location.reload(true);\">刷新</a>"
-      ],
-      "keys": [
-        "@xream.10010.disabled",
-        "@xream.10010.requestNotifyDisabled",
-        "@xream.10010.cookie",
-        "@xream.10010.mobile",
-        "@xream.10010.password",
-        "@xream.10010.appId",
-        "@xream.10010.excludeRemainPkg",
-        "@xream.10010.freePkg",
-        "@xream.10010.otherPkg",
-        "@xream.10010.ignoreFlow",
-        "@xream.10010.remainFlowOnly",
-        "@xream.10010.title",
-        "@xream.10010.subtitle",
-        "@xream.10010.body",
-        "@xream.10010.otherPkgTpl",
-        "@xream.10010.detail"
-      ],
-      "author": "@xream",
-      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/10010v3",
-      "scripts": [
-        {
-          "name": "发送验证码(填手机号,保存,再执行)",
-          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010_send_sms.js"
-        },
-        {
-          "name": "用验证码登录(填手机号,验证码,保存,再执行)",
-          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010_sms_sign.js"
-        },
-        {
-          "name": "手动执行",
-          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js"
-        }
-      ],
-      "settings": [
-        {
-          "id": "@xream.10010.disabled",
-          "name": "禁用",
-          "val": false,
-          "type": "boolean",
-          "desc": "默认启用"
-        },
-        {
-          "id": "@xream.10010.mobile",
-          "name": "手机号",
-          "val": "",
-          "type": "text",
-          "desc": "联通客户端登录手机号"
-        },
-        {
-          "id": "@xream.10010.code",
-          "name": "验证码(执行验证码登录才需要填)",
-          "placeholder": "",
-          "val": "",
-          "type": "text",
-          "desc": "登录短信验证码"
-        },
-        {
-          "id": "@xream.10010.password",
-          "name": "密码",
-          "val": "",
-          "type": "text",
-          "desc": "联通客户端登录密码"
-        },
-        {
-          "id": "@xream.10010.appId",
-          "name": "appId(仅填写手机号密码和appId 即可自动登录)",
-          "val": "",
-          "type": "text",
-          "desc": "联通客户端 appId"
-        },
-        {
-          "id": "@xream.10010.cookie",
-          "name": "Cookie(一般情况下不需要手动填)",
-          "val": "",
-          "type": "text",
-          "desc": "Cookie"
-        },
-        {
-          "id": "@xream.10010.excludeRemainPkg",
-          "name": "不计算剩余流量的流量包名正则",
-          "val": "",
-          "type": "text",
-          "desc": "在联通原始值不正确时 进行修正. 例 (定向流量|免流资费|免费流量) , 匹配的包不计算剩余"
-        },
-        {
-          "id": "@xream.10010.freePkg",
-          "name": "叠加到免流流量的流量包名正则",
-          "val": "",
-          "type": "text",
-          "desc": "在联通原始值不正确时 进行修正. 例 设置 (定向流量|免流资费|免费流量), 匹配的包叠加到总免流流量"
-        },
-        {
-          "id": "@xream.10010.otherPkg",
-          "name": "需要单独显示的流量包名正则",
-          "val": "",
-          "type": "text",
-          "desc": "例 设置 (加油包|福利|学习强国), 将显示 剩余 536.98M 加油包 46.12M 福利 490.86M 学习强国 1234.56M 免流 41.66G"
-        },
-        {
-          "id": "@xream.10010.ignoreFlow",
-          "name": "流量变化忽略阈值(单位 M)",
-          "val": 0,
-          "type": "number",
-          "desc": "小于此数值的流量变化不通知"
-        },
-        {
-          "id": "@xream.10010.remainFlowOnly",
-          "name": "当前时间段内有*非免流*才会通知",
-          "val": false,
-          "type": "boolean",
-          "desc": "默认关闭, 所有用量都会通知. 开启后, 当前时间段内有*非免流*才会通知"
-        },
-        {
-          "id": "@xream.10010.title",
-          "name": "通知标题模板",
-          "val": "",
-          "type": "text",
-          "desc": "默认: [套], 例: 流邦卡19元套餐"
-        },
-        {
-          "id": "@xream.10010.subtitle",
-          "name": "通知副标题模板",
-          "val": "",
-          "type": "text",
-          "desc": "默认: 时长 [时] 跳 [跳] 免 [免], 例: 时长 1分钟 跳 10M 免 10M"
-        },
-        {
-          "id": "@xream.10010.body",
-          "name": "通知正文模板",
-          "val": "",
-          "type": "textarea",
-          "desc": "默认: 剩余 [剩] [单] 免流 [总免], 例: 剩余 5.03G 福利 1G 免流 26.35G"
-        },
-        {
-          "id": "@xream.10010.otherPkgTpl",
-          "name": "通知单独显示的包名模板(即 [单] 的内部模板)",
-          "val": "",
-          "type": "textarea",
-          "desc": "默认: [包] 剩余[剩] 已用[用], 例: 福利包 剩余 1G 已用 1G"
-        },
-        {
-          "id": "@xream.10010.requestNotifyDisabled",
-          "name": "禁用作为请求脚本使用时的通知",
-          "val": false,
-          "type": "boolean",
-          "desc": "默认启用"
-        },
-        {
-          "id": "@xream.10010.detailText",
-          "name": "详情文本",
-          "val": "",
-          "type": "textarea",
-          "placeholder": "",
-          "autoGrow": false,
-          "rows": 5,
-          "desc": ""
-        },
-        {
-          "id": "@xream.10010.detail",
-          "name": "详情数据",
-          "val": "",
-          "type": "textarea",
-          "placeholder": "",
-          "autoGrow": false,
           "desc": ""
         }
       ],
