@@ -188,8 +188,8 @@ async function query({ cookie }) {
           detail.resources[field].userResource = userResource
           detail.resources[field].details = []
 
-          const pkgs = $.lodash_get(resource, 'details') || []
-          pkgs.map((pkg, index) => {
+          const details = $.lodash_get(resource, 'details') || []
+          details.map((pkg, index) => {
             const limited = $.lodash_get(pkg, 'limited')
             const feePolicyName = $.lodash_get(pkg, 'feePolicyName')
             const addUpItemName = $.lodash_get(pkg, 'addUpItemName')
