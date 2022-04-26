@@ -8,6 +8,15 @@
 
 同时提供了 `http(s)://10010.json` 接口, 直接返回余量信息. 方便和别的工具整合. 请求时的通知可在 Box.js 设置中关闭(禁用作为请求脚本使用时的通知).
 
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/4.PNG"></td>
+    <td valign="top"><img src="screenshots/1.PNG"></td>
+    <td valign="top"><img src="screenshots/2.PNG"></td>
+    <td valign="top"><img src="screenshots/3.PNG"></td>
+  </tr>
+ </table>
+
 ## 直接使用 Surge 模块
 
 [https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule)
