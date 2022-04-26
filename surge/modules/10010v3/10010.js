@@ -166,6 +166,7 @@ async function query({ cookie }) {
     twresources: { name: '套外流量' },
   }
 
+  const pkgs = []
   detail.other = []
   detail.addUpFree = 0
   detail.remain = 0
@@ -181,6 +182,7 @@ async function query({ cookie }) {
           const userResource = $.lodash_get(resource, 'userResource') || $.lodash_get(resource, 'rzbAllUse')
           const name = $.lodash_get(resourcesConfig, `${field}.name`) || key
           console.log(`${name}: 已用 ${formatFlow(userResource, 2)}`)
+          pkgs.push(`${name}: 已用 ${formatFlow(userResource, 2)}`)
 
           detail.resources[field].name = name
           detail.resources[field].userResource = userResource
@@ -196,6 +198,7 @@ async function query({ cookie }) {
             const remain = $.lodash_get(pkg, 'remain')
             const use = $.lodash_get(pkg, 'use')
             console.log(`[${index + 1}] ${pkgFullName}`)
+            pkgs.push(`[${index + 1}] ${pkgFullName}`)
 
             let otherPkgName
             if (otherPkgRegExp) {
@@ -207,17 +210,21 @@ async function query({ cookie }) {
 
             if (String(limited) === '1') {
               console.log(`已用 ${formatFlow(use, 2)}`)
+              pkgs.push(`已用 ${formatFlow(use, 2)}`)
               const item = { feePolicyName, addUpItemName, pkgFullName, limited, use }
               detail.resources[field].details.push(item)
               if (otherPkgName) {
                 console.log(`需要单独显示: 匹配 ${otherPkgName}`)
+                pkgs.push(`需要单独显示: 匹配 ${otherPkgName}`)
                 item.otherPkgName = otherPkgName
                 detail.other.push(item)
               } else {
                 // console.log(`不需要单独显示`)
+                // pkgs.push(`不需要单独显示`)
               }
             } else {
               console.log(`已用 ${formatFlow(use, 2)}, 剩余 ${formatFlow(remain, 2)}/共 ${formatFlow(total, 2)}`)
+              pkgs.push(`已用 ${formatFlow(use, 2)}, 剩余 ${formatFlow(remain, 2)}/共 ${formatFlow(total, 2)}`)
               let excludeRemainPkgName
               if (excludeRemainPkgRegExp) {
                 const excludeRemainPkgMatchedArray = pkgFullName.match(excludeRemainPkgRegExp)
@@ -227,23 +234,28 @@ async function query({ cookie }) {
               }
               if (excludeRemainPkgName) {
                 console.log(`不计算剩余: 匹配 ${excludeRemainPkgName}`)
+                pkgs.push(`不计算剩余: 匹配 ${excludeRemainPkgName}`)
               } else {
                 if (remain >= 0) {
                   console.log(`计算剩余`)
+                  pkgs.push(`计算剩余`)
                   detail.remain += parseFloat(remain)
                   detail.total += parseFloat(total)
                 } else {
                   console.log(`不计算剩余: 剩余 ${remain} 应>=0`)
+                  pkgs.push(`不计算剩余: 剩余 ${remain} 应>=0`)
                 }
               }
               const item = { feePolicyName, addUpItemName, pkgFullName, limited, use, remain, total }
               detail.resources[field].details.push(item)
               if (otherPkgName) {
                 console.log(`需要单独显示: 匹配 ${otherPkgName}`)
+                pkgs.push(`需要单独显示: 匹配 ${otherPkgName}`)
                 item.otherPkgName = otherPkgName
                 detail.other.push(item)
               } else {
                 // console.log(`不需要单独显示`)
+                // pkgs.push(`不需要单独显示`)
               }
             }
             let freePkgName
@@ -256,12 +268,15 @@ async function query({ cookie }) {
             if (freePkgName) {
               if (use >= 0) {
                 console.log(`计算额外免流: 匹配 ${freePkgName}`)
+                pkgs.push(`计算额外免流: 匹配 ${freePkgName}`)
                 detail.addUpFree += parseFloat(use)
               } else {
                 console.log(`不计算额外免流: 已用 ${use} 应>=0`)
+                pkgs.push(`不计算额外免流: 已用 ${use} 应>=0`)
               }
             } else {
               // console.log(`不计算额外免流`)
+              // pkgs.push(`不计算额外免流`)
             }
           })
         }
@@ -316,6 +331,7 @@ async function query({ cookie }) {
 查询时间(联通): ${detail.time}
 已用流量(联通原始值): ${formatFlow(detail.sum, 2)}
 已免流量(联通原始值): ${formatFlow(detail.freeFlow, 2)}
+${pkgs.join('\n')}
 总剩余流量: ${formatFlow(detail.remain, 2)}
 总共流量: ${formatFlow(detail.total, 2)}
 额外免流流量: ${formatFlow(detail.addUpFree, 2)}
