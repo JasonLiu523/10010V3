@@ -351,7 +351,7 @@ async function query({ cookie }) {
   $.setdata(detailText, KEY_DETAIL_TEXT)
   if (durationFree >= ignoreFlow && durationRemain >= ignoreFlow) {
     if (!remainFlowOnly || durationRemain > 0) {
-      if (typeof $request !== 'undefined' && requestNotifyDisabled) {
+      if ($.isRequest() && requestNotifyDisabled) {
         console.log(`禁用作为请求脚本使用时的通知`)
       } else {
         console.log(`通知`)
@@ -531,6 +531,7 @@ function RSAEncrypt(message) {
   var encrypted = encrypt.encrypt(message)
   return encrypted
 }
+$.isRequest = () => typeof $request !== 'undefined' 
 $.isV2p = () => typeof $evui !== 'undefined'
 
 // prettier-ignore
