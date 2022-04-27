@@ -167,3 +167,35 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 ```
 
 意思是清除默认的钉钉的环境变量, 并设置 Bark 的环境变量
+
+## Scriptable
+
+请求 `http(s)://10010.json` 接口, 直接返回余量信息.
+
+需要脚本配合 Surge 模块默认已开启此接口. 其他客户端的配置请自行参考对应的配置方式, 可参考 Surge 的手动配置方式:
+
+```
+[MITM]
+hostname = %APPEND% 10010.json
+
+[Script]
+联通余量(v3) = type=cron,cronexp=*/5 * * * *,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
+
+联通余量(v3)接口 = type=http-request,pattern=^https?:\/\/10010\.json,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js,requires-body=true,max-size=0,timeout=30
+```
+
+请求时的通知可在 Box.js 设置中关闭(禁用作为请求脚本使用时的通知).
+
+仅提供最简实现方式的展示, 可自行修改源码
+
+## 脚本
+
+依赖: [「小件件」开发环境.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/「小件件」开发环境.js)
+
+[10010.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/10010/10010.js)
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/5.jpg"></td>
+  </tr>
+ </table>
