@@ -145,7 +145,7 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 `sendNotify.js` 版本不一, 可能标题和正文之间有多次换行. 如果要实现一个通知横幅看全标题/副标题/正文三行, 需要自己修改 `sendNotify.js`.
 
-例如: 修改 青龙 `config/sendNotify.js` 里的 `function ddBotNotify` 里的拼接字符串逻辑, 把 `content: \` ${text}\n\n${desp}\`,`改成`content: \` ${text}\n${desp}\`,`
+例如: 修改 青龙 `config/sendNotify.js` 里的 `function ddBotNotify` 里的拼接字符串逻辑, 把 `${text}\n\n${desp}` 改成 `${text}\n${desp}`
 
 #### 多账号使用
 
