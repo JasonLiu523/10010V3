@@ -387,23 +387,31 @@ async function notify(title, subtitle, body) {
     try {
       console.log(`尝试加载 ./10010_${namespace}_sendNotify`)
       notify = require(`./10010_${namespace}_sendNotify`)
-      console.log(`已加载 ./10010_${namespace}_sendNotify`)
     } catch (e) {
       // console.error(e)
     }
-    try {
-      console.log(`尝试加载 ./10010_sendNotify`)
-      notify = require(`./10010_sendNotify`)
-      console.log(`已加载 ./10010_sendNotify`)
-    } catch (e) {
-      // console.error(e)
-    }
-    try {
-      console.log(`尝试加载 ./sendNotify`)
-      notify = require('./sendNotify')
-      console.log(`已加载 ./sendNotify`)
-    } catch (e) {
-      console.error(e)
+    if (notify && notify.sendNotify) {
+      console.log(`./10010_${namespace}_sendNotify 正常`)
+    } else {
+      try {
+        console.log(`尝试加载 ./10010_sendNotify`)
+        notify = require(`./10010_sendNotify`)
+      } catch (e) {
+        // console.error(e)
+      }
+      if (notify && notify.sendNotify) {
+        console.log(`./10010_sendNotify 正常`)
+      } else {
+        try {
+          console.log(`尝试加载 ./sendNotify`)
+          notify = require('./sendNotify')
+          if (notify && notify.sendNotify) {
+            console.log(`./sendNotify 正常`)
+          }
+        } catch (e) {
+          console.error(e)
+        }
+      }
     }
   }
 
