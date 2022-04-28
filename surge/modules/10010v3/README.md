@@ -79,7 +79,7 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 1. 钉钉无限定向在 `套餐内流量&流量包`里, 是免流包. 所以我们可以设置 `叠加到免流流量的流量包名正则(freePkg)` 和 `不计算剩余流量的流量包名正则(excludeRemainPkg)` 为 `(钉钉定向免流资费|套餐内专享免费流量)`
 
-2. 流邦卡在 `套餐内流量&流量包`里有一个 `30GB流邦卡专属免流包`, 它有剩余流量, 我们不需要它计入总剩余流量. 所以我们可以设置 `不计算剩余流量的流量包名正则(excludeRemainPkg)` 为 `(免流包|套餐内专享免费流量)`
+2. 流邦卡在 `套餐内流量&流量包`里有一个 `30GB流邦卡专属免流包`. 此包有剩余流量数据. 但其实它是免流包, 我们不需要它计入总剩余流量. 所以我们可以设置 `不计算剩余流量的流量包名正则(excludeRemainPkg)` 为 `(免流包|套餐内专享免费流量)`
 
 其他情况 请自行查看包(可在正常执行过一次后, 在 Box.js 界面最下方的详情里查看), 添加正则. 如果你不会正则, 可以直接按这个写 `(A|B|C)` 表示包含 A 或 B 或 C. 最好直接复制, 注意标点符号.
 
@@ -145,7 +145,9 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 `sendNotify.js` 版本不一, 可能标题和正文之间有多次换行. 如果要实现一个通知横幅看全标题/副标题/正文三行, 需要自己修改 `sendNotify.js`.
 
-例如: 修改 青龙 `config/sendNotify.js` 里的 `function ddBotNotify` 里的拼接字符串逻辑, 把 `${text}\n\n${desp}` 改成 `${text}\n${desp}`
+例如: 修改 青龙 `sendNotify.js` 里的 `function ddBotNotify` 里的拼接字符串逻辑, 把 `${text}\n\n${desp}` 改成 `${text}\n${desp}`
+
+脚本会尝试加载同目录下的 `10010_sendNotify.js` 文件, 再尝试加载 `sendNotify.js`. 所以你可以创建一个 `10010_sendNotify.js` 文件实现通知的自定义逻辑.
 
 #### 多账号使用
 
@@ -167,6 +169,8 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 ```
 
 意思是清除默认的钉钉的环境变量, 并设置 Bark 的环境变量
+
+脚本会尝试加载同目录下的 `_ABC_10010_sendNotify.js` 文件, 再尝试加载 `10010_sendNotify.js`, 最后尝试加载 `sendNotify.js`. 所以你可以创建一个 `_ABC_10010_sendNotify.js` 文件实现通知的自定义逻辑.
 
 ## Scriptable
 

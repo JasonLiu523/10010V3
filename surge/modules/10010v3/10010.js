@@ -385,7 +385,23 @@ async function notify(title, subtitle, body) {
   if ($.isNode()) {
     console.log('Node 环境 尝试加载 sendNotify')
     try {
+      console.log(`尝试加载 ./10010_${namespace}_sendNotify`)
+      notify = require(`./10010_${namespace}_sendNotify`)
+      console.log(`已加载 ./10010_${namespace}_sendNotify`)
+    } catch (e) {
+      // console.error(e)
+    }
+    try {
+      console.log(`尝试加载 ./10010_sendNotify`)
+      notify = require(`./10010_sendNotify`)
+      console.log(`已加载 ./10010_sendNotify`)
+    } catch (e) {
+      // console.error(e)
+    }
+    try {
+      console.log(`尝试加载 ./sendNotify`)
       notify = require('./sendNotify')
+      console.log(`已加载 ./sendNotify`)
     } catch (e) {
       console.error(e)
     }
