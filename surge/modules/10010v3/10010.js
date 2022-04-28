@@ -365,7 +365,7 @@ ${pkgs.join('\n')}
     },
   }
   $.setdata(detailText, KEY_DETAIL_TEXT)
-  if (durationFree >= ignoreFlow && durationRemain >= ignoreFlow) {
+  if (durationFree >= ignoreFlow || durationRemain >= ignoreFlow) {
     if (!remainFlowOnly || durationRemain > 0) {
       if ($.isRequest() && requestNotifyDisabled) {
         console.log(`禁用作为请求脚本使用时的通知`)
