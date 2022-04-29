@@ -131,9 +131,11 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 设置定时任务
 
-可以先手动执行一次, 脚本管理里出现 `box.data` 文件.
+> 因为多个脚本同时读写同一个文件的问题 所以这里对 读写的文件路径 `box.dat` 做了破坏性的改动
 
-配置文件 `box.data`
+可以先手动执行一次, 脚本管理里会出现 `10010-box.dat` 文件.
+
+配置文件 `10010-box.dat`
 
 参考以下内容(字段说明 以 [BoxJs 配置项](https://github.com/xream/scripts/blob/main/boxjs/boxjs.json)为准 ), 自行设置 KEY 和 VALUE 即可
 
@@ -151,9 +153,9 @@ cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/m
 
 #### 多账号使用
 
-默认脚本使用 `box.data` 中的 `xream` 存储数据.
+默认脚本使用 `10010-box.dat` 中的 `xream` 存储数据.
 
-命名为 `_ABC_10010.js` 时, 使用 `box.data` 中的 `ABC` 存储数据.
+命名为 `_ABC_10010.js` 时, 使用 `ABC-10010-box.dat` 中的 `ABC` 存储数据.
 
 若要实现多账号使用不同的通知方式, 可参考如下操作:
 
