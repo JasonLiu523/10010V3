@@ -84,7 +84,7 @@ let result
 })()
   .catch(e => {
     console.error(e)
-    notify('10010', `❌`, `${$.lodash_get(e, 'message') || e}`, {})
+    notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || e}`, {})
   })
   .finally(() => $.done($.isV2p() ? undefined : result))
 
