@@ -123,8 +123,8 @@ async function query({ cookie }) {
   const requestNotifyDisabled = String($.getdata(KEY_REQUEST_NOTIFY_DISABLED)) === 'true'
   const time = $.lodash_get(body, 'time')
   const packageName = $.lodash_get(body, 'packageName')
-  const sum = $.lodash_get(body, 'summary.sum')
-  const freeFlow = $.lodash_get(body, 'summary.freeFlow')
+  const sum = $.lodash_get(body, 'summary.sum') || 0
+  const freeFlow = $.lodash_get(body, 'summary.freeFlow') || 0
 
   console.log(`当前套餐: ${packageName}`)
   console.log(`当前时间: ${new Date(now).toLocaleString('zh')}`)
