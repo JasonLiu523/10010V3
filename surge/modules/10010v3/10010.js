@@ -123,8 +123,8 @@ async function query({ cookie }) {
   const requestNotifyDisabled = String($.getdata(KEY_REQUEST_NOTIFY_DISABLED)) === 'true'
   const time = $.lodash_get(body, 'time')
   const packageName = $.lodash_get(body, 'packageName')
-  const sum = $.lodash_get(body, 'summary.sum') || 0
-  const freeFlow = $.lodash_get(body, 'summary.freeFlow') || 0
+  const sum = $.lodash_get(body, 'summary.sum')
+  const freeFlow = $.lodash_get(body, 'summary.freeFlow')
 
   console.log(`当前套餐: ${packageName}`)
   console.log(`当前时间: ${new Date(now).toLocaleString('zh')}`)
@@ -289,6 +289,11 @@ async function query({ cookie }) {
   console.log(lastDetail)
   console.log('本次记录:')
   console.log(detail)
+  const resourcesDetails = $.lodash_get(detail, 'resources.resources.details')
+  if (!Array.isArray(resourcesDetails) || resourcesDetails.length === 0) {
+    console.log(`联通未返回包数据 正常情况 习惯就好 🔚`)
+    return
+  }
   let duration = 0
   let durationFree = 0
   let durationRemain = 0
