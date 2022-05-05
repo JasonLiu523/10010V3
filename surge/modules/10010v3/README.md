@@ -21,24 +21,41 @@
 
 [https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule)
 
-Shadowrocket 也支持 使用类似 Surge
+`Shadowrocket` 也支持 使用类似 `Surge`
 
 ## 或者手动设置定时任务
 
+### Surge
+
+> 仅供参考 以该 app 最新配置为准 自行配置
+
 ```
 [MITM]
-hostname = %APPEND% 10010.json
+hostname = 10010.json
 
 [Script]
-联通余量(v3) = type=cron,cronexp=*/5 * * * *,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
-
 联通余量(v3)接口 = type=http-request,pattern=^https?:\/\/10010\.json,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js,requires-body=true,max-size=0,timeout=30
 
-# Loon
-cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
+联通余量(v3) = type=cron,cronexp=*/5 * * * *,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
+```
 
-# QuanX
-*/5 * * * * https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js, tag=联通余量查询
+### QuanX
+
+> 仅供参考 以该 app 最新配置为准 自行配置
+
+```
+[task_local]
+*/5 * * * * https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
+```
+
+### Loon
+
+> 仅供参考 以该 app 最新配置为准 自行配置
+
+```
+[Script]
+enable = true
+cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
 ```
 
 ## BoxJs 订阅
@@ -180,9 +197,11 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 
 需要脚本配合 Surge 模块默认已开启此接口. 其他客户端的配置请自行参考对应的配置方式, 可参考 Surge 的手动配置方式:
 
+> 仅供参考 以该 app 最新配置为准 自行配置
+
 ```
 [MITM]
-hostname = %APPEND% 10010.json
+hostname = 10010.json
 
 [Script]
 联通余量(v3) = type=cron,cronexp=*/5 * * * *,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
