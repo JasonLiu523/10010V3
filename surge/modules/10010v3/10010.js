@@ -350,7 +350,10 @@ async function query({ cookie }) {
     body: renderTpl(bodyTpl, msgData),
   }
   detail.msg = msg
+  // 保存 detail
   $.setjson(detail, KEY_DETAIL)
+  // 附加 cookie
+  detail.cookie = cookie
   const detailText = `当前套餐: ${detail.packageName}
 当前时间: ${new Date(detail.now).toLocaleString('zh')}
 查询时间(联通): ${detail.time}
@@ -377,6 +380,7 @@ ${pkgs.join('\n')}
 `
 
   console.log(detailText)
+  
   result = {
     response: {
       status: 200,
