@@ -35,6 +35,7 @@
         "@xream.10010.title",
         "@xream.10010.subtitle",
         "@xream.10010.body",
+        "@xream.10010.bark",
         "@xream.10010.otherPkgTpl",
         "@xream.10010.detail"
       ],
@@ -160,6 +161,13 @@
           "val": "",
           "type": "textarea",
           "desc": "默认: [包] 剩余[剩] 已用[用], 例: 福利包 剩余 1G 已用 1G"
+        },
+        {
+          "id": "@xream.10010.bark",
+          "name": "使用 Bark 通知而不是当前 app 的通知",
+          "val": "",
+          "type": "textarea",
+          "desc": "[推送标题]/[推送内容]会被自动替换 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=10010&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fanker1209%2Ficon%2Fmain%2Fzglt.png&sound=shake&level=timeSensitive"
         },
         {
           "id": "@xream.10010.requestNotifyDisabled",
