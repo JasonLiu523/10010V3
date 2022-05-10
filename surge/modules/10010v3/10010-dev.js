@@ -34,6 +34,7 @@ const KEY_IGNORE_FLOW = `@${namespace}.10010.ignoreFlow`
 const KEY_REMAIN_FLOW_ONLY = `@${namespace}.10010.remainFlowOnly`
 const KEY_OTHER_PKG_TPL = `@${namespace}.10010.otherPkgTpl`
 const KEY_REQUEST_NOTIFY_DISABLED = `@${namespace}.10010.requestNotifyDisabled`
+const KEY_PANEL_NOTIFY_DISABLED = `@${namespace}.10010.panelNotifyDisabled`
 
 $.setdata(new Date().toLocaleString('zh'), KEY_INITED)
 
@@ -137,6 +138,7 @@ async function query({ cookie }) {
   const ignoreFlow = $.getdata(KEY_IGNORE_FLOW) || 0
   const remainFlowOnly = String($.getdata(KEY_REMAIN_FLOW_ONLY)) === 'true'
   const requestNotifyDisabled = String($.getdata(KEY_REQUEST_NOTIFY_DISABLED)) === 'true'
+  const panelNotifyDisabled = String($.getdata(KEY_PANEL_NOTIFY_DISABLED)) === 'true'
   const time = $.lodash_get(body, 'time')
   const packageName = $.lodash_get(body, 'packageName')
   const sum = $.lodash_get(body, 'summary.sum')
@@ -390,6 +392,8 @@ ${pkgs.join('\n')}
     if (!remainFlowOnly || durationRemain > 0) {
       if ($.isRequest() && requestNotifyDisabled) {
         console.log(`禁用作为请求脚本使用时的通知`)
+      } else if ($.isPanel() && panelNotifyDisabled) {
+        console.log(`禁用作为 panel 脚本使用时的通知`)
       } else {
         console.log(`通知`)
         notify(msg.title, msg.subtitle, msg.body)

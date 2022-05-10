@@ -202,6 +202,37 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 
 脚本会尝试加载同目录下的 `_ABC_10010_sendNotify.js` 文件, 再尝试加载 `10010_sendNotify.js`, 最后尝试加载 `sendNotify.js`. 所以你可以创建一个 `_ABC_10010_sendNotify.js` 文件实现通知的自定义逻辑.
 
+## Surge Panel
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/8.jpg"></td>
+  </tr>
+</table>
+
+请求 `http(s)://10010.json` 接口, 直接返回余量信息.
+
+需要脚本配合 Surge 模块默认已开启此接口. 其他客户端的配置请自行参考对应的配置方式, 可参考 Surge 的手动配置方式:
+
+> 仅供参考 以该 app 最新配置为准 自行配置
+
+请求时的通知可在 Box.js 设置中关闭(禁用作为 panel 脚本使用时的通知).
+
+```
+[MITM]
+hostname = 10010.json
+
+[Script]
+联通余量(v3) = type=cron,cronexp=_/5 _ \* \* \*,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
+
+联通余量(v3)接口 = type=http-request,pattern=^https?:\/\/10010\.json,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js,requires-body=true,max-size=0,timeout=30
+
+panel-10010 = type=generic,timeout=60,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js,argument=icon=arrow.up.arrow.down.circle&color=#5d84f8
+
+[Panel]
+panel-10010 = script-name=panel-10010,update-interval=1
+```
+
 ## Scriptable
 
 请求 `http(s)://10010.json` 接口, 直接返回余量信息.
@@ -211,13 +242,15 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 > 仅供参考 以该 app 最新配置为准 自行配置
 
 ```
+
 [MITM]
 hostname = 10010.json
 
 [Script]
-联通余量(v3) = type=cron,cronexp=*/5 * * * *,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
+联通余量(v3) = type=cron,cronexp=_/5 _ \* \* \*,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
 
 联通余量(v3)接口 = type=http-request,pattern=^https?:\/\/10010\.json,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js,requires-body=true,max-size=0,timeout=30
+
 ```
 
 请求时的通知可在 Box.js 设置中关闭(禁用作为请求脚本使用时的通知).
@@ -235,3 +268,4 @@ hostname = 10010.json
     <td valign="top"><img src="screenshots/5.jpg"></td>
   </tr>
  </table>
+```
