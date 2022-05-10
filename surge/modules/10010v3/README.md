@@ -58,25 +58,34 @@ enable = true
 cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
 ```
 
-## BoxJs 订阅
+## BoxJs
 
 使用 [BoxJs 测试版](https://chavyleung.gitbook.io/boxjs) 添加 订阅 [https://raw.githubusercontent.com/xream/scripts/main/boxjs/boxjs.json](https://raw.githubusercontent.com/xream/scripts/main/boxjs/boxjs.json)
 
 BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/sub/add/https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fboxjs%2Fboxjs.json](http://boxjs.com/#/sub/add/https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fboxjs%2Fboxjs.json)
 
-## 配置
+### 配置
 
-### 登录方式一
+#### 登录方式一
 
 仅填写手机号密码和 appId 保存 即可自动登录
 
-### 登录方式二
+#### 登录方式二
+
+> 请自行了解 http api 的概念, 执行脚本需要使用. 请在 Surge 中开启 HTTP API(可能需要关闭 HTTPS), 并在 BoxJs 中配置 HTTP API. 其他应用请参考对应的文档
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/7.PNG"></td>
+    <td valign="top"><img src="screenshots/6.jpg"></td>
+  </tr>
+ </table>
 
 1. 填写手机号, 保存, 执行发送验证码
 2. 填写验证码, 保存, 执行用验证码登录
 3. 先刷新, 再设置密码, 保存. 以后即可自动登录
 
-### 几个包名正则配置
+#### 几个包名正则配置
 
 1. 不计算剩余流量的流量包名正则(excludeRemainPkg)
 
@@ -90,7 +99,7 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 例 设置 (加油包|福利|学习强国), 将显示 剩余 536.98M 加油包 46.12M 福利 490.86M 学习强国 1234.56M 免流 41.66G
 
-### 修正联通的流量(剩余和免流)
+#### 修正联通的流量(剩余和免流)
 
 联通返回了总的`已用流量`和`已免流量`, 但是`套餐内流量&流量包`里又会出现我们关注的免流包, 或者有不需要关注的免流包也有计入剩余流量.
 
@@ -102,7 +111,7 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 其他情况 请自行查看包(可在正常执行过一次后, 在 Box.js 界面最下方的详情里查看), 添加正则. 如果你不会正则, 可以直接按这个写 `(A|B|C)` 表示包含 A 或 B 或 C. 最好直接复制, 注意标点符号.
 
-### 通知模板
+#### 通知模板
 
 通知标题模板
 
