@@ -1,5 +1,7 @@
 # 联通余量(v3)
 
+> 欢迎关注频道 [https://t.me/zhetengsha](https://t.me/zhetengsha) 加入群组 [https://t.me/zhetengsha_group](https://t.me/zhetengsha_group)
+
 使用了 [chavyleung 大佬的 Env.js](https://github.com/chavyleung/scripts/blob/master/Env.js)
 
 兼容 QuanX, Surge, Loon, Shadowrocket, Stash, [elecV2P](https://github.com/elecV2/elecV2P), [青龙](https://github.com/whyour/qinglong) 等
