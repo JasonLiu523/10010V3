@@ -35,6 +35,8 @@ const KEY_REMAIN_FLOW_ONLY = `@${namespace}.10010.remainFlowOnly`
 const KEY_OTHER_PKG_TPL = `@${namespace}.10010.otherPkgTpl`
 const KEY_REQUEST_NOTIFY_DISABLED = `@${namespace}.10010.requestNotifyDisabled`
 const KEY_PANEL_NOTIFY_DISABLED = `@${namespace}.10010.panelNotifyDisabled`
+const KEY_NOTIFY_DISABLED = `@${namespace}.10010.notifyDisabled`
+const KEY_BARK = `@${namespace}.10010.bark`
 
 $.setdata(new Date().toLocaleString('zh'), KEY_INITED)
 
@@ -139,6 +141,7 @@ async function query({ cookie }) {
   const remainFlowOnly = String($.getdata(KEY_REMAIN_FLOW_ONLY)) === 'true'
   const requestNotifyDisabled = String($.getdata(KEY_REQUEST_NOTIFY_DISABLED)) === 'true'
   const panelNotifyDisabled = String($.getdata(KEY_PANEL_NOTIFY_DISABLED)) === 'true'
+  const notifyDisabled = String($.getdata(KEY_NOTIFY_DISABLED)) === 'true'
   const time = $.lodash_get(body, 'time')
   const packageName = $.lodash_get(body, 'packageName')
   const sum = $.lodash_get(body, 'summary.sum')
@@ -179,6 +182,7 @@ async function query({ cookie }) {
 
   const resourcesConfig = {
     resources: { name: '套餐内流量&流量包' },
+    unshared: { name: '套餐内流量&流量包(非共享)' },
     rzbresources: { name: '日租宝' },
     mlresources: { name: '免流流量' },
     twresources: { name: '套外流量' },
@@ -192,11 +196,12 @@ async function query({ cookie }) {
   detail.resources = {}
   for (const key in body) {
     const field = String(key).toLowerCase()
-    if (field.indexOf('resources') !== -1) {
+    if (field.indexOf('resources') !== -1 || field === 'unshared') {
       detail.resources[field] = {}
       const resources = $.lodash_get(body, key) || []
       resources.map(resource => {
-        if (field !== 'resources' || $.lodash_get(resource, 'type') === 'flow') {
+        const type = $.lodash_get(resource, 'type')
+        if (!type || String(type).toLowerCase().indexOf('flow') !== -1) {
           const userResource = $.lodash_get(resource, 'userResource') || $.lodash_get(resource, 'rzbAllUse')
           const name = $.lodash_get(resourcesConfig, `${field}.name`) || key
           console.log(`${name}: 已用 ${formatFlow(userResource, 2)}`)
@@ -308,7 +313,8 @@ async function query({ cookie }) {
   console.log('本次记录:')
   console.log(detail)
   const resourcesDetails = $.lodash_get(detail, 'resources.resources.details')
-  if (!Array.isArray(resourcesDetails) || resourcesDetails.length === 0) {
+  const unsharedDetails = $.lodash_get(detail, 'resources.unshared.details')
+  if ((!Array.isArray(resourcesDetails) || resourcesDetails.length === 0) && (!Array.isArray(unsharedDetails) || unsharedDetails.length === 0)) {
     console.log(`联通未返回包数据 正常情况 习惯就好 🔚`)
     return
   }
@@ -348,7 +354,10 @@ async function query({ cookie }) {
     body: renderTpl(bodyTpl, msgData),
   }
   detail.msg = msg
+  // 保存 detail
   $.setjson(detail, KEY_DETAIL)
+  // 附加 cookie
+  detail.cookie = cookie
   const detailText = `当前套餐: ${detail.packageName}
 当前时间: ${new Date(detail.now).toLocaleString('zh')}
 查询时间(联通): ${detail.time}
@@ -375,6 +384,7 @@ ${pkgs.join('\n')}
 `
 
   console.log(detailText)
+  
   result = {
     response: {
       status: 200,
@@ -394,6 +404,8 @@ ${pkgs.join('\n')}
         console.log(`禁用作为请求脚本使用时的通知`)
       } else if ($.isPanel() && panelNotifyDisabled) {
         console.log(`禁用作为 panel 脚本使用时的通知`)
+      } else if (notifyDisabled) {
+        console.log(`禁用通知`)
       } else {
         console.log(`通知`)
         notify(msg.title, msg.subtitle, msg.body)
@@ -405,6 +417,7 @@ ${pkgs.join('\n')}
     console.log(`小于流量变化忽略阈值, 不通知`)
   }
 }
+
 
 async function notify(title, subtitle, body) {
   if ($.isNode()) {
@@ -439,8 +452,31 @@ async function notify(title, subtitle, body) {
       }
     }
   }
+  const bark = $.getdata(KEY_BARK)
 
-  if (notify && notify.sendNotify) {
+  if (bark) {
+    try {
+      const url = bark.replace('[推送标题]', encodeURIComponent(title)).replace('[推送内容]', encodeURIComponent(`${subtitle}\n${body}`))
+      $.log(`开始 bark 请求: ${url}`)
+      const res = await $.http.get({ url })
+      // console.log(res)
+      const status = $.lodash_get(res, 'status')
+      $.log('↓ res status')
+      $.log(status)
+      let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
+      try {
+        resBody = JSON.parse(resBody)
+      } catch (e) {}
+      $.log('↓ res body')
+      console.log(resBody)
+      if ($.lodash_get(resBody, 'code') !== 200) {
+        throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+      }
+    } catch (e) {
+     console.error(e)
+     $.msg(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌ bark 请求`, `${$.lodash_get(e, 'message') || e}`, {})
+    }
+  } else if (notify && notify.sendNotify) {
     await notify.sendNotify(`${title}`, `${subtitle}\n${body}`)
   } else if ($.isV2p()) {
     $.msg(title, '', `${subtitle}\n${body}`)

@@ -182,6 +182,7 @@ async function query({ cookie }) {
 
   const resourcesConfig = {
     resources: { name: '套餐内流量&流量包' },
+    unshared: { name: '套餐内流量&流量包(非共享)' },
     rzbresources: { name: '日租宝' },
     mlresources: { name: '免流流量' },
     twresources: { name: '套外流量' },
@@ -195,11 +196,12 @@ async function query({ cookie }) {
   detail.resources = {}
   for (const key in body) {
     const field = String(key).toLowerCase()
-    if (field.indexOf('resources') !== -1) {
+    if (field.indexOf('resources') !== -1 || field === 'unshared') {
       detail.resources[field] = {}
       const resources = $.lodash_get(body, key) || []
       resources.map(resource => {
-        if (field !== 'resources' || $.lodash_get(resource, 'type') === 'flow') {
+        const type = $.lodash_get(resource, 'type')
+        if (!type || String(type).toLowerCase().indexOf('flow') !== -1) {
           const userResource = $.lodash_get(resource, 'userResource') || $.lodash_get(resource, 'rzbAllUse')
           const name = $.lodash_get(resourcesConfig, `${field}.name`) || key
           console.log(`${name}: 已用 ${formatFlow(userResource, 2)}`)
@@ -311,7 +313,8 @@ async function query({ cookie }) {
   console.log('本次记录:')
   console.log(detail)
   const resourcesDetails = $.lodash_get(detail, 'resources.resources.details')
-  if (!Array.isArray(resourcesDetails) || resourcesDetails.length === 0) {
+  const unsharedDetails = $.lodash_get(detail, 'resources.unshared.details')
+  if ((!Array.isArray(resourcesDetails) || resourcesDetails.length === 0) && (!Array.isArray(unsharedDetails) || unsharedDetails.length === 0)) {
     console.log(`联通未返回包数据 正常情况 习惯就好 🔚`)
     return
   }
