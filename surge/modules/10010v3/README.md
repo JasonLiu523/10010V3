@@ -6,6 +6,8 @@
 
 兼容 QuanX, Surge, Loon, Shadowrocket, Stash, [elecV2P](https://github.com/elecV2/elecV2P), [青龙](https://github.com/whyour/qinglong) 等
 
+> Loon 似乎不支持 http api 在 Box.js 里执行脚本. 故不支持短信验证码登录
+
 无需抓包, 在 Box.js 界面上可以直接配置或进行短信验证码登录.
 
 同时提供了 `http(s)://10010.json` 接口, 直接返回余量信息. 方便和别的工具整合. 请求时的通知可在 Box.js 设置中关闭(禁用作为请求脚本使用时的通知).
