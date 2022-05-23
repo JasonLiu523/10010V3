@@ -200,6 +200,21 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 {"xream":"{\"10010\":{\"appId\":\"\", \"mobile\":\"\", \"password\":\"\"}}"}
 ```
 
+如果你搞不清这个被转义过的语法 我建议你编辑 `10010.js` 文件
+
+在 `$.setdata(new Date().toLocaleString('zh'), KEY_INITED)` 这一行下面插入
+
+```
+
+$.setdata('appId', KEY_APPID);
+$.setdata('手机号', KEY_MOBILE);
+$.setdata('服务密码', KEY_PASSWORD);
+
+// 其他配置字段以此类推
+$.setdata(10, KEY_IGNORE_FLOW);
+
+```
+
 #### 通知
 
 `sendNotify.js` 版本不一, 可能标题和正文之间有多次换行. 如果要实现一个通知横幅看全标题/副标题/正文三行, 需要自己修改 `sendNotify.js`.
