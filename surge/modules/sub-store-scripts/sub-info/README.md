@@ -24,3 +24,21 @@ Sub-Store 订阅管理器: https://github.com/Peng-YM/Sub-Store
     <td valign="top"><img src="screenshots/1.png"></td>
   </tr>
  </table>
+
+## 鸣谢
+
+### 原脚本
+
+https://raw.githubusercontent.com/NobyDa/Script/master/Sub-store-parser/DataQuery.js
+
+### 资源解析器
+
+https://github.com/KOP-XIAO/QuantumultX/blob/master/Scripts/resource-parser.js
+
+### Sub-Store
+
+https://github.com/Peng-YM/Sub-Store
+
+### Cool Scripts
+
+https://t.me/cool_scripts
