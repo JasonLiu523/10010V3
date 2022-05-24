@@ -188,7 +188,7 @@ function operator(proxies) {
 
 async function AllSubs(subsUrl, subsName) {
   try {
-    // $.log('〽️ 开始进行信息查询: ' + subsUrl)
+    $.log(`〽️ 开始进行信息查询  ${subsName} ${subsUrl}`)
     const res = await $.http.get({
       url: subsUrl,
       headers: { 'User-Agent': 'Shadowrocket/1598 CFNetwork/1331.0.7 Darwin/21.4.0' },
