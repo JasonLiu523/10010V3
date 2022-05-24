@@ -16,8 +16,6 @@ Sub-Store 订阅管理器: https://github.com/Peng-YM/Sub-Store
 
 脚本链接: https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sub-store-scripts/sub-info/index.js
 
-> 没时间调研 base64 decode 暂不支持 emoji 等特殊字符
-
 <table>
   <tr>
     <td valign="top"><img src="screenshots/2.png"></td>
