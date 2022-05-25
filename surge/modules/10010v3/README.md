@@ -206,17 +206,39 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 如果你搞不清这个被转义过的语法 我建议你编辑 `10010.js` 文件
 
+比如 你查看了 [BoxJs 配置项](https://github.com/xream/scripts/blob/main/boxjs/boxjs.json) 里配置
+
+你想设置 `appId`, `手机号`, `服务密码`, `通知正文模板` 和 `流量变化忽略阈值`
+
+以 `通知正文模板` 为例
+
+BoxJs 里 `通知正文模板` 是 `body`
+
+```
+{
+  "id": "@xream.10010.body",
+  "name": "通知正文模板",
+  "val": "",
+  "type": "textarea",
+  "desc": "默认: 剩余 [剩] [单] 免流 [总免], 例: 剩余 5.03G 福利 1G 免流 26.35G"
+}
+```
+
+代码中对应的是 `const KEY_BODY = `@${namespace}.10010.body``
+
+所以应该使用这样的逻辑 `$.setdata('剩余 [剩] [单] 免流 [总免]\n[详]', KEY_BODY);`
+
 在 `$.setdata(new Date().toLocaleString('zh'), KEY_INITED)` 这一行下面插入
 
 ```
-
 $.setdata('appId', KEY_APPID);
 $.setdata('手机号', KEY_MOBILE);
 $.setdata('服务密码', KEY_PASSWORD);
-
-// 其他配置字段以此类推
+$.setdata('服务密码', KEY_PASSWORD);
+$.setdata('剩余 [剩] [单] 免流 [总免]\n[详]', KEY_BODY);
 $.setdata(10, KEY_IGNORE_FLOW);
 
+// 其他配置字段以此类推
 ```
 
 #### 通知
