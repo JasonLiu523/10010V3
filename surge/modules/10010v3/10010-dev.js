@@ -347,6 +347,7 @@ async function query({ cookie }) {
     durationFree,
     otherText,
     now: new Date(detail.now).toLocaleString('zh'),
+    pkgs,
   }
   const msg = {
     title: renderTpl(titleTpl, msgData),
@@ -495,6 +496,7 @@ function renderTpl(tpl, data) {
     .replace('[剩]', formatFlow(data.remain, 2))
     .replace('[总]', formatFlow(data.total, 2))
     .replace('[单]', data.otherText)
+    .replace('[详]', data.pkgs?data.pkgs.join('\n'): '')
     .replace(/  +/g, ' ')
 }
 
