@@ -1,5 +1,5 @@
 name: 10010v3
-desc: https://github.com/xream/scripts/tree/main/surge/modules/10010v3
+desc: 联通余量(v3)
 
 http:
   force-http-engine:
