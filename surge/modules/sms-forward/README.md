@@ -80,6 +80,14 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 > 默认: [内容], 例: 您的验证码为 123456
 
+### 使用 PushDeer 通知转发
+
+假设你 PushDeer 的链接为 `https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX` 你的 key 为 `XXXXXXXXX`
+
+可在 BoxJs 里设置 `PushDeer 推送` 为 `https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX&text=[推送全文]`
+
+`[推送全文]` 会被自动替换
+
 ### 使用 Bark 通知转发
 
 使用 Bark 通知 可实现更多通知效果: 推送铃声, 推送图标, 时效性通知, 复制推送内容等. 具体功能请参考 Bark 的设置说明.

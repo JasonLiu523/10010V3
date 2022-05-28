@@ -26,6 +26,7 @@ const KEY_TITLE = `@xream.${key}.title`
 const KEY_SUBTITLE = `@xream.${key}.subtitle`
 const KEY_BODY = `@xream.${key}.body`
 const KEY_BARK = `@xream.${key}.bark`
+const KEY_PUSHDEER = `@xream.${key}.pushdeer`
 
 $.setdata(new Date().toLocaleString('zh'), KEY_INITED)
 
@@ -199,32 +200,58 @@ let result
   })
 
 async function notify(title, subtitle, body, copy) {
+  const pushdeer = $.getdata(KEY_PUSHDEER)
   const bark = $.getdata(KEY_BARK)
 
-  if (bark) {
-    try {
-      const url = bark
-        .replace('[推送标题]', encodeURIComponent(title))
-        .replace('[推送内容]', encodeURIComponent(`${subtitle}\n${body}`))
-        .replace('[复制内容]', encodeURIComponent(copy))
-      $.log(`开始 bark 请求: ${url}`)
-      const res = await $.http.get({ url })
-      // console.log(res)
-      const status = $.lodash_get(res, 'status')
-      $.log('↓ res status')
-      $.log(status)
-      let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
+  if (pushdeer || bark) {
+    if (pushdeer) {
       try {
-        resBody = JSON.parse(resBody)
-      } catch (e) {}
-      $.log('↓ res body')
-      console.log(resBody)
-      if ($.lodash_get(resBody, 'code') !== 200) {
-        throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        const url = pushdeer.replace('[推送全文]', encodeURIComponent(`${title}\n${subtitle}\n${body}`))
+        $.log(`开始 PushDeer 请求: ${url}`)
+        const res = await $.http.get({ url })
+        // console.log(res)
+        const status = $.lodash_get(res, 'status')
+        $.log('↓ res status')
+        $.log(status)
+        let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
+        try {
+          resBody = JSON.parse(resBody)
+        } catch (e) {}
+        $.log('↓ res body')
+        console.log(resBody)
+        if ($.lodash_get(resBody, 'code') !== 200) {
+          throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        }
+      } catch (e) {
+        console.log(e)
+        $.msg('短信转发', `❌ PushDeer 请求`, `${$.lodash_get(e, 'message') || e}`, {})
       }
-    } catch (e) {
-      console.log(e)
-      $.msg('短信转发', `❌ bark 请求`, `${$.lodash_get(e, 'message') || e}`, {})
+    }
+    if (bark) {
+      try {
+        const url = bark
+          .replace('[推送标题]', encodeURIComponent(title))
+          .replace('[推送内容]', encodeURIComponent(`${subtitle}\n${body}`))
+          .replace('[复制内容]', encodeURIComponent(copy))
+        $.log(`开始 bark 请求: ${url}`)
+        const res = await $.http.get({ url })
+        // console.log(res)
+        const status = $.lodash_get(res, 'status')
+        $.log('↓ res status')
+        $.log(status)
+        let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
+        try {
+          resBody = JSON.parse(resBody)
+        } catch (e) {}
+        $.log('↓ res body')
+        console.log(resBody)
+        if ($.lodash_get(resBody, 'code') !== 200) {
+          throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        }
+      } catch (e) {
+        console.log(e)
+        $.msg('短信转发', `❌ bark 请求`, `${$.lodash_get(e, 'message') || e}`, {})
+      }
     }
   } else {
     $.msg(`[无转发 本地预览] ${title}`, subtitle, body)
