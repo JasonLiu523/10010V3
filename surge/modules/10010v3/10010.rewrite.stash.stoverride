@@ -13,9 +13,9 @@ http:
       type: request
       require-body: true
       timeout: 120
-      debug: true
+      # debug: true
 
 script-providers:
   "10010v3":
-    url: https://raw.githubusercontents.com/xream/scripts/main/surge/modules/10010v3/10010-dev.js
+    url: https://raw.githubusercontents.com/xream/scripts/main/surge/modules/10010v3/10010.js
     interval: 86400
