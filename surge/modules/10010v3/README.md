@@ -27,6 +27,25 @@
 
 `Shadowrocket` 也支持 使用类似 `Surge`
 
+## Stash 使用覆写
+
+[https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.rewrite.stash.stoverride](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.rewrite.stash.stoverride)
+
+Stash 暂不支持定时任务
+
+可配合下方的 Scriptable 组件 实现伪定时刷新
+
+iOS 小组件刷新时会触发实时查询
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/15.PNG"></td>
+    <td valign="top"><img src="screenshots/16.PNG"></td>
+    <td valign="top"><img src="screenshots/17.jpg"></td>
+    <td valign="top"><img src="screenshots/18.PNG"></td>
+  </tr>
+ </table>
+
 ## 或者手动设置定时任务
 
 ### Surge
