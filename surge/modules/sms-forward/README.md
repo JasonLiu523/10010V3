@@ -20,9 +20,14 @@
 
 - 使用自建接口配合桌面端工具, 则可实现桌面端自动复制验证码
 
+- 支持 PushDeer 多平台都可以收到通知了
+
 <table>
   <tr>
     <td valign="top"><img src="screenshots/0.PNG"></td>
+    <td valign="top"><img src="screenshots/9.png"></td>
+  </tr>
+  <tr>
     <td valign="top"><img src="screenshots/5.png"></td>
     <td valign="top"><img src="screenshots/7.png"></td>
   </tr>
