@@ -333,6 +333,12 @@ panel-10010 = script-name=panel-10010,update-interval=1
 
 ## Scriptable
 
+原理: 优先从 `http(s)://10010.json` 获取实时数据, 如果失败则从 `http://boxjs.net/query/boxdata` 获取缓存数据.
+
+boxjs 的缓存数据是由定时任务更新的
+
+### 如何配置获取实时数据
+
 请求 `http(s)://10010.json` 接口, 直接返回余量信息.
 
 需要脚本配合 Surge 模块默认已开启此接口. 其他客户端的配置请自行参考对应的配置方式, 可参考 Surge 的手动配置方式:
@@ -362,6 +368,7 @@ hostname = 10010.json
 <table>
   <tr>
     <td valign="top"><img src="screenshots/5.jpg"></td>
+    <td valign="top"><img src="screenshots/14.PNG"></td>
   </tr>
  </table>
 ```
