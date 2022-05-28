@@ -42,6 +42,7 @@ class Widget extends Base {
         const res = await req.loadJSON()
         console.log(res)
         const detail = res.datas["@xream.10010.detail"]
+        console.log(detail)
         return JSON.parse(detail)
       } catch (e) {
         console.error(e)
@@ -86,7 +87,7 @@ class Widget extends Base {
    
     const titleText = w.addText(data.msg.title)
     titleText.font = Font.boldSystemFont(12)
-    titleText.textColor = Color.white()
+    titleText.textColor = Color.dynamic(Color.black(), Color.white())
     titleText.centerAlignText()
     titleText.textOpacity = 0.5
       
@@ -94,7 +95,7 @@ class Widget extends Base {
 
     const subtitleText = w.addText(data.msg.subtitle)
     subtitleText.font = Font.boldSystemFont(12)
-    subtitleText.textColor = Color.white()
+    subtitleText.textColor = Color.dynamic(Color.black(), Color.white())
     subtitleText.centerAlignText()
     subtitleText.textOpacity = 0.75
       
@@ -102,7 +103,7 @@ class Widget extends Base {
 
     const bodyText = w.addText(data.msg.body)
     bodyText.font = Font.boldSystemFont(12)
-    bodyText.textColor = Color.white()
+    bodyText.textColor = Color.dynamic(Color.black(), Color.white())
     bodyText.centerAlignText()
     bodyText.textOpacity = 0.75
       
@@ -122,7 +123,7 @@ class Widget extends Base {
    
     const titleText = w.addText(data.msg.title)
     titleText.font = Font.boldSystemFont(12)
-    titleText.textColor = Color.white()
+    titleText.textColor = Color.dynamic(Color.black(), Color.white())
     titleText.centerAlignText()
     titleText.textOpacity = 0.5
       
@@ -130,7 +131,7 @@ class Widget extends Base {
 
     const subtitleText = w.addText(data.msg.subtitle)
     subtitleText.font = Font.boldSystemFont(12)
-    subtitleText.textColor = Color.white()
+    subtitleText.textColor = Color.dynamic(Color.black(), Color.white())
     subtitleText.centerAlignText()
     subtitleText.textOpacity = 0.75
       
@@ -138,7 +139,7 @@ class Widget extends Base {
 
     const bodyText = w.addText(data.msg.body)
     bodyText.font = Font.boldSystemFont(12)
-    bodyText.textColor = Color.white()
+    bodyText.textColor = Color.dynamic(Color.black(), Color.white())
     bodyText.centerAlignText()
     bodyText.textOpacity = 0.75
       
@@ -158,7 +159,7 @@ class Widget extends Base {
    
     const titleText = w.addText(data.msg.title)
     titleText.font = Font.boldSystemFont(12)
-    titleText.textColor = Color.white()
+    titleText.textColor = Color.dynamic(Color.black(), Color.white())
     titleText.centerAlignText()
     titleText.textOpacity = 0.5
       
@@ -166,7 +167,7 @@ class Widget extends Base {
 
     const subtitleText = w.addText(data.msg.subtitle)
     subtitleText.font = Font.boldSystemFont(12)
-    subtitleText.textColor = Color.white()
+    subtitleText.textColor = Color.dynamic(Color.black(), Color.white())
     subtitleText.centerAlignText()
     subtitleText.textOpacity = 0.75
       
@@ -174,7 +175,7 @@ class Widget extends Base {
 
     const bodyText = w.addText(data.msg.body)
     bodyText.font = Font.boldSystemFont(12)
-    bodyText.textColor = Color.white()
+    bodyText.textColor = Color.dynamic(Color.black(), Color.white())
     bodyText.centerAlignText()
     bodyText.textOpacity = 0.75
       
