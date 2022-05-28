@@ -219,7 +219,7 @@ async function notify(title, subtitle, body, copy) {
         } catch (e) {}
         $.log('↓ res body')
         console.log(resBody)
-        if ($.lodash_get(resBody, 'code') !== 200) {
+        if ($.lodash_get(resBody, 'code') !== 0) {
           throw new Error($.lodash_get(resBody, 'message') || '未知错误')
         }
       } catch (e) {
