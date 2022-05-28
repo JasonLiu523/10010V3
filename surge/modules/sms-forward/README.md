@@ -137,6 +137,8 @@ pnpm start
   <tr>
     <td valign="top"><img src="screenshots/5.png"></td>
     <td valign="top"><img src="screenshots/6.png"></td>
+  </tr>
+  <tr>
     <td valign="top"><img src="screenshots/7.png"></td>
     <td valign="top"><img src="screenshots/8.png"></td>
   </tr>
