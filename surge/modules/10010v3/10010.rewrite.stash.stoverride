@@ -1,0 +1,20 @@
+#SUBSCRIBED https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.rewrite.stash.stoverride
+name: 10010
+desc: https://github.com/xream/scripts/tree/main/surge/modules/10010v3
+
+http:
+  force-http-engine:
+    - "10010.json:80"
+  mitm:
+    - "10010.json"
+  script:
+    - match: https?:\/\/10010\.json
+      name: 10010
+      type: request
+      require-body: true
+      timeout: 120
+
+script-providers:
+  10010:
+    url: https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js
+    interval: 86400
