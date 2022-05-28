@@ -227,7 +227,7 @@ async function notify(title, subtitle, body, copy) {
       $.msg('短信转发', `❌ bark 请求`, `${$.lodash_get(e, 'message') || e}`, {})
     }
   } else {
-    $.msg(title, subtitle, body)
+    $.msg(`[无转发 本地预览] ${title}`, subtitle, body)
   }
 }
 function renderTpl(tpl, data) {

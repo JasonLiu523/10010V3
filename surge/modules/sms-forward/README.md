@@ -23,6 +23,8 @@
 <table>
   <tr>
     <td valign="top"><img src="screenshots/1.PNG"></td>
+    <td valign="top"><img src="screenshots/5.png"></td>
+    <td valign="top"><img src="screenshots/7.png"></td>
   </tr>
 </table>
 
@@ -87,3 +89,60 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 可在 BoxJs 里设置 `Bark 推送` 为 `https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]`
 
 `[推送标题]` `[推送内容]` `[复制内容]` 会被自动替换. 其他参数请参考 Bark 的设置说明.
+
+### 使用自建服务端和客户端进行通知转发
+
+#### 服务端
+
+`https://github.com/xream/scripts/tree/main/surge/modules/sms-forward/server`
+
+```
+pnpm i
+mv .env-sample .env
+```
+
+编辑 `.env` 设置 token 等参数
+
+```
+pnpm start
+```
+
+请求参数:
+
+`autoCopy` 是否自动复制
+
+`copy` 复制的内容
+
+其他参数 参考 `https://www.npmjs.com/package/node-notifier` 文档
+
+例如 `contentImage` 附加图片的本地路径(指的是下面的客户端运行的环境)
+
+`sound` 通知声音 等等
+
+可在 BoxJs 里设置 `Bark 推送` 为 `http://服务器IP:服务器端口/你设置的token/[推送标题]/[推送内容]?autoCopy=1&copy=[复制内容]&sound=true&contentImage=%2FUsers%2Fxream%2FDropbox%2Fpics%2Favatar%2Favatar_large.png`
+
+自建域名转发等等不再赘述
+
+#### 客户端
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/5.png"></td>
+    <td valign="top"><img src="screenshots/6.png"></td>
+    <td valign="top"><img src="screenshots/7.png"></td>
+    <td valign="top"><img src="screenshots/8.png"></td>
+  </tr>
+ </table>
+
+`https://github.com/xream/scripts/tree/main/surge/modules/sms-forward/server`
+
+```
+pnpm i
+mv .env-sample .env
+```
+
+编辑 `.env` 设置 `服务器`, `自动复制内容最大长度` 等参数
+
+```
+pnpm start
+```
