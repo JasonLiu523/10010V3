@@ -31,6 +31,19 @@
     <td valign="top"><img src="screenshots/5.png"></td>
     <td valign="top"><img src="screenshots/7.png"></td>
   </tr>
+  
+</table>
+
+自动复制验证码 演示
+
+> 不设置自动复制的参数 autoCopy 或 超过最大允许长度 或 剪贴板无变化时, 不自动复制, 此时可点击复制按钮 手动复制
+
+~~我觉得我可以玩一天~~
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/1.gif"></td>
+  </tr>
 </table>
 
 ## 安装/设置 `腾讯手机管家` 和 `360手机卫士`
