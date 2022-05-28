@@ -17,7 +17,36 @@ class Widget extends Base {
    */
   constructor (arg) {
     super(arg)
-    this.getData = async () => await this.httpGet('http://10010.json')
+    this.url = 'http://boxjs.net/#/app/xream.10010v3'
+
+    this.getRealtimeData = async () => {
+      console.log('getRealtimeData from http://10010.json')
+      try {
+        const req = new Request('http://10010.json')
+        req.timeoutInterval = 10
+        req.method = 'GET'
+        const res = await req.loadJSON()
+        console.log(res)
+        return res
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    this.getBoxjsData = async () => {
+      console.log('getBoxjsData from http://boxjs.net/query/boxdata')
+      try {
+        const req = new Request('http://boxjs.net/query/boxdata')
+        req.timeoutInterval = 3
+        req.method = 'GET'
+        const res = await req.loadJSON()
+        console.log(res)
+        const detail = res.datas["@xream.10010.detail"]
+        return JSON.parse(detail)
+      } catch (e) {
+        console.error(e)
+      }
+    }
   }
 
 
@@ -26,10 +55,24 @@ class Widget extends Base {
    * 可以根据 this.widgetFamily 来判断小组件尺寸，以返回不同大小的内容
    */
   async render () {
+    const [realtimeData, boxjsData] = await Promise.all([this.getRealtimeData(), this.getBoxjsData()])
+    let data = {
+      msg: {
+        title: '未获取到数据',
+        subtitle: '请确保 http://10010.json',
+        body: '或 http://boxjs.net 正常',
+      }
+    }
 
-    const data = await this.getData()
+    if (realtimeData) {
+      console.log(`使用实时数据`)
+      data = realtimeData
+    } else if(boxjsData){
+      console.log(`使用 boxjs 缓存数据`)
+      data = boxjsData
+    }
     
-    return await this[`${this.widgetFamily}Widget`]({data, url: 'http://boxjs.net/#/app/xream.10010v3'})
+    return await this[`${this.widgetFamily}Widget`]({ data, url: this.url })
   }
 
   /**
