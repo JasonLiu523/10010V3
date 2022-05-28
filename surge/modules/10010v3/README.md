@@ -37,12 +37,16 @@ Stash 暂不支持定时任务
 
 iOS 小组件刷新时会触发实时查询
 
+或 使用快捷指令定时触发 关闭`运行前询问`和`运行时通知`
+
 <table>
   <tr>
     <td valign="top"><img src="screenshots/15.PNG"></td>
     <td valign="top"><img src="screenshots/16.PNG"></td>
     <td valign="top"><img src="screenshots/17.jpg"></td>
     <td valign="top"><img src="screenshots/18.PNG"></td>
+    <td valign="top"><img src="screenshots/19.PNG"></td>
+    <td valign="top"><img src="screenshots/20.PNG"></td>
   </tr>
  </table>
 
