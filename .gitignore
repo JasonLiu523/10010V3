@@ -161,6 +161,7 @@ sendNotify.js
 
 *-local.json
 *-local.js
+*-local.stoverride
 
 box.dat
 *box.dat
