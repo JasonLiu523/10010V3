@@ -247,8 +247,8 @@ async function notify(title, subtitle, body, { copy, KEY_PUSHDEER, KEY_BARK }) {
         } catch (e) {}
         $.log('↓ res body')
         console.log(resBody)
-        if (['0', '200'].includes(String($.lodash_get(resBody, 'code')))) {
-          throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        if (!['0', '200'].includes(String($.lodash_get(resBody, 'code')))) {
+          throw new Error($.lodash_get(resBody, 'message') || $.lodash_get(resBody, 'msg') || '未知错误')
         }
       } catch (e) {
         console.log(e)
