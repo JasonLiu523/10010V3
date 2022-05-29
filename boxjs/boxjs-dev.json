@@ -1,0 +1,157 @@
+{
+  "id": "xream.app.sub-dev",
+  "name": "@xream 的应用订阅(dev)",
+  "author": "@xream",
+  "icon": "https://i.loli.net/2021/01/18/VqW7FpRATyz8Z3X.png",
+  "repo": "https://github.com/xream/scripts/tree/main",
+  "apps": [
+    {
+      "id": "xream.sms_forward-dev",
+      "name": "短信转发(dev)",
+      "descs_html": [
+        "<a href=\"https://github.com/xream/scripts/tree/main/surge/modules/sms-forward\">查看文档</a>",
+        "<a onClick=\"window.location.reload(true);\">刷新</a>"
+      ],
+      "keys": [
+        "@xream.sms_forward-dev.disabled",
+        "@xream.sms_forward-dev.type",
+        "@xream.sms_forward-dev.sender_allow",
+        "@xream.sms_forward-dev.sender_deny",
+        "@xream.sms_forward-dev.text_allow",
+        "@xream.sms_forward-dev.text_deny",
+        "@xream.sms_forward-dev.code_test",
+        "@xream.sms_forward-dev.code_get",
+        "@xream.sms_forward-dev.replace_num",
+        "@xream.sms_forward-dev.no_post",
+        "@xream.sms_forward-dev.title",
+        "@xream.sms_forward-dev.subtitle",
+        "@xream.sms_forward-dev.body",
+        "@xream.sms_forward-dev.pushdeer",
+        "@xream.sms_forward-dev.bark"
+      ],
+      "author": "@xream",
+      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/sms-forward",
+      "settings": [
+        {
+          "id": "@xream.sms_forward-dev.disabled",
+          "name": "禁用",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.sms_forward-dev.type",
+          "name": "类型",
+          "val": "tencent",
+          "type": "selects",
+          "items": [
+            {
+              "key": "tencent",
+              "label": "腾讯手机管家"
+            },
+            {
+              "key": "360",
+              "label": "360 手机卫士"
+            }
+          ],
+          "desc": "默认使用 腾讯手机管家"
+        },
+        {
+          "id": "@xream.sms_forward-dev.sender_allow",
+          "name": "允许转发的号码的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "符合的号码才会转发 例: (18600000000|18611111111) 表示只转发这两个号码. ^186 表示只转发186开头的号码. ^\\d{11}$ 表示只转发11位的号码. 默认为空 允许转发所有号码"
+        },
+        {
+          "id": "@xream.sms_forward-dev.sender_deny",
+          "name": "不允许转发的号码的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "符合的号码不会转发 其他的号码都会转发"
+        },
+        {
+          "id": "@xream.sms_forward-dev.text_allow",
+          "name": "允许转发的内容的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "符合的内容才会转发 例: (码|快递) 表示只允许这包含这俩词的内容. 默认为空 允许转发所有内容"
+        },
+        {
+          "id": "@xream.sms_forward-dev.text_deny",
+          "name": "不允许转发的内容的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "符合的内容不会转发 其他的内容都会转发"
+        },
+        {
+          "id": "@xream.sms_forward-dev.code_test",
+          "name": "判断内容是否包含验证码的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "验证码提取逻辑没有很好的思路 现在需要先判断该内容是否有验证码 再提取验证码. 默认为 .+(码) 表示内容符合 'X码' 这样的格式"
+        },
+        {
+          "id": "@xream.sms_forward-dev.code_get",
+          "name": "从内容提取验证码的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "提取的验证码将作为可复制的内容 方便 Bark 复制. 默认为 \\d{4,6} 表示提取4-6位的数字"
+        },
+        {
+          "id": "@xream.sms_forward-dev.no_post",
+          "name": "不提交数据给腾讯/360等接口",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认为否, 会正常提交. 若开启, 则不会提交任何数据给腾讯/360等接口 保证隐私"
+        },
+        {
+          "id": "@xream.sms_forward-dev.replace_num",
+          "name": "禁用替换数字",
+          "val": true,
+          "type": "boolean",
+          "desc": "默认启用. 将提交给腾讯/360等接口的内容中的数字替换为随机数字 防止泄漏"
+        },
+        {
+          "id": "@xream.sms_forward-dev.title",
+          "name": "通知标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: [号码], 例: 10010"
+        },
+        {
+          "id": "@xream.sms_forward-dev.subtitle",
+          "name": "通知副标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: [码][复制提示], 例: 123456(长按/下拉复制验证码)"
+        },
+        {
+          "id": "@xream.sms_forward-dev.body",
+          "name": "通知正文模板",
+          "val": "",
+          "type": "textarea",
+          "desc": "默认: [内容], 例: 您的验证码为 123456"
+        },
+        {
+          "id": "@xream.sms_forward-dev.bark",
+          "name": "转发到 Bark/自建服务端",
+          "val": "",
+          "type": "textarea",
+          "desc": "[推送标题], [推送内容], [复制内容] 会被自动替换. 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]"
+        },
+        {
+          "id": "@xream.sms_forward-dev.pushdeer",
+          "name": "转发到 PushDeer",
+          "val": "",
+          "type": "textarea",
+          "desc": "[推送全文] 会被自动替换. 形如 https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX&text=[推送全文]"
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/asset/1.png",
+        "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/asset/1.png"
+      ]
+    }
+  ]
+}

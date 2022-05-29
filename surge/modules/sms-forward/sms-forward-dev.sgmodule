@@ -1,0 +1,8 @@
+#!name=短信转发(dev)
+#!desc=ttps://github.com/xream/scripts/tree/main/surge/modules/sms-forward
+
+[Script]
+短信转发 = type=http-request,pattern=(^https?:\/\/scan\.call\.f\.360\.cn\/ios_message\.php|^https?:\/\/jprx\.m\.qq\.com\/forward),requires-body=1,max-size=0,timeout=20,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/sms-forward-dev.js,argument=key=sms_forward-dev
+
+[MITM]
+hostname = %APPEND% jprx.m.qq.com, scan.call.f.360.cn
