@@ -1,46 +1,47 @@
 {
-  "id": "xream.app.sub-dev",
-  "name": "@xream 的应用订阅(dev)",
+  "id": "xream.app.sub",
+  "name": "@xream 的应用订阅",
   "author": "@xream",
   "icon": "https://i.loli.net/2021/01/18/VqW7FpRATyz8Z3X.png",
   "repo": "https://github.com/xream/scripts/tree/main",
   "apps": [
     {
-      "id": "xream.sms_forward-dev",
-      "name": "短信转发(dev)",
+      "id": "xream.sms_forward",
+      "name": "短信转发",
       "descs_html": [
         "<a href=\"https://github.com/xream/scripts/tree/main/surge/modules/sms-forward\">查看文档</a>",
         "<a onClick=\"window.location.reload(true);\">刷新</a>"
       ],
       "keys": [
-        "@xream.sms_forward-dev.disabled",
-        "@xream.sms_forward-dev.type",
-        "@xream.sms_forward-dev.sender_allow",
-        "@xream.sms_forward-dev.sender_deny",
-        "@xream.sms_forward-dev.text_allow",
-        "@xream.sms_forward-dev.text_deny",
-        "@xream.sms_forward-dev.code_test",
-        "@xream.sms_forward-dev.code_get",
-        "@xream.sms_forward-dev.replace_num",
-        "@xream.sms_forward-dev.no_post",
-        "@xream.sms_forward-dev.title",
-        "@xream.sms_forward-dev.subtitle",
-        "@xream.sms_forward-dev.body",
-        "@xream.sms_forward-dev.pushdeer",
-        "@xream.sms_forward-dev.bark"
+        "@xream.sms_forward.disabled",
+        "@xream.sms_forward.type",
+        "@xream.sms_forward.sender_allow",
+        "@xream.sms_forward.sender_deny",
+        "@xream.sms_forward.text_allow",
+        "@xream.sms_forward.text_deny",
+        "@xream.sms_forward.code_test",
+        "@xream.sms_forward.code_get",
+        "@xream.sms_forward.replace_num",
+        "@xream.sms_forward.no_post",
+        "@xream.sms_forward.title",
+        "@xream.sms_forward.subtitle",
+        "@xream.sms_forward.body",
+        "@xream.sms_forward.pushdeer",
+        "@xream.sms_forward.bark",
+        "@xream.sms_forward.keys"
       ],
       "author": "@xream",
       "repo": "https://github.com/xream/scripts/tree/main/surge/modules/sms-forward",
       "settings": [
         {
-          "id": "@xream.sms_forward-dev.disabled",
+          "id": "@xream.sms_forward.disabled",
           "name": "禁用",
           "val": false,
           "type": "boolean",
           "desc": "默认启用"
         },
         {
-          "id": "@xream.sms_forward-dev.type",
+          "id": "@xream.sms_forward.type",
           "name": "类型",
           "val": "tencent",
           "type": "selects",
@@ -57,91 +58,213 @@
           "desc": "默认使用 腾讯手机管家"
         },
         {
-          "id": "@xream.sms_forward-dev.sender_allow",
+          "id": "@xream.sms_forward.sender_allow",
           "name": "允许转发的号码的正则字符串",
           "val": "",
           "type": "textarea",
           "desc": "符合的号码才会转发 例: (18600000000|18611111111) 表示只转发这两个号码. ^186 表示只转发186开头的号码. ^\\d{11}$ 表示只转发11位的号码. 默认为空 允许转发所有号码"
         },
         {
-          "id": "@xream.sms_forward-dev.sender_deny",
+          "id": "@xream.sms_forward.sender_deny",
           "name": "不允许转发的号码的正则字符串",
           "val": "",
           "type": "textarea",
           "desc": "符合的号码不会转发 其他的号码都会转发"
         },
         {
-          "id": "@xream.sms_forward-dev.text_allow",
+          "id": "@xream.sms_forward.text_allow",
           "name": "允许转发的内容的正则字符串",
           "val": "",
           "type": "textarea",
           "desc": "符合的内容才会转发 例: (码|快递) 表示只允许这包含这俩词的内容. 默认为空 允许转发所有内容"
         },
         {
-          "id": "@xream.sms_forward-dev.text_deny",
+          "id": "@xream.sms_forward.text_deny",
           "name": "不允许转发的内容的正则字符串",
           "val": "",
           "type": "textarea",
           "desc": "符合的内容不会转发 其他的内容都会转发"
         },
         {
-          "id": "@xream.sms_forward-dev.code_test",
+          "id": "@xream.sms_forward.code_test",
           "name": "判断内容是否包含验证码的正则字符串",
           "val": "",
           "type": "textarea",
           "desc": "验证码提取逻辑没有很好的思路 现在需要先判断该内容是否有验证码 再提取验证码. 默认为 .+(码) 表示内容符合 'X码' 这样的格式"
         },
         {
-          "id": "@xream.sms_forward-dev.code_get",
+          "id": "@xream.sms_forward.code_get",
           "name": "从内容提取验证码的正则字符串",
           "val": "",
           "type": "textarea",
           "desc": "提取的验证码将作为可复制的内容 方便 Bark 复制. 默认为 \\d{4,6} 表示提取4-6位的数字"
         },
         {
-          "id": "@xream.sms_forward-dev.no_post",
+          "id": "@xream.sms_forward.no_post",
           "name": "不提交数据给腾讯/360等接口",
           "val": false,
           "type": "boolean",
           "desc": "默认为否, 会正常提交. 若开启, 则不会提交任何数据给腾讯/360等接口 保证隐私"
         },
         {
-          "id": "@xream.sms_forward-dev.replace_num",
+          "id": "@xream.sms_forward.replace_num",
           "name": "禁用替换数字",
           "val": true,
           "type": "boolean",
           "desc": "默认启用. 将提交给腾讯/360等接口的内容中的数字替换为随机数字 防止泄漏"
         },
         {
-          "id": "@xream.sms_forward-dev.title",
+          "id": "@xream.sms_forward.title",
           "name": "通知标题模板",
           "val": "",
           "type": "text",
           "desc": "默认: [号码], 例: 10010"
         },
         {
-          "id": "@xream.sms_forward-dev.subtitle",
+          "id": "@xream.sms_forward.subtitle",
           "name": "通知副标题模板",
           "val": "",
           "type": "text",
           "desc": "默认: [码][复制提示], 例: 123456(长按/下拉复制验证码)"
         },
         {
-          "id": "@xream.sms_forward-dev.body",
+          "id": "@xream.sms_forward.body",
           "name": "通知正文模板",
           "val": "",
           "type": "textarea",
           "desc": "默认: [内容], 例: 您的验证码为 123456"
         },
         {
-          "id": "@xream.sms_forward-dev.bark",
+          "id": "@xream.sms_forward.bark",
           "name": "转发到 Bark/自建服务端",
           "val": "",
           "type": "textarea",
           "desc": "[推送标题], [推送内容], [复制内容] 会被自动替换. 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]"
         },
         {
-          "id": "@xream.sms_forward-dev.pushdeer",
+          "id": "@xream.sms_forward.pushdeer",
+          "name": "转发到 PushDeer",
+          "val": "",
+          "type": "textarea",
+          "desc": "[推送全文] 会被自动替换. 形如 https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX&text=[推送全文]"
+        },
+        {
+          "id": "@xream.sms_forward.keys",
+          "name": "其他配置的 key(英文逗号,分隔)",
+          "val": "",
+          "type": "textarea",
+          "desc": "默认只取 sms_forward 的配置. 设置为 sms_forward_1, sms_forward_2 后, 将同时处理这三个配置"
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/asset/1.png",
+        "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/asset/1.png"
+      ]
+    },
+    ,
+    {
+      "id": "xream.sms_forward-1",
+      "name": "短信转发(1)",
+      "descs_html": [
+        "<a href=\"https://github.com/xream/scripts/tree/main/surge/modules/sms-forward\">查看文档</a>",
+        "<a onClick=\"window.location.reload(true);\">刷新</a>"
+      ],
+      "keys": [
+        "@xream.sms_forward-1.disabled",
+        "@xream.sms_forward-1.sender_allow",
+        "@xream.sms_forward-1.sender_deny",
+        "@xream.sms_forward-1.text_allow",
+        "@xream.sms_forward-1.text_deny",
+        "@xream.sms_forward-1.code_test",
+        "@xream.sms_forward-1.code_get",
+        "@xream.sms_forward-1.title",
+        "@xream.sms_forward-1.subtitle",
+        "@xream.sms_forward-1.body",
+        "@xream.sms_forward-1.pushdeer",
+        "@xream.sms_forward-1.bark"
+      ],
+      "author": "@xream",
+      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/sms-forward",
+      "settings": [
+        {
+          "id": "@xream.sms_forward-1.disabled",
+          "name": "禁用",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.sms_forward-1.sender_allow",
+          "name": "允许转发的号码的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "符合的号码才会转发 例: (18600000000|18611111111) 表示只转发这两个号码. ^186 表示只转发186开头的号码. ^\\d{11}$ 表示只转发11位的号码. 默认为空 允许转发所有号码"
+        },
+        {
+          "id": "@xream.sms_forward-1.sender_deny",
+          "name": "不允许转发的号码的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "符合的号码不会转发 其他的号码都会转发"
+        },
+        {
+          "id": "@xream.sms_forward-1.text_allow",
+          "name": "允许转发的内容的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "符合的内容才会转发 例: (码|快递) 表示只允许这包含这俩词的内容. 默认为空 允许转发所有内容"
+        },
+        {
+          "id": "@xream.sms_forward-1.text_deny",
+          "name": "不允许转发的内容的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "符合的内容不会转发 其他的内容都会转发"
+        },
+        {
+          "id": "@xream.sms_forward-1.code_test",
+          "name": "判断内容是否包含验证码的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "验证码提取逻辑没有很好的思路 现在需要先判断该内容是否有验证码 再提取验证码. 默认为 .+(码) 表示内容符合 'X码' 这样的格式"
+        },
+        {
+          "id": "@xream.sms_forward-1.code_get",
+          "name": "从内容提取验证码的正则字符串",
+          "val": "",
+          "type": "textarea",
+          "desc": "提取的验证码将作为可复制的内容 方便 Bark 复制. 默认为 \\d{4,6} 表示提取4-6位的数字"
+        },
+        {
+          "id": "@xream.sms_forward-1.title",
+          "name": "通知标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: [号码], 例: 10010"
+        },
+        {
+          "id": "@xream.sms_forward-1.subtitle",
+          "name": "通知副标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: [码][复制提示], 例: 123456(长按/下拉复制验证码)"
+        },
+        {
+          "id": "@xream.sms_forward-1.body",
+          "name": "通知正文模板",
+          "val": "",
+          "type": "textarea",
+          "desc": "默认: [内容], 例: 您的验证码为 123456"
+        },
+        {
+          "id": "@xream.sms_forward-1.bark",
+          "name": "转发到 Bark/自建服务端",
+          "val": "",
+          "type": "textarea",
+          "desc": "[推送标题], [推送内容], [复制内容] 会被自动替换. 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]"
+        },
+        {
+          "id": "@xream.sms_forward-1.pushdeer",
           "name": "转发到 PushDeer",
           "val": "",
           "type": "textarea",
@@ -151,6 +274,450 @@
       "icons": [
         "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/asset/1.png",
         "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/asset/1.png"
+      ]
+    },
+    {
+      "id": "xream.10010v3",
+      "name": "联通余量(v3)",
+      "descs_html": [
+        "<a href=\"https://github.com/xream/scripts/tree/main/surge/modules/10010v3\">查看文档</a>",
+        "<b>登录方式一</b>",
+        "仅填写手机号密码和appId 保存 即可自动登录",
+        "<b>登录方式二</b>",
+        "1. 填写手机号, 保存, 执行发送验证码",
+        "2. 填写验证码, 保存, 执行用验证码登录",
+        "3. 先刷新, 再设置密码, 保存. 以后即可自动登录",
+        "<a onClick=\"window.location.reload(true);\">刷新</a>"
+      ],
+      "keys": [
+        "@xream.10010.disabled",
+        "@xream.10010.requestNotifyDisabled",
+        "@xream.10010.panelNotifyDisabled",
+        "@xream.10010.notifyDisabled",
+        "@xream.10010.cookie",
+        "@xream.10010.mobile",
+        "@xream.10010.password",
+        "@xream.10010.appId",
+        "@xream.10010.excludeRemainPkg",
+        "@xream.10010.freePkg",
+        "@xream.10010.otherPkg",
+        "@xream.10010.ignoreFlow",
+        "@xream.10010.remainFlowOnly",
+        "@xream.10010.title",
+        "@xream.10010.subtitle",
+        "@xream.10010.body",
+        "@xream.10010.bark",
+        "@xream.10010.otherPkgTpl",
+        "@xream.10010.detail",
+        "@xream.10010.detailText"
+      ],
+      "author": "@xream",
+      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/10010v3",
+      "scripts": [
+        {
+          "name": "发送验证码(填手机号,保存,再执行)",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010_send_sms.js"
+        },
+        {
+          "name": "用验证码登录(填手机号,验证码,保存,再执行)",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010_sms_sign.js"
+        },
+        {
+          "name": "手动执行",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js"
+        }
+      ],
+      "settings": [
+        {
+          "id": "@xream.10010.disabled",
+          "name": "禁用",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.10010.mobile",
+          "name": "手机号",
+          "val": "",
+          "type": "text",
+          "desc": "联通客户端登录手机号"
+        },
+        {
+          "id": "@xream.10010.code",
+          "name": "验证码(执行验证码登录才需要填)",
+          "placeholder": "",
+          "val": "",
+          "type": "text",
+          "desc": "登录短信验证码"
+        },
+        {
+          "id": "@xream.10010.password",
+          "name": "密码",
+          "val": "",
+          "type": "text",
+          "desc": "联通客户端登录密码"
+        },
+        {
+          "id": "@xream.10010.appId",
+          "name": "appId(仅填写手机号密码和appId 即可自动登录)",
+          "val": "",
+          "type": "text",
+          "desc": "联通客户端 appId"
+        },
+        {
+          "id": "@xream.10010.cookie",
+          "name": "Cookie(一般情况下不需要手动填)",
+          "val": "",
+          "type": "text",
+          "desc": "Cookie"
+        },
+        {
+          "id": "@xream.10010.excludeRemainPkg",
+          "name": "不计算剩余流量的流量包名正则",
+          "val": "",
+          "type": "text",
+          "desc": "在联通原始值不正确时 进行修正. 例 (定向流量|免流资费|免费流量) , 匹配的包不计算剩余"
+        },
+        {
+          "id": "@xream.10010.freePkg",
+          "name": "叠加到免流流量的流量包名正则",
+          "val": "",
+          "type": "text",
+          "desc": "在联通原始值不正确时 进行修正. 例 设置 (定向流量|免流资费|免费流量), 匹配的包叠加到总免流流量"
+        },
+        {
+          "id": "@xream.10010.otherPkg",
+          "name": "需要单独显示的流量包名正则",
+          "val": "",
+          "type": "text",
+          "desc": "例 设置 (加油包|福利|学习强国), 将显示 剩余 536.98M 加油包 46.12M 福利 490.86M 学习强国 1234.56M 免流 41.66G"
+        },
+        {
+          "id": "@xream.10010.ignoreFlow",
+          "name": "流量变化忽略阈值(单位 M)",
+          "val": 0,
+          "type": "number",
+          "desc": "小于此数值的流量变化不通知"
+        },
+        {
+          "id": "@xream.10010.remainFlowOnly",
+          "name": "当前时间段内有*非免流*才会通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认关闭, 所有用量都会通知. 开启后, 当前时间段内有*非免流*才会通知"
+        },
+        {
+          "id": "@xream.10010.title",
+          "name": "通知标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: [套], 例: 流邦卡19元套餐"
+        },
+        {
+          "id": "@xream.10010.subtitle",
+          "name": "通知副标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: 时长 [时] 跳 [跳] 免 [免], 例: 时长 1分钟 跳 10M 免 10M"
+        },
+        {
+          "id": "@xream.10010.body",
+          "name": "通知正文模板",
+          "val": "",
+          "type": "textarea",
+          "desc": "默认: 剩余 [剩] [单] 免流 [总免], 例: 剩余 5.03G 福利 1G 免流 26.35G"
+        },
+        {
+          "id": "@xream.10010.otherPkgTpl",
+          "name": "通知单独显示的包名模板(即 [单] 的内部模板)",
+          "val": "",
+          "type": "textarea",
+          "desc": "默认: [包] 剩余[剩] 已用[用], 例: 福利包 剩余 1G 已用 1G"
+        },
+        {
+          "id": "@xream.10010.bark",
+          "name": "使用 Bark 通知而不是当前 app 的通知",
+          "val": "",
+          "type": "textarea",
+          "desc": "[推送标题]/[推送内容]会被自动替换 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=10010&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fanker1209%2Ficon%2Fmain%2Fzglt.png&sound=shake&level=timeSensitive"
+        },
+        {
+          "id": "@xream.10010.requestNotifyDisabled",
+          "name": "禁用作为请求脚本使用时的通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.10010.panelNotifyDisabled",
+          "name": "禁用作为 panel 脚本使用时的通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.10010.notifyDisabled",
+          "name": "禁用通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.10010.detailText",
+          "name": "详情文本",
+          "val": "",
+          "type": "textarea",
+          "placeholder": "",
+          "autoGrow": false,
+          "rows": 8,
+          "desc": ""
+        },
+        {
+          "id": "@xream.10010.detail",
+          "name": "详情数据",
+          "val": "",
+          "type": "textarea",
+          "placeholder": "",
+          "autoGrow": false,
+          "desc": ""
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/anker1209/icon/main/zglt.png",
+        "https://raw.githubusercontent.com/anker1209/icon/main/zglt.png"
+      ]
+    },
+    {
+      "id": "xream.10010_query",
+      "name": "联通余量(v2) 请使用 v3",
+      "descs_html": [
+        "<a href=\"chinaunicom://?open=%7B%22openType%22:%22url%22,%22title%22:%22%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2%22,%22openUrl%22:%22https://m.client.10010.com/mobileService/openPlatform/openPlatLine.htm?to_url=https://img.client.10010.com/yuliangchaxun2/index.html?linkType=unicomNewShare&mobileA=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&businessName=%E4%BD%99%E9%87%8F%E6%9F%A5%E8%AF%A2&businessCode=https://m1.img.10010.com/resources/7188192A31B5AE06E41B64DA6D65A9B0/20201222/jpg/20201222114110.jpg&shareType=1&mobileB=F8A34DFF6F9346E68343756DB268C5A5&duanlianjieabc=0tygAa4n%22%7D\">打开中国联通/余量查询</a>",
+        "<a onClick=\"window.location.reload(true);\">刷新</a>"
+      ],
+      "keys": [
+        "@10010_query.cookie",
+        "@10010_query.mobile",
+        "@10010_query.password",
+        "@10010_query.appId"
+      ],
+      "author": "@xream",
+      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/10010",
+      "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010/10010_query.js",
+      "settings": [
+        {
+          "id": "@10010_query.cookie_disabled",
+          "name": "是否关闭自动获取 Cookie 功能",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认开启 关闭后将不会在打开 app 时自动获取 Cookie"
+        },
+        {
+          "id": "@10010_query.cookie_notification_disabled",
+          "name": "是否关闭获取 Cookie 信息时的通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认始终显示通知. 嫌烦的话 可以关掉"
+        },
+        {
+          "id": "@10010_query.cookie",
+          "name": "Cookie",
+          "val": "",
+          "type": "text",
+          "desc": ""
+        },
+        {
+          "id": "@10010_query.autoSign",
+          "name": "是否开启自动登录",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认关闭. 开启后, 请设置手机号、密码、appId、加密接口"
+        },
+        {
+          "id": "@10010_query.mobile",
+          "name": "手机号",
+          "val": "",
+          "type": "text",
+          "desc": "联通客户端登录手机号"
+        },
+        {
+          "id": "@10010_query.password",
+          "name": "密码",
+          "val": "",
+          "type": "text",
+          "desc": "联通客户端登录密码"
+        },
+        {
+          "id": "@10010_query.appId",
+          "name": "appId",
+          "val": "",
+          "type": "text",
+          "desc": "联通客户端登录时抓取到的 appId"
+        },
+        {
+          "id": "@10010_query.name",
+          "name": "自定义名称(默认为套餐名)",
+          "val": "",
+          "type": "text",
+          "desc": ""
+        },
+        {
+          "id": "@10010_query.other_pkg",
+          "name": "需要单独显示的流量包名正则",
+          "val": "",
+          "type": "text",
+          "desc": "例 设置 (加油包|福利|学习强国), 将显示 剩余 536.98M 加油包 46.12M 福利 490.86M 学习强国 1234.56M 免流 41.66G"
+        },
+        {
+          "id": "@10010_query.exclude_remain_pkg",
+          "name": "不计算剩余流量的流量包名正则",
+          "val": "",
+          "type": "text",
+          "desc": "例 设置 (学习强国后向定向流量|头条系APP免流|套餐内专享免费流量), 符合的流量包将不进行剩余流量计算"
+        },
+        {
+          "id": "@10010_query.free_pkg",
+          "name": "免流流量包名正则",
+          "val": "",
+          "type": "text",
+          "desc": "例 设置 (钉钉定向免流资费|套餐内专享免费流量), 符合的流量包将加入免流流量计算"
+        },
+        {
+          "id": "@10010_query.wifi",
+          "name": "(Surge/Loon Only) 在 WiFi 环境时, 也进行查询",
+          "val": false,
+          "type": "boolean",
+          "desc": "(Surge/Loon Only) 默认在 WiFi 环境时, 不进行查询"
+        },
+        {
+          "id": "@10010_query.ignore_flow",
+          "name": "流量变化忽略阈值(单位 M)",
+          "val": 0,
+          "type": "number",
+          "desc": "忽略小于等于此数值的流量变化"
+        },
+        {
+          "id": "@10010_query.same",
+          "name": "当前时间段内无用量变化时, 也进行通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认当前时间段内有用量变化时才进行通知"
+        },
+        {
+          "id": "@10010_query.remaining_flow_only",
+          "name": "当前时间段内有*非免流*才会通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认关闭, 所有用量都会通知. 开启后, 当前时间段内有*非免流*才会通知"
+        },
+        {
+          "id": "@10010_query.maintenance_disabled",
+          "name": "禁用维护通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认在维护开始和维护结束时发送通知"
+        },
+        {
+          "id": "@10010_query.no_url",
+          "name": "不在通知中附加 URL",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认附加"
+        },
+        {
+          "id": "@10010_query.v2p.sync_once",
+          "name": "V2P 是否在直接执行脚本时同步一次",
+          "val": false,
+          "type": "boolean",
+          "desc": "开启后, 在直接执行脚本时会同步一次, 然后自动关闭此项设置"
+        },
+        {
+          "id": "@10010_query.client_query_disabled",
+          "name": "禁止客户端脚本执行查询",
+          "val": false,
+          "type": "boolean",
+          "desc": "开启后, 客户端脚本将不会执行查询(不影响同步)"
+        },
+        {
+          "id": "@10010_query.v2p_disabled",
+          "name": "V2P 禁止脚本执行",
+          "val": false,
+          "type": "boolean",
+          "desc": "开启后, V2P 端脚本将不会执行"
+        },
+        {
+          "id": "@10010_query.v2p.sync",
+          "name": "V2P 是否开启同步",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认不同步. 开启后, Cookie 更新时将自动同步到 V2P"
+        },
+        {
+          "id": "@10010_query.v2p.sync_notification_disabled",
+          "name": "V2P 是否关闭同步时的通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认始终显示通知. 嫌烦的话 可以关掉"
+        },
+        {
+          "id": "@10010_query.v2p.store.key",
+          "name": "V2P store/cookie 常量储存 key",
+          "val": "",
+          "type": "text",
+          "desc": "默认为 10010_query"
+        },
+        {
+          "id": "@10010_query.v2p.baseURL",
+          "name": "V2P 地址",
+          "val": "https://",
+          "type": "text",
+          "desc": "形如 https://v2p.com"
+        },
+        {
+          "id": "@10010_query.v2p.webhook.token",
+          "name": "V2P webhook token",
+          "val": "",
+          "type": "text",
+          "desc": ""
+        },
+        {
+          "id": "@10010_query.v2p.webhook.username",
+          "name": "V2P Basic Auth 用户名",
+          "val": "",
+          "type": "text",
+          "desc": "例如 Nginx 配置了 auth_basic, 填写此项"
+        },
+        {
+          "id": "@10010_query.v2p.webhook.password",
+          "name": "V2P Basic Auth 密码",
+          "val": "",
+          "type": "text",
+          "desc": "例如 Nginx 配置了 auth_basic, 填写此项"
+        },
+        {
+          "id": "@10010_query.last.time",
+          "name": "上次执行时间",
+          "val": "",
+          "type": "text",
+          "desc": ""
+        },
+        {
+          "id": "@10010_query.last.sumFlow",
+          "name": "上次总流量",
+          "val": "",
+          "type": "text",
+          "desc": ""
+        },
+        {
+          "id": "@10010_query.last.freeFlow",
+          "name": "上次总免流量",
+          "val": "",
+          "type": "text",
+          "desc": ""
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/anker1209/icon/main/zglt.png",
+        "https://raw.githubusercontent.com/anker1209/icon/main/zglt.png"
       ]
     }
   ]
