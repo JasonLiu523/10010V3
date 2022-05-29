@@ -136,14 +136,14 @@
         },
         {
           "id": "@xream.sms_forward.bark",
-          "name": "转发到 Bark/自建服务端",
+          "name": "转发到 Bark/自建服务端 等",
           "val": "",
           "type": "textarea",
-          "desc": "[推送标题], [推送内容], [复制内容] 会被自动替换. 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]"
+          "desc": "[推送标题], [推送内容], [复制内容] 会被自动替换. 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]&sound=shake&level=timeSensitive"
         },
         {
           "id": "@xream.sms_forward.pushdeer",
-          "name": "转发到 PushDeer",
+          "name": "转发到 PushDeer/PushPlus 等",
           "val": "",
           "type": "textarea",
           "desc": "[推送全文] 会被自动替换. 形如 https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX&text=[推送全文]"
@@ -257,14 +257,14 @@
         },
         {
           "id": "@xream.sms_forward-1.bark",
-          "name": "转发到 Bark/自建服务端",
+          "name": "转发到 Bark/自建服务端 等",
           "val": "",
           "type": "textarea",
           "desc": "[推送标题], [推送内容], [复制内容] 会被自动替换. 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]"
         },
         {
           "id": "@xream.sms_forward-1.pushdeer",
-          "name": "转发到 PushDeer",
+          "name": "转发到 PushDeer/PushPlus 等",
           "val": "",
           "type": "textarea",
           "desc": "[推送全文] 会被自动替换. 形如 https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX&text=[推送全文]"

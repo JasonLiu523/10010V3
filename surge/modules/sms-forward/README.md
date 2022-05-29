@@ -98,21 +98,29 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 > 默认: [内容], 例: 您的验证码为 123456
 
-### 使用 PushDeer 通知转发
+### 使用 PushDeer/PushPlus 等服务
 
-假设你 PushDeer 的链接为 `https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX` 你的 key 为 `XXXXXXXXX`
+1. 假设你 PushDeer 的链接为 `https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX` 你的 key 为 `XXXXXXXXX`
 
-可在 BoxJs 里设置 `PushDeer 推送` 为 `https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX&text=[推送全文]`
+可在 BoxJs 里设置 `PushDeer/PushPlus 等` 为 `https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX&text=[推送全文]`
+
+2. 假设你 PushPlus 的链接为 `http://www.pushplus.plus/send?token=XXXXXXXXX&content=[推送全文]&channel=wechat` 你的 key 为 `XXXXXXXXX`
+
+其他参数可查看官方文档 [PushPlus 发送消息接口](http://www.pushplus.plus/doc/guide/api.html#%E4%B8%80%E3%80%81%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E6%8E%A5%E5%8F%A3)
+
+例如 上述链接中的 `wechat` 改为 `mail` 即可实现邮件转发.
+
+可在 BoxJs 里设置 `PushDeer/PushPlus 等` 为 `http://www.pushplus.plus/send?token=XXXXXXXXX&content=[推送全文]&channel=wechat`
 
 `[推送全文]` 会被自动替换
 
-### 使用 Bark 通知转发
+### 使用 Bark 等服务
 
 使用 Bark 通知 可实现更多通知效果: 推送铃声, 推送图标, 时效性通知, 复制推送内容等. 具体功能请参考 Bark 的设置说明.
 
 假设你 Bark 的链接为 `https://api.day.app/XXXXXXXXX/` 你的 key 为 `XXXXXXXXX`
 
-可在 BoxJs 里设置 `Bark 推送` 为 `https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]`
+可在 BoxJs 里设置 `Bark/自建服务端等` 为 `https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]&sound=shake&level=timeSensitive`
 
 `[推送标题]` `[推送内容]` `[复制内容]` 会被自动替换. 其他参数请参考 Bark 的设置说明.
 
@@ -145,7 +153,7 @@ pnpm start
 
 `sound` 通知声音 等等
 
-可在 BoxJs 里设置 `Bark 推送` 为 `http://服务器IP:服务器端口/你设置的token/[推送标题]/[推送内容]?autoCopy=1&copy=[复制内容]&sound=true&contentImage=%2FUsers%2Fxream%2FDropbox%2Fpics%2Favatar%2Favatar_large.png`
+可在 BoxJs 里设置 `Bark/自建服务端等` 为 `http://服务器IP:服务器端口/你设置的token/[推送标题]/[推送内容]?autoCopy=1&copy=[复制内容]&sound=true&contentImage=%2FUsers%2Fxream%2FDropbox%2Fpics%2Favatar%2Favatar_large.png`
 
 自建域名转发等等不再赘述
 
