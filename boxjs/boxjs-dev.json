@@ -153,7 +153,7 @@
           "name": "其他配置的 key(英文逗号,分隔)",
           "val": "",
           "type": "textarea",
-          "desc": "默认只取 sms_forward 的配置. 设置为 sms_forward_1, sms_forward_2 后, 将同时处理这三个配置"
+          "desc": "默认只取 sms_forward 的配置. 设置为 sms_forward-1, sms_forward-2 后, 将同时处理这三个配置"
         }
       ],
       "icons": [
