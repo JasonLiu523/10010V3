@@ -108,7 +108,7 @@
         },
         {
           "id": "@xream.sms_forward.replace_num",
-          "name": "禁用替换数字",
+          "name": "替换数字",
           "val": true,
           "type": "boolean",
           "desc": "默认启用. 将提交给腾讯/360等接口的内容中的数字替换为随机数字 防止泄漏"
