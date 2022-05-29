@@ -114,6 +114,12 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 `[推送全文]` 会被自动替换
 
+> 聪明的你一定能看懂吧
+
+其实不管什么服务 只要是 get 请求就可以支持. 只要在对应的参数留好 `[推送全文]`
+
+但是可能不同的服务返回值不同 如果发现有实际成功但是提示未知错误的 可以发日志给我
+
 ### 使用 Bark 等服务
 
 使用 Bark 通知 可实现更多通知效果: 推送铃声, 推送图标, 时效性通知, 复制推送内容等. 具体功能请参考 Bark 的设置说明.
@@ -123,6 +129,12 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 可在 BoxJs 里设置 `Bark/自建服务端等` 为 `https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fsms-forward%2Fasset%2F1.png&copy=[复制内容]&sound=shake&level=timeSensitive`
 
 `[推送标题]` `[推送内容]` `[复制内容]` 会被自动替换. 其他参数请参考 Bark 的设置说明.
+
+> 聪明的你一定能看懂吧
+
+其实不管什么服务 只要是 get 请求就可以支持. 只要在对应的参数留好 `[推送标题]` `[推送内容]` `[复制内容]`
+
+但是可能不同的服务返回值不同 如果发现有实际成功但是提示未知错误的 可以发日志给我
 
 ### 使用自建服务端和客户端进行通知转发
 
