@@ -185,7 +185,8 @@
         "@xream.10010.body",
         "@xream.10010.bark",
         "@xream.10010.otherPkgTpl",
-        "@xream.10010.detail"
+        "@xream.10010.detail",
+        "@xream.10010.detailText"
       ],
       "author": "@xream",
       "repo": "https://github.com/xream/scripts/tree/main/surge/modules/10010v3",
