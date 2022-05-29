@@ -57,8 +57,8 @@
 <table>
   <tr>
     <td valign="top"><img src="screenshots/2.PNG"></td>
-    <td valign="top"><img src="screenshots/3.png"></td>
-    <td valign="top"><img src="screenshots/4.png"></td>
+    <td valign="top"><img src="screenshots/3.PNG"></td>
+    <td valign="top"><img src="screenshots/4.PNG"></td>
   </tr>
  </table>
 
