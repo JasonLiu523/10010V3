@@ -13,15 +13,22 @@ const config = {
 const $ = new Env(key)
 
 const KEY_INITED = `@xream.${key}.inited`
-const KEY_DISABLED = `@xream.${key}.disabled`
 const KEY_TYPE = `@xream.${key}.type`
 const KEY_KEYS = `@xream.${key}.keys`
+
+const keys = `${$.getdata(KEY_KEYS) || ''}`
+  .split(',')
+  .map(i => i.trim())
+  .filter(i => i.length > 0)
+keys.unshift(key)
+$.log(`ℹ️ 所有配置的 key: ${keys.join(', ')}`)
 
 $.setdata(new Date().toLocaleString('zh'), KEY_INITED)
 
 let result
 
 !(async () => {
+  const KEY_DISABLED = `@xream.${key}.disabled`
   const disabled = $.getdata(KEY_DISABLED)
 
   if (String(disabled) === 'true') {
@@ -57,7 +64,16 @@ let result
   console.log(`号码 ${sender}`)
   console.log(`内容 ${text}`)
 
-  const fn = async key => {
+  const fn = async (key, index) => {
+    $.log(`👉🏻 [${index}][${key}] 配置开始`)
+    const KEY_DISABLED = `@xream.${key}.disabled`
+    const disabled = $.getdata(KEY_DISABLED)
+
+    if (String(disabled) === 'true') {
+      $.log(`👉🏻 [${index}][${key}] 配置已禁用`)
+      return
+    }
+
     const KEY_SENDER_ALLOW = `@xream.${key}.sender_allow`
     const KEY_SENDER_DENY = `@xream.${key}.sender_deny`
     const KEY_TEXT_ALLOW = `@xream.${key}.text_allow`
@@ -81,32 +97,32 @@ let result
     let isSenderAllow = true
     let isTextAllow = true
     if (senderAllow) {
-      console.log(`允许转发的号码的正则字符串 ${senderAllow}`)
-      console.log(`允许转发的号码的正则 ${senderAllowRegExp}`)
+      console.log(`👉🏻 [${index}][${key}] 允许转发的号码的正则字符串 ${senderAllow}`)
+      console.log(`👉🏻 [${index}][${key}] 允许转发的号码的正则 ${senderAllowRegExp}`)
       if (!senderAllowRegExp.test(sender)) {
-        console.log(`${sender} 不符合允许转发的号码 ❌不会转发`)
+        console.log(`👉🏻 [${index}][${key}] ${sender} 不符合允许转发的号码 ❌不会转发`)
         isSenderAllow = false
       }
     } else if (senderDeny) {
-      console.log(`不允许转发的号码的正则字符串 ${senderDeny}`)
-      console.log(`不允许转发的号码的正则 ${senderDenyRegExp}`)
+      console.log(`👉🏻 [${index}][${key}] 不允许转发的号码的正则字符串 ${senderDeny}`)
+      console.log(`👉🏻 [${index}][${key}] 不允许转发的号码的正则 ${senderDenyRegExp}`)
       if (senderDenyRegExp.test(sender)) {
-        console.log(`${sender} 符合不允许转发的号码 ❌不会转发`)
+        console.log(`👉🏻 [${index}][${key}] ${sender} 符合不允许转发的号码 ❌不会转发`)
         isSenderAllow = false
       }
     }
     if (textAllow) {
-      console.log(`允许转发的内容的正则字符串 ${textAllow}`)
-      console.log(`允许转发的内容的正则 ${textAllowRegExp}`)
+      console.log(`👉🏻 [${index}][${key}] 允许转发的内容的正则字符串 ${textAllow}`)
+      console.log(`👉🏻 [${index}][${key}] 允许转发的内容的正则 ${textAllowRegExp}`)
       if (!textAllowRegExp.test(text)) {
-        console.log(`${text} 不符合允许转发的内容 ❌不会转发`)
+        console.log(`👉🏻 [${index}][${key}] ${text} 不符合允许转发的内容 ❌不会转发`)
         isTextAllow = false
       }
     } else if (textDeny) {
-      console.log(`不允许转发的内容的正则字符串 ${textDeny}`)
-      console.log(`不允许转发的内容的正则 ${textDenyRegExp}`)
+      console.log(`👉🏻 [${index}][${key}] 不允许转发的内容的正则字符串 ${textDeny}`)
+      console.log(`👉🏻 [${index}][${key}] 不允许转发的内容的正则 ${textDenyRegExp}`)
       if (textDenyRegExp.test(text)) {
-        console.log(`${text} 符合不允许转发的内容 ❌不会转发`)
+        console.log(`👉🏻 [${index}][${key}] ${text} 符合不允许转发的内容 ❌不会转发`)
         isTextAllow = false
       }
     }
@@ -125,19 +141,19 @@ let result
     let hasCode
     let code
     if (codeTest) {
-      console.log(`判断内容是否包含验证码的正则字符串 ${codeTest}`)
-      console.log(`判断内容是否包含验证码的正则 ${codeTestRegExp}`)
+      console.log(`👉🏻 [${index}][${key}] 判断内容是否包含验证码的正则字符串 ${codeTest}`)
+      console.log(`👉🏻 [${index}][${key}] 判断内容是否包含验证码的正则 ${codeTestRegExp}`)
       if (codeTestRegExp.test(text)) {
-        console.log(`${text} 包含验证码 ✅`)
+        console.log(`👉🏻 [${index}][${key}] ${text} 包含验证码 ✅`)
         hasCode = true
         if (codeGet) {
-          console.log(`从内容提取验证码的正则字符串 ${codeGet}`)
-          console.log(`从内容提取验证码的正则 ${codeGetRegExp}`)
+          console.log(`👉🏻 [${index}][${key}] 从内容提取验证码的正则字符串 ${codeGet}`)
+          console.log(`👉🏻 [${index}][${key}] 从内容提取验证码的正则 ${codeGetRegExp}`)
           const matched = text.match(codeGetRegExp)
           if (matched) {
             code = matched[0]
             if (code) {
-              console.log(`${text} 提取到验证码 ${code} ✅`)
+              console.log(`👉🏻 [${index}][${key}] ${text} 提取到验证码 ${code} ✅`)
             }
           }
         }
@@ -145,10 +161,10 @@ let result
     }
     let copy = text
     if (code) {
-      console.log(`判断包含验证码 且提取到验证码 将复制验证码`)
+      console.log(`👉🏻 [${index}][${key}] 判断包含验证码 且提取到验证码 将复制验证码`)
       copy = code
     }
-    console.log(`📋 复制的内容 ${copy}`)
+    console.log(`👉🏻 [${index}][${key}] 📋 复制的内容 ${copy}`)
     const msgData = {
       sender,
       text,
@@ -164,14 +180,16 @@ let result
     const subtitle = renderTpl(subtitleTpl, msgData)
     const body = renderTpl(bodyTpl, msgData)
 
-    console.log(`标题 ${title}`)
-    console.log(`副标题 ${subtitle}`)
-    console.log(`正文 ${body}`)
+    console.log(`👉🏻 [${index}][${key}] 标题 ${title}`)
+    console.log(`👉🏻 [${index}][${key}] 副标题 ${subtitle}`)
+    console.log(`👉🏻 [${index}][${key}] 正文 ${body}`)
 
     await notify(title, subtitle, body, { copy, KEY_PUSHDEER, KEY_BARK })
+    $.log(`👉🏻 [${index}][${key}] 配置结束`)
   }
-
-  await fn(key)
+  for (const [index, key] of keys.entries()) {
+    await fn(key, index)
+  }
 
   const KEY_REPLACE_NUM = `@xream.${key}.replace_num`
   const KEY_NO_POST = `@xream.${key}.no_post`
