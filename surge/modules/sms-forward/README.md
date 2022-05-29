@@ -160,7 +160,7 @@ pnpm start
     <td valign="top"><img src="screenshots/7.png"></td>
     <td valign="top"><img src="screenshots/8.png"></td>
   </tr>
- </table>
+</table>
 
 `https://github.com/xream/scripts/tree/main/surge/modules/sms-forward/server`
 
@@ -174,3 +174,39 @@ mv .env-sample .env
 ```
 pnpm start
 ```
+
+## 同时使用多套配置
+
+### 以两套配置为例
+
+为方便同时配置和使用多套配置, BoxJs 配置中预置了第二套配置 `sms_forward-1`.
+
+1. 在主配置 `短信转发(xream.sms_forward)` 里完成设置. 将 `其他配置的 key(英文逗号,分隔)` 这一项设置为 `sms_forward-1`.
+2. 在第二套配置 `短信转发(1)(xream.sms_forward-1)` 里完成设置.
+3. 此时脚本执行时将依次处理主配置和第二套配置.
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/10.jpg"></td>
+    <td valign="top"><img src="screenshots/11.jpg"></td>
+    <td valign="top"><img src="screenshots/12.jpg"></td>
+  </tr>
+</table>
+
+### 更多的配置 以四套配置为例
+
+复制 默认的 BoxJs 订阅. 自己维护 第二套配置 `短信转发(1)(xream.sms_forward-1)`, 第三套配置 `短信转发(2)(xream.sms_forward-2)`, 第四套配置 `短信转发(3)(xream.sms_forward-3)` 的数据结构.
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/13.png"></td>
+    <td valign="top"><img src="screenshots/14.png"></td>
+    <td valign="top"><img src="screenshots/15.png"></td>
+  </tr>
+</table>
+
+1. 在主配置 `短信转发(xream.sms_forward)` 里完成设置. 将 `其他配置的 key(英文逗号,分隔)` 这一项设置为 `sms_forward-1, sms_forward-2, sms_forward-3`.
+2. 在第二套配置 `短信转发(1)(xream.sms_forward-1)` 里完成设置.
+3. 在第三套配置 `短信转发(2)(xream.sms_forward-2)` 里完成设置.
+4. 在第四套配置 `短信转发(3)(xream.sms_forward-3)` 里完成设置.
+5. 此时脚本执行时将依次处理主配置, 第二套配置, 第三套配置, 第四套配置.
