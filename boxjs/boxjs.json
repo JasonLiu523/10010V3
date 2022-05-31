@@ -61,7 +61,7 @@
           "id": "@xream.gist.desc",
           "name": "Gist 描述",
           "placeholder": "",
-          "val": "",
+          "val": "Auto Generated BoxJs Global Backup",
           "type": "text",
           "desc": "默认为 Auto Generated BoxJs Global Backup"
         },
@@ -69,7 +69,7 @@
           "id": "@xream.gist.saveKey",
           "name": "Gist 文件名",
           "placeholder": "",
-          "val": "",
+          "val": "backup.json",
           "type": "text",
           "desc": "默认为 backup.json"
         }
