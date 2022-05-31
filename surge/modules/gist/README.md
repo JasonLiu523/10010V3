@@ -1,4 +1,4 @@
-# Gist 备份
+# Gist 备份/恢复/删除
 
 使用了 [chavyleung 大佬的 Env.js](https://github.com/chavyleung/scripts/blob/master/Env.js). 兼容 QuanX, Surge, Loon, Shadowrocket, Stash 等客户端
 

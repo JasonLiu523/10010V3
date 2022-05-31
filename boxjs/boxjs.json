@@ -37,8 +37,12 @@
           "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/gist/backup.js"
         },
         {
-          "name": "恢复",
+          "name": "恢复(谨慎操作)",
           "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/gist/restore.js"
+        },
+        {
+          "name": "删除(谨慎操作)",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/gist/delete.js"
         }
       ],
       "settings": [
