@@ -1,4 +1,6 @@
-# Gist 备份/恢复/删除
+# Gist 备份/恢复 BoxJs 数据
+
+🆕 也可以删除远程 Gist 备份
 
 使用了 [chavyleung 大佬的 Env.js](https://github.com/chavyleung/scripts/blob/master/Env.js). 兼容 QuanX, Surge, Loon, Shadowrocket, Stash 等客户端
 
