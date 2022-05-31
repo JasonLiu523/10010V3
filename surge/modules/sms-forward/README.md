@@ -72,6 +72,10 @@
 
 [https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/sms-forward.rewrite.stash.stoverride](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/sms-forward.rewrite.stash.stoverride)
 
+## Loon 使用插件
+
+[https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/sms-forward.loon.plugin](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/sms-forward.loon.plugin)
+
 ## 其他客户端的配置请自行参考对应的配置方式
 
 ## BoxJs
