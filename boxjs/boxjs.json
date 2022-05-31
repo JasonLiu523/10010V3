@@ -33,16 +33,12 @@
       "repo": "https://github.com/xream/scripts/tree/main/surge/modules/gist",
       "scripts": [
         {
-          "name": "",
-          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010_send_sms.js"
+          "name": "备份",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/gist/backup.js"
         },
         {
-          "name": "用验证码登录(填手机号,验证码,保存,再执行)",
-          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010_sms_sign.js"
-        },
-        {
-          "name": "手动执行",
-          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js"
+          "name": "恢复",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/gist/restore.js"
         }
       ],
       "settings": [
