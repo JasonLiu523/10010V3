@@ -1,0 +1,12 @@
+#!name=短信转发
+#!desc=https://github.com/xream/scripts/tree/main/surge/modules/sms-forward
+#!openUrl=http://boxjs.net/#/app/xream.sms_forward
+#!author=@xream
+#!homepage=https://github.com/xream/scripts/tree/main/surge/modules/sms-forward
+#!icon=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/asset/1.png
+
+[MITM]
+hostname=scan.call.f.360.cn,jprx.m.qq.com 
+
+[Script]
+http-request (^https?:\/\/scan\.call\.f\.360\.cn\/ios_message\.php|^https?:\/\/jprx\.m\.qq\.com\/forward) script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sms-forward/sms-forward.js, requires-body=true, timeout=120, tag=Sms-Forward
