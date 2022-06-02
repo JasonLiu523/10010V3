@@ -463,30 +463,34 @@ async function notify(title, subtitle, body) {
   }
   const bark = $.getdata(KEY_BARK)
 
-  if (bark) {
-    try {
-      const url = bark.replace('[推送标题]', encodeURIComponent(title)).replace('[推送内容]', encodeURIComponent(`${subtitle}\n${body}`))
-      $.log(`开始 bark 请求: ${url}`)
-      const res = await $.http.get({ url })
-      // console.log(res)
-      const status = $.lodash_get(res, 'status')
-      $.log('↓ res status')
-      $.log(status)
-      let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
+  if (bark || (notify && notify.sendNotify)) {
+    if (bark) {
       try {
-        resBody = JSON.parse(resBody)
-      } catch (e) {}
-      $.log('↓ res body')
-      console.log(resBody)
-      if ($.lodash_get(resBody, 'code') !== 200) {
-        throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        const url = bark.replace('[推送标题]', encodeURIComponent(title)).replace('[推送内容]', encodeURIComponent(`${subtitle}\n${body}`))
+        $.log(`开始 bark 请求: ${url}`)
+        const res = await $.http.get({ url })
+        // console.log(res)
+        const status = $.lodash_get(res, 'status')
+        $.log('↓ res status')
+        $.log(status)
+        let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
+        try {
+          resBody = JSON.parse(resBody)
+        } catch (e) {}
+        $.log('↓ res body')
+        console.log(resBody)
+        if ($.lodash_get(resBody, 'code') !== 200) {
+          throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        }
+      } catch (e) {
+        console.log(e)
+        $.msg(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌ bark 请求`, `${$.lodash_get(e, 'message') || e}`, {})
       }
-    } catch (e) {
-     console.log(e)
-     $.msg(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌ bark 请求`, `${$.lodash_get(e, 'message') || e}`, {})
     }
-  } else if (notify && notify.sendNotify) {
-    await notify.sendNotify(`${title}`, `${subtitle}\n${body}`)
+
+    if (notify && notify.sendNotify) {
+      await notify.sendNotify(`${title}`, `${subtitle}\n${body}`)
+    }
   } else if ($.isV2p()) {
     $.msg(title, '', `${subtitle}\n${body}`)
   } else {

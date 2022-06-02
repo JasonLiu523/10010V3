@@ -211,10 +211,9 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 ### 推送通知优先级
 
-1. 配置的 `Bark` 通知
-2. sendNotify 文件通知(如青龙)
-3. V2P 通知
-4. app 自身通知
+1. 配置的 `Bark` 通知 和 sendNotify 文件通知(如青龙)
+2. V2P 通知
+3. app 自身通知
 
 ## V2P
 
