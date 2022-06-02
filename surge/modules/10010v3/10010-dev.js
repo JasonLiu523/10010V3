@@ -72,6 +72,10 @@ const detail = {}
     try {
       await query({ cookie })
     } catch (e) {
+      $.log('❌ 查询时出错')
+      console.log(e)
+      console.log($.toStr(e))
+
       if (String(e).indexOf('Cookie 无效') === -1) {
         throw e
       }
@@ -91,9 +95,11 @@ const detail = {}
   // }
 })()
   .catch(e => {
+    $.log('❌ 最后抓取到的错误')
     console.log(e)
     console.log($.toStr(e))
-    notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || e}`, {})
+    // 暂时关掉通知
+    // notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || e}`, {})
   })
   .finally(() => {
     if ($.isV2p()) {
@@ -128,7 +134,7 @@ async function query({ cookie }) {
   } catch (e) {}
   $.log('↓ res body')
   console.log(body)
-  console.log($.toStr(e))
+  console.log($.toStr(body))
   if ($.lodash_get(body, 'code') !== '0000') {
     if (String(body) === '999999' || String(body) === '999998') {
       throw new Error('Cookie 无效')
