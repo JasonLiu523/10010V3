@@ -92,6 +92,7 @@ const detail = {}
 })()
   .catch(e => {
     console.log(e)
+    console.log($.toStr(e))
     notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || e}`, {})
   })
   .finally(() => {
@@ -127,6 +128,7 @@ async function query({ cookie }) {
   } catch (e) {}
   $.log('↓ res body')
   console.log(body)
+  console.log($.toStr(e))
   if ($.lodash_get(body, 'code') !== '0000') {
     if (String(body) === '999999' || String(body) === '999998') {
       throw new Error('Cookie 无效')
@@ -403,23 +405,27 @@ ${pkgs.join('\n')}
     },
   }
   $.setdata(detailText, KEY_DETAIL_TEXT)
-  if (durationFree >= ignoreFlow || durationRemain >= ignoreFlow) {
-    if (!remainFlowOnly || durationRemain > 0) {
-      if ($.isRequest() && requestNotifyDisabled) {
-        console.log(`禁用作为请求脚本使用时的通知`)
-      } else if ($.isPanel() && panelNotifyDisabled) {
-        console.log(`禁用作为 panel 脚本使用时的通知`)
-      } else if (notifyDisabled) {
-        console.log(`禁用通知`)
+  if (durationFree < 0 || durationRemain < 0) {
+    console.log(`流量变化 < 0 可能是什么包失效了(比如月初)或者联通接口问题 本次不发送`)
+  } else {
+    if (durationFree >= ignoreFlow || durationRemain >= ignoreFlow) {
+      if (!remainFlowOnly || durationRemain > 0) {
+        if ($.isRequest() && requestNotifyDisabled) {
+          console.log(`禁用作为请求脚本使用时的通知`)
+        } else if ($.isPanel() && panelNotifyDisabled) {
+          console.log(`禁用作为 panel 脚本使用时的通知`)
+        } else if (notifyDisabled) {
+          console.log(`禁用通知`)
+        } else {
+          console.log(`通知`)
+          notify(msg.title, msg.subtitle, msg.body)
+        }
       } else {
-        console.log(`通知`)
-        notify(msg.title, msg.subtitle, msg.body)
+        console.log(`当前时间段内无*非免流*, 不通知`)
       }
     } else {
-      console.log(`当前时间段内无*非免流*, 不通知`)
+      console.log(`小于流量变化忽略阈值, 不通知`)
     }
-  } else {
-    console.log(`小于流量变化忽略阈值, 不通知`)
   }
 }
 
@@ -459,30 +465,34 @@ async function notify(title, subtitle, body) {
   }
   const bark = $.getdata(KEY_BARK)
 
-  if (bark) {
-    try {
-      const url = bark.replace('[推送标题]', encodeURIComponent(title)).replace('[推送内容]', encodeURIComponent(`${subtitle}\n${body}`))
-      $.log(`开始 bark 请求: ${url}`)
-      const res = await $.http.get({ url })
-      // console.log(res)
-      const status = $.lodash_get(res, 'status')
-      $.log('↓ res status')
-      $.log(status)
-      let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
+  if (bark || (notify && notify.sendNotify)) {
+    if (bark) {
       try {
-        resBody = JSON.parse(resBody)
-      } catch (e) {}
-      $.log('↓ res body')
-      console.log(resBody)
-      if ($.lodash_get(resBody, 'code') !== 200) {
-        throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        const url = bark.replace('[推送标题]', encodeURIComponent(title)).replace('[推送内容]', encodeURIComponent(`${subtitle}\n${body}`))
+        $.log(`开始 bark 请求: ${url}`)
+        const res = await $.http.get({ url })
+        // console.log(res)
+        const status = $.lodash_get(res, 'status')
+        $.log('↓ res status')
+        $.log(status)
+        let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
+        try {
+          resBody = JSON.parse(resBody)
+        } catch (e) {}
+        $.log('↓ res body')
+        console.log(resBody)
+        if ($.lodash_get(resBody, 'code') !== 200) {
+          throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        }
+      } catch (e) {
+        console.log(e)
+        $.msg(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌ bark 请求`, `${$.lodash_get(e, 'message') || e}`, {})
       }
-    } catch (e) {
-     console.log(e)
-     $.msg(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌ bark 请求`, `${$.lodash_get(e, 'message') || e}`, {})
     }
-  } else if (notify && notify.sendNotify) {
-    await notify.sendNotify(`${title}`, `${subtitle}\n${body}`)
+
+    if (notify && notify.sendNotify) {
+      await notify.sendNotify(`${title}`, `${subtitle}\n${body}`)
+    }
   } else if ($.isV2p()) {
     $.msg(title, '', `${subtitle}\n${body}`)
   } else {
