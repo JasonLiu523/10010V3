@@ -16,12 +16,12 @@
 
 <table>
   <tr>
+    <td valign="top"><img src="screenshots/7.png"></td>
     <td valign="top"><img src="screenshots/1.png"></td>
   </tr>
   <tr>
     <td valign="top"><img src="screenshots/2.png"></td>
     <td valign="top"><img src="screenshots/3.png"></td>
-    <td valign="top"><img src="screenshots/4.png"></td>
   </tr>
 </table>
 
