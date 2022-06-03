@@ -83,6 +83,12 @@ let cacheHitTimes = 0
 let resolvedCount = 0
 let unresolvedCount = 0
 
+/* 缓存 */
+let cache = $.getjson(KEY_CACHE) || {}
+
+let cacheSize = Object.keys(cache).length
+console.log(`cache: ${cacheSize}`)
+
 async function operator(proxies = []) {
   const disabled = $.getdata(KEY_DISABLED)
   if (String(disabled) === 'true') {
@@ -92,6 +98,13 @@ async function operator(proxies = []) {
   try {
     const startedAt = Date.now()
     const result = await main(proxies)
+    let cacheKeys = Object.keys(cache)
+    cacheKeys = cacheKeys.slice(-cacheMaxSize)
+    cache = Object.fromEntries(
+    Object.entries(cache).filter(([key, value]) => cacheKeys.includes(key)) )
+
+    console.log(`cache: ${Object.keys(cache).length}`)
+    $.setjson(cache, KEY_CACHE)
     console.log(`本次使用缓存次数: ${cacheHitTimes}`)
     console.log(`本次在线解析次数: ${resolveTimes}`)
     console.log(`解析成功数: ${resolvedCount}`)
@@ -165,15 +178,6 @@ async function proxyHander(p) {
 async function resolveServer(p) {
   let ip
   if (!isIPV4(p.server)) {
-    /* 缓存 */
-    let cache = $.getjson(KEY_CACHE) || {}
-
-    const cacheSize = Object.keys(cache).length
-    console.log(`cache: ${cacheSize}`)
-    if (cacheSize + 1 > cacheMaxSize) {
-      console.log(`delete first cache item`)
-      delete cache[Object.keys(cache)[0]]
-    }
     const cacheKey = p.server.replace(/\./g, '_')
     const cachedItem = $.lodash_get(cache, cacheKey, [])
     const [cachedIP, timestamp] = cachedItem
@@ -296,7 +300,6 @@ async function resolveServer(p) {
       if (isIPV4(ip)) {
         $.lodash_set(cache, cacheKey, [ip, Date.now()])
         console.log(`在线查询结果有效 set cache: ${p.server} ${ip} expire in ${Math.round(expire / 60)} min(s)`)
-        $.setjson(cache, KEY_CACHE)
       }
     }
     /* 设置节点 server 为 IP */
