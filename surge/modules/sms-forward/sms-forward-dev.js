@@ -1,4 +1,4 @@
-let key = 'sms_forward'
+const key = 'sms_forward'
 
 const config = {
   tencent: {
@@ -38,6 +38,14 @@ let result
   const type = $.getdata(KEY_TYPE) || 'tencent'
 
   let input = $request.body
+  // let input = JSON.stringify({
+  //   query: {
+  //     message: { text: '【XXXXXXXX】您的验证码为 222222 ，有效时间为30分钟，若非本人发送，请忽略此消息。' },
+  //     sender: '10010',
+  //   },
+  //   app: { version: '2959.0' },
+  //   _version: 1,
+  // })
   $.log('ℹ️ 请求')
   $.log(input)
   try {
@@ -47,7 +55,7 @@ let result
     throw new Error('解析请求失败')
   }
   $.log('ℹ️ 解析后的请求')
-  $.log(input)
+  console.log($.toStr(input))
   let text
   let sender
   if (type === 'tencent') {
@@ -223,7 +231,7 @@ let result
   })
   .finally(() => {
     console.log(`提交给腾讯/360等接口的数据`)
-    console.log(result)
+    console.log($.toStr(result))
     $.done(result)
   })
 
@@ -246,9 +254,9 @@ async function notify(title, subtitle, body, { copy, KEY_PUSHDEER, KEY_BARK }) {
           resBody = JSON.parse(resBody)
         } catch (e) {}
         $.log('↓ res body')
-        console.log(resBody)
-        if ($.lodash_get(resBody, 'code') !== 0) {
-          throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        console.log($.toStr(resBody))
+        if (!['0', '200'].includes(String($.lodash_get(resBody, 'code')))) {
+          throw new Error($.lodash_get(resBody, 'message') || $.lodash_get(resBody, 'msg') || '未知错误')
         }
       } catch (e) {
         console.log(e)
@@ -272,9 +280,9 @@ async function notify(title, subtitle, body, { copy, KEY_PUSHDEER, KEY_BARK }) {
           resBody = JSON.parse(resBody)
         } catch (e) {}
         $.log('↓ res body')
-        console.log(resBody)
-        if ($.lodash_get(resBody, 'code') !== 200) {
-          throw new Error($.lodash_get(resBody, 'message') || '未知错误')
+        console.log($.toStr(resBody))
+        if (!['0', '200'].includes(String($.lodash_get(resBody, 'code')))) {
+          throw new Error($.lodash_get(resBody, 'message') || $.lodash_get(resBody, 'msg') || '未知错误')
         }
       } catch (e) {
         console.log(e)
