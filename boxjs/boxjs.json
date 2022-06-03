@@ -218,15 +218,8 @@
           "desc": "默认会在成功后发送通知"
         },
         {
-          "id": "@xream.sub_store_mega.mock",
-          "name": "⚠️ 模拟域名解析 请勿自己开启",
-          "val": false,
-          "type": "boolean",
-          "desc": "默认禁用. 启用后不会在线解析, 模拟结果为随机 IP"
-        },
-        {
           "id": "@xream.sub_store_mega.clearCache",
-          "name": "⚠️ 下次清除缓存",
+          "name": "下次清除缓存",
           "val": false,
           "type": "boolean",
           "desc": "默认禁用. 启用后下次将清除缓存, 然后自动禁用"

@@ -80,8 +80,10 @@ if (String($.getdata(KEY_CLEAR_CACHE)) === 'true') {
 
 let resolveTimes = 0
 let cacheHitTimes = 0
+let resolvedCount = 0
+let unresolvedCount = 0
 
-async function operator(proxies) {
+async function operator(proxies = []) {
   const disabled = $.getdata(KEY_DISABLED)
   if (String(disabled) === 'true') {
     $.log(`已禁用`)
@@ -92,12 +94,14 @@ async function operator(proxies) {
     const result = await main(proxies)
     console.log(`本次使用缓存次数: ${cacheHitTimes}`)
     console.log(`本次在线解析次数: ${resolveTimes}`)
+    console.log(`解析成功数: ${resolvedCount}`)
+    console.log(`解析失败数: ${unresolvedCount}`)
     console.log(`总耗时: ${Math.round((Date.now() - startedAt) / 1000)}s`)
     if (!notifyOnSuccessDisabled) {
       $.msg(
         title,
         `✅ 总耗时 ${Math.round((Date.now() - startedAt) / 1000)}s`,
-        `在线解析数 ${resolveTimes}\n使用缓存数 ${cacheHitTimes}`
+        `使用缓存数 ${cacheHitTimes}\n解析成功数 ${resolvedCount}\n解析失败数 ${unresolvedCount}`
       )
     }
     return result
@@ -107,318 +111,326 @@ async function operator(proxies) {
   }
 }
 async function main(proxies) {
-  const result = []
-
-  for await (let p of proxies) {
-    async function resolveServer(p) {
-      let ip
-      if (!isIPV4(p.server)) {
-        /* 缓存 */
-        let cache = $.getjson(KEY_CACHE) || {}
-
-        const cacheSize = Object.keys(cache).length
-        console.log(`cache: ${cacheSize}`)
-        if (cacheSize + 1 > cacheMaxSize) {
-          console.log(`delete first cache item`)
-          delete cache[Object.keys(cache)[0]]
-        }
-        const cacheKey = p.server.replace(/\./g, '_')
-        const cachedItem = $.lodash_get(cache, cacheKey, [])
-        const [cachedIP, timestamp] = cachedItem
-        if (expire > 0 && isIPV4(cachedIP) && timestamp) {
-          const diff = (Date.now() - timestamp) / 1000
-          console.log(`cache diff ${Math.round(diff / 60)} min(s): ${p.server} ${cachedIP}`)
-          if (diff <= expire) {
-            console.log(`✅ cache expire in ${Math.round((expire - diff) / 60)} min(s): ${p.server} ${cachedIP}`)
-            cacheHitTimes += 1
-            ip = cachedIP
-          } else {
-            console.log(`❌ cache expire: ${p.server} ${cachedIP}`)
-            delete cache[p.server]
-          }
-        } else {
-          console.log(`⚠️ cache miss: ${p.server}`)
-          delete cache[p.server]
-        }
-        /* 在线查询 */
-        if (!isIPV4(ip)) {
-          console.log(`👉🏻 开始在线查询: ${resolver} ${p.server}`)
-          resolveTimes += 1
-          if (mock) {
-            console.log(`模拟在线查询 随机 IP`)
-            ip = `${Math.round(Math.random() * 200)}.${Math.round(Math.random() * 200)}.${Math.round(
-              Math.random() * 200
-            )}.${Math.round(Math.random() * 200)}`
-          } else {
-            try {
-              if (resolver === 'google') {
-                const res = await $.http.get({
-                  url: `https://8.8.4.4/resolve?name=${encodeURIComponent(p.server)}&type=A`,
-                  headers: {
-                    accept: 'application/dns-json',
-                    'User-Agent':
-                      'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
-                  },
-                })
-                const resStatus = $.lodash_get(res, 'status')
-                console.log('↓ res status')
-                console.log(resStatus)
-                let body = $.lodash_get(res, 'body')
-                console.log('↓ res body')
-                console.log(body)
-                body = $.toObj(body)
-                const status = $.lodash_get(body, 'Status')
-                if (status !== 0) {
-                  throw new Error(`${resolver} ${p.server} 请求 ${resStatus} ${status}`)
-                }
-                ip = $.lodash_get(body, 'Answer.0.data')
-                console.log('↓ ip')
-                console.log(ip)
-                if (!isIPV4(ip)) {
-                  throw new Error(`${resolver} ${p.server} 解析 ${ip} 不是 IPV4`)
-                }
-              } else if(resolver === 'ip-api') {
-                const res = await $.http.get({
-                  url: `http://ip-api.com/json/${encodeURIComponent(p.server)}?lang=zh-CN`,
-                  headers: {
-                    'User-Agent':
-                      'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
-                  },
-                })
-                const resStatus = $.lodash_get(res, 'status')
-                console.log('↓ res status')
-                console.log(resStatus)
-                let body = $.lodash_get(res, 'body')
-                console.log('↓ res body')
-                console.log(body)
-                body = $.toObj(body)
-                const status = $.lodash_get(body, 'status')
-                if (status !== 'success') {
-                  throw new Error(`${p.server} 请求 ${status} ${$.lodash_get(body, 'message') || '未知错误'}`)
-                }
-                ip = $.lodash_get(body, 'query')
-
-                console.log('↓ ip')
-                console.log(ip)
-                if (!isIPV4(ip)) {
-                  throw new Error(`${resolver} ${p.server} 解析 ${ip} 不是 IPV4`)
-                }
-              }else {
-                const res = await $.http.get({
-                  url: `https://1.0.0.1/dns-query?name=${encodeURIComponent(p.server)}&type=A`,
-                  headers: {
-                    accept: 'application/dns-json',
-                    'User-Agent':
-                      'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
-                  },
-                })
-                const resStatus = $.lodash_get(res, 'status')
-                console.log('↓ res status')
-                console.log(resStatus)
-                let body = $.lodash_get(res, 'body')
-                console.log('↓ res body')
-                console.log(body)
-                body = $.toObj(body)
-                const status = $.lodash_get(body, 'Status')
-                if (status !== 0) {
-                  throw new Error(`${resolver} ${p.server} 请求 ${resStatus} ${status}`)
-                  // throw new Error(`${p.server} 请求 ${status} ${$.lodash_get(body, 'message') || '未知错误'}`)
-                }
-                ip = $.lodash_get(body, 'Answer.0.data')
-                console.log('↓ ip')
-                console.log(ip)
-                if (!isIPV4(ip)) {
-                  throw new Error(`${resolver} ${p.server} 解析 ${ip} 不是 IPV4`)
-                }
-              }
-            } catch (e) {
-              console.log(e)
-              console.log(`❌ 在线查询 ${resolver} ${p.server} 失败: ${$.lodash_get(e, 'message') || e}`)
-              throw new Error(e)
-            }
-            /* 等待 */
-            await new Promise(r => setTimeout(r, sleep * 1000))
-          }
-          console.log(`👉🏻 在线查询结果: ${resolver} ${p.server} ${ip}`)
-          if (isIPV4(ip)) {
-            $.lodash_set(cache, cacheKey, [ip, Date.now()])
-            console.log(`在线查询结果有效 set cache: ${p.server} ${ip} expire in ${Math.round(expire / 60)} min(s)`)
-            $.setjson(cache, KEY_CACHE)
-          }
-        }
-        /* 设置节点 server 为 IP */
-        if (isIPV4(ip)) {
-          p.server = ip
-        }
-      }
-      if (isIPV4(ip)) {
-        /* 节点名附加 IP前缀后缀 */
-        if (ipPrefix || ipSuffix) {
-          const ipTxt = `[${ip}]`
-          p = setName(p, ipPrefix ? ipTxt : '', ipSuffix ? ipTxt : '')
-        }
-      }
-      return p
+  let result = []
+  if (sleep <= 0) {
+    result = await Promise.all(proxies.map(p => proxyHander(p)))
+  } else {
+    for await (let p of proxies) {
+      p = await proxyHander(p)
+      result.push(p)
     }
-    function isIPV4(ip) {
-      return /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$/.test(ip)
-    }
-    function sort(p) {
-      /* 排序逻辑 */
-      // 默认排序值 0
-      let sort = 0
-
-      if (p.name.startsWith('国内') && p.name.includes('限速')) {
-        // 国内开头且限速的 排最下面
-        sort = -10
-      } else if (p.name.startsWith('国内')) {
-        // 国内开头 排默认排序的下面
-        sort = -1
-      } else if (p.name.includes('香港2')) {
-        // 含关键词的排上面
-        sort = 20
-      } else if (p.name.includes('香港7')) {
-        sort = 19
-      } else if (p.name.includes('香港3')) {
-        sort = 19
-      } else if (p.name.includes('香港1')) {
-        sort = 18
-      } else if (p.name.includes('香港')) {
-        sort = 15
-      } else if (p.name.includes('韩国')) {
-        sort = 14
-      } else if (p.name.includes('日本')) {
-        sort = 13
-      } else if (p.name.includes('美国')) {
-        sort = 12
-      }
-      // 单独排个序
-      //  if(name.startsWith('国内') && name.includes('内蒙') && name.includes('香港')){
-      //    sort = 7
-      //  }
-      p.sort = sort
-      return p
-    }
-    function setHost(p, host) {
-      if (['vmess', 'vless'].includes(p.type) && p.network) {
-        /* 把 非 server 的部分都设置为 host */
-        /* skip-cert-verify 在这里设为 true 有需求就再加一个节点操作吧 */
-        p['skip-cert-verify'] = true
-        p.servername = host
-        p['tls-hostname'] = host
-        p.sni = host
-        if (p.network === 'ws') {
-          $.lodash_set(p, 'ws-opts.headers.Host', host)
-        } else if (p.network === 'h2') {
-          $.lodash_set(p, 'h2-opts.host', [host])
-        } else if (p.network === 'http') {
-          $.lodash_set(p, 'http-opts.headers.Host', [host])
-        } else if (p.network) {
-          $.lodash_set(p, `${p.network}-opts.headers.Host`, [host])
-        }
-        if (p.network && !hostSet) {
-          hostSet = true
-          p = setName(p, hostPrefix ? hostPrefix : '', hostSuffix ? hostSuffix : '')
-        }
-      }
-      return p
-    }
-    function setPath(p, path) {
-      if (['vmess', 'vless'].includes(p.type) && p.network) {
-        if (p.network === 'ws') {
-          $.lodash_set(p, 'ws-opts.path', path)
-        } else if (p.network === 'h2') {
-          $.lodash_set(p, 'h2-opts.path', path)
-        } else if (p.network === 'http') {
-          $.lodash_set(p, 'http-opts.path', path)
-        } else if (p.network) {
-          $.lodash_set(p, `${p.network}-opts.path`, path)
-        }
-        if (p.network && !pathSet) {
-          pathSet = true
-          p = setName(p, pathPrefix ? pathPrefix : '', pathSuffix ? pathSuffix : '')
-        }
-      }
-      return p
-    }
-    function setNetwork(p, network) {
-      if (['vmess', 'vless'].includes(p.type) && p.network) {
-        let hostOpt
-        if (p.network === 'ws') {
-          hostOpt = $.lodash_get(p, 'ws-opts.headers.Host')
-        } else if (p.network === 'h2') {
-          hostOpt = $.lodash_get(p, 'h2-opts.host.0')
-        } else if (p.network === 'http') {
-          hostOpt = $.lodash_get(p, 'http-opts.headers.Host.0')
-        } else if (p.network) {
-          hostOpt = $.lodash_get(p, `${p.network}-opts.headers.Host.0`)
-        }
-        let pathOpt
-        if (p.network === 'ws') {
-          pathOpt = $.lodash_get(p, 'ws-opts.path')
-        } else if (p.network === 'h2') {
-          pathOpt = $.lodash_get(p, 'h2-opts.path')
-        } else if (p.network === 'http') {
-          pathOpt = $.lodash_get(p, 'http-opts.path')
-        } else if (p.network) {
-          pathOpt = $.lodash_get(p, `${p.network}-opts.path`)
-        }
-        delete p[`${p.network}-opts`]
-        p.network = network
-        setHost(p, hostOpt)
-        setPath(p, pathOpt)
-      }
-      return p
-    }
-    function setPort(p, port) {
-      p.port = port
-      setName(p, '', `[${port}]`)
-      return p
-    }
-    function setName(p, prefix = '', suffix = '') {
-      p.name = `${prefix}${p.name}${suffix}`
-      return p
-    }
-    let hostSet
-    let pathSet
-    /* 混淆 */
-    if (host) {
-      p = setHost(p, host)
-    }
-    /* 路径 */
-    if (pathOpt) {
-      p = setPath(p, pathOpt)
-    }
-    /* network */
-    if (network) {
-      p = setNetwork(p, network)
-    }
-
-    /* 设置端口 */
-    if (port) {
-      p = setPort(p, port)
-    }
-    /* 节点名附加 network */
-    if (networkPrefix || networkSuffix) {
-      const network = p.network ? `[${p.network.toLocaleUpperCase()}]` : ''
-      if (network) {
-        p = setName(p, networkPrefix ? network : '', networkSuffix ? network : '')
-      }
-    }
-    /* 排序 */
-    if (autoSort) {
-      sort(p)
-    }
-    /* 域名 转 IP */
-    if (resolve) {
-      p = await resolveServer(p)
-    }
-    /* 设置节点名 */
-    p = setName(p, prefix, suffix)
-    result.push(p)
   }
 
   return result.sort((a, b) => b.sort - a.sort)
+}
+
+async function proxyHander(p) {
+  /* 混淆 */
+  if (host) {
+    p = setHost(p, host)
+  }
+  /* 路径 */
+  if (pathOpt) {
+    p = setPath(p, pathOpt)
+  }
+  /* network */
+  if (network) {
+    p = setNetwork(p, network)
+  }
+
+  /* 设置端口 */
+  if (port) {
+    p = setPort(p, port)
+  }
+  /* 节点名附加 network */
+  if (networkPrefix || networkSuffix) {
+    const network = p.network ? `[${p.network.toLocaleUpperCase()}]` : ''
+    if (network) {
+      p = setName(p, networkPrefix ? network : '', networkSuffix ? network : '')
+    }
+  }
+  /* 排序 */
+  if (autoSort) {
+    p = sort(p)
+  }
+  /* 域名 转 IP */
+  if (resolve) {
+    p = await resolveServer(p)
+  }
+  /* 设置节点名 */
+  p = setName(p, prefix, suffix)
+  return p
+}
+
+async function resolveServer(p) {
+  let ip
+  if (!isIPV4(p.server)) {
+    /* 缓存 */
+    let cache = $.getjson(KEY_CACHE) || {}
+
+    const cacheSize = Object.keys(cache).length
+    console.log(`cache: ${cacheSize}`)
+    if (cacheSize + 1 > cacheMaxSize) {
+      console.log(`delete first cache item`)
+      delete cache[Object.keys(cache)[0]]
+    }
+    const cacheKey = p.server.replace(/\./g, '_')
+    const cachedItem = $.lodash_get(cache, cacheKey, [])
+    const [cachedIP, timestamp] = cachedItem
+    if (expire > 0 && isIPV4(cachedIP) && timestamp) {
+      const diff = (Date.now() - timestamp) / 1000
+      console.log(`cache diff ${Math.round(diff / 60)} min(s): ${p.server} ${cachedIP}`)
+      if (diff <= expire) {
+        console.log(`✅ cache expire in ${Math.round((expire - diff) / 60)} min(s): ${p.server} ${cachedIP}`)
+        cacheHitTimes += 1
+        ip = cachedIP
+      } else {
+        console.log(`❌ cache expire: ${p.server} ${cachedIP}`)
+        delete cache[p.server]
+      }
+    } else {
+      console.log(`⚠️ cache miss: ${p.server}`)
+      delete cache[p.server]
+    }
+    /* 在线查询 */
+    if (!isIPV4(ip)) {
+      console.log(`👉🏻 开始在线查询: ${resolver} ${p.server}`)
+      resolveTimes += 1
+      if (mock) {
+        console.log(`模拟在线查询 随机 IP`)
+        ip = `${Math.round(Math.random() * 200)}.${Math.round(Math.random() * 200)}.${Math.round(
+          Math.random() * 200
+        )}.${Math.round(Math.random() * 200)}`
+      } else {
+        try {
+          if (resolver === 'google') {
+            const res = await $.http.get({
+              url: `https://8.8.4.4/resolve?name=${encodeURIComponent(p.server)}&type=A`,
+              headers: {
+                accept: 'application/dns-json',
+                'User-Agent':
+                  'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
+              },
+            })
+            const resStatus = $.lodash_get(res, 'status')
+            console.log('↓ res status')
+            console.log(resStatus)
+            let body = $.lodash_get(res, 'body')
+            console.log('↓ res body')
+            console.log(body)
+            body = $.toObj(body)
+            const status = $.lodash_get(body, 'Status')
+            if (status !== 0) {
+              throw new Error(`${resolver} ${p.server} 请求 ${resStatus} ${status}`)
+            }
+            ip = $.lodash_get(body, 'Answer.0.data')
+            console.log('↓ ip')
+            console.log(ip)
+            if (!isIPV4(ip)) {
+              throw new Error(`${resolver} ${p.server} 解析 ${ip} 不是 IPV4`)
+            }
+          } else if(resolver === 'ip-api') {
+            const res = await $.http.get({
+              url: `http://ip-api.com/json/${encodeURIComponent(p.server)}?lang=zh-CN`,
+              headers: {
+                'User-Agent':
+                  'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
+              },
+            })
+            const resStatus = $.lodash_get(res, 'status')
+            console.log('↓ res status')
+            console.log(resStatus)
+            let body = $.lodash_get(res, 'body')
+            console.log('↓ res body')
+            console.log(body)
+            body = $.toObj(body)
+            const status = $.lodash_get(body, 'status')
+            if (status !== 'success') {
+              throw new Error(`${p.server} 请求 ${status} ${$.lodash_get(body, 'message') || '未知错误'}`)
+            }
+            ip = $.lodash_get(body, 'query')
+
+            console.log('↓ ip')
+            console.log(ip)
+            if (!isIPV4(ip)) {
+              throw new Error(`${resolver} ${p.server} 解析 ${ip} 不是 IPV4`)
+            }
+          }else {
+            const res = await $.http.get({
+              url: `https://1.0.0.1/dns-query?name=${encodeURIComponent(p.server)}&type=A`,
+              headers: {
+                accept: 'application/dns-json',
+                'User-Agent':
+                  'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
+              },
+            })
+            const resStatus = $.lodash_get(res, 'status')
+            console.log('↓ res status')
+            console.log(resStatus)
+            let body = $.lodash_get(res, 'body')
+            console.log('↓ res body')
+            console.log(body)
+            body = $.toObj(body)
+            const status = $.lodash_get(body, 'Status')
+            if (status !== 0) {
+              throw new Error(`${resolver} ${p.server} 请求 ${resStatus} ${status}`)
+              // throw new Error(`${p.server} 请求 ${status} ${$.lodash_get(body, 'message') || '未知错误'}`)
+            }
+            ip = $.lodash_get(body, 'Answer.0.data')
+            console.log('↓ ip')
+            console.log(ip)
+            if (!isIPV4(ip)) {
+              throw new Error(`${resolver} ${p.server} 解析 ${ip} 不是 IPV4`)
+            }
+          }
+          resolvedCount += 1
+        } catch (e) {
+          console.log(e)
+          console.log(`❌ 在线查询 ${resolver} ${p.server} 失败: ${$.lodash_get(e, 'message') || e}`)
+          unresolvedCount += 1
+        }
+        /* 等待 */
+        await new Promise(r => setTimeout(r, sleep * 1000))
+      }
+      console.log(`👉🏻 在线查询结果: ${resolver} ${p.server} ${ip}`)
+      if (isIPV4(ip)) {
+        $.lodash_set(cache, cacheKey, [ip, Date.now()])
+        console.log(`在线查询结果有效 set cache: ${p.server} ${ip} expire in ${Math.round(expire / 60)} min(s)`)
+        $.setjson(cache, KEY_CACHE)
+      }
+    }
+    /* 设置节点 server 为 IP */
+    if (isIPV4(ip)) {
+      p.server = ip
+    }
+  }
+  if (isIPV4(ip)) {
+    /* 节点名附加 IP前缀后缀 */
+    if (ipPrefix || ipSuffix) {
+      const ipTxt = `[${ip}]`
+      p = setName(p, ipPrefix ? ipTxt : '', ipSuffix ? ipTxt : '')
+    }
+  }
+  return p
+}
+function isIPV4(ip) {
+  return /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$/.test(ip)
+}
+function sort(p) {
+  /* 排序逻辑 */
+  // 默认排序值 0
+  let sort = 0
+
+  if (p.name.startsWith('国内') && p.name.includes('限速')) {
+    // 国内开头且限速的 排最下面
+    sort = -10
+  } else if (p.name.startsWith('国内')) {
+    // 国内开头 排默认排序的下面
+    sort = -1
+  } else if (p.name.includes('香港2')) {
+    // 含关键词的排上面
+    sort = 20
+  } else if (p.name.includes('香港7')) {
+    sort = 19
+  } else if (p.name.includes('香港3')) {
+    sort = 19
+  } else if (p.name.includes('香港1')) {
+    sort = 18
+  } else if (p.name.includes('香港')) {
+    sort = 15
+  } else if (p.name.includes('韩国')) {
+    sort = 14
+  } else if (p.name.includes('日本')) {
+    sort = 13
+  } else if (p.name.includes('美国')) {
+    sort = 12
+  }
+  // 单独排个序
+  //  if(name.startsWith('国内') && name.includes('内蒙') && name.includes('香港')){
+  //    sort = 7
+  //  }
+  p.sort = sort
+  return p
+}
+function setHost(p, host) {
+  if (['vmess', 'vless'].includes(p.type) && p.network) {
+    /* 把 非 server 的部分都设置为 host */
+    /* skip-cert-verify 在这里设为 true 有需求就再加一个节点操作吧 */
+    p['skip-cert-verify'] = true
+    p.servername = host
+    p['tls-hostname'] = host
+    p.sni = host
+    if (p.network === 'ws') {
+      $.lodash_set(p, 'ws-opts.headers.Host', host)
+    } else if (p.network === 'h2') {
+      $.lodash_set(p, 'h2-opts.host', [host])
+    } else if (p.network === 'http') {
+      $.lodash_set(p, 'http-opts.headers.Host', [host])
+    } else if (p.network) {
+      $.lodash_set(p, `${p.network}-opts.headers.Host`, [host])
+    }
+    if (p.network && !p.hostSet) {
+      p.hostSet = true
+      p = setName(p, hostPrefix ? hostPrefix : '', hostSuffix ? hostSuffix : '')
+    }
+  }
+  return p
+}
+function setPath(p, path) {
+  if (['vmess', 'vless'].includes(p.type) && p.network) {
+    if (p.network === 'ws') {
+      $.lodash_set(p, 'ws-opts.path', path)
+    } else if (p.network === 'h2') {
+      $.lodash_set(p, 'h2-opts.path', path)
+    } else if (p.network === 'http') {
+      $.lodash_set(p, 'http-opts.path', path)
+    } else if (p.network) {
+      $.lodash_set(p, `${p.network}-opts.path`, path)
+    }
+    if (p.network && !p.pathSet) {
+      p.pathSet = true
+      p = setName(p, pathPrefix ? pathPrefix : '', pathSuffix ? pathSuffix : '')
+    }
+  }
+  return p
+}
+function setNetwork(p, network) {
+  if (['vmess', 'vless'].includes(p.type) && p.network) {
+    let hostOpt
+    if (p.network === 'ws') {
+      hostOpt = $.lodash_get(p, 'ws-opts.headers.Host')
+    } else if (p.network === 'h2') {
+      hostOpt = $.lodash_get(p, 'h2-opts.host.0')
+    } else if (p.network === 'http') {
+      hostOpt = $.lodash_get(p, 'http-opts.headers.Host.0')
+    } else if (p.network) {
+      hostOpt = $.lodash_get(p, `${p.network}-opts.headers.Host.0`)
+    }
+    let pathOpt
+    if (p.network === 'ws') {
+      pathOpt = $.lodash_get(p, 'ws-opts.path')
+    } else if (p.network === 'h2') {
+      pathOpt = $.lodash_get(p, 'h2-opts.path')
+    } else if (p.network === 'http') {
+      pathOpt = $.lodash_get(p, 'http-opts.path')
+    } else if (p.network) {
+      pathOpt = $.lodash_get(p, `${p.network}-opts.path`)
+    }
+    delete p[`${p.network}-opts`]
+    p.network = network
+    setHost(p, hostOpt)
+    setPath(p, pathOpt)
+  }
+  return p
+}
+function setPort(p, port) {
+  p.port = port
+  setName(p, '', `[${port}]`)
+  return p
+}
+function setName(p, prefix = '', suffix = '') {
+  p.name = `${prefix}${p.name}${suffix}`
+  return p
 }
 
 // prettier-ignore
