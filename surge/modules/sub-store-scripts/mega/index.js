@@ -277,19 +277,20 @@ async function main(proxies) {
       } else if (p.name.includes('香港2')) {
         // 含关键词的排上面
         sort = 20
+      } else if (p.name.includes('香港7')) {
+        sort = 19
       } else if (p.name.includes('香港3')) {
         sort = 19
-      } else if (p.name.includes('香港4')) {
+      } else if (p.name.includes('香港1')) {
         sort = 18
-      } else if (p.name.includes('韩国')) {
-        sort = 17
-      } else if (p.name.includes('香港5')) {
-        sort = 16
-      } else if (p.name.includes('日本1')) {
-        sort = 15
       } else if (p.name.includes('香港')) {
-        // 别的香港的 排默认的上面
-        sort = 1
+        sort = 15
+      } else if (p.name.includes('韩国')) {
+        sort = 14
+      } else if (p.name.includes('日本')) {
+        sort = 13
+      } else if (p.name.includes('美国')) {
+        sort = 12
       }
       // 单独排个序
       //  if(name.startsWith('国内') && name.includes('内蒙') && name.includes('香港')){

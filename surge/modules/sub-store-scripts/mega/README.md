@@ -8,7 +8,7 @@
 
 - 设置 `Host 混淆`, `端口`
 
-- 节点服务器域名 转 IP. 对接多个服务. 支持缓存
+- 节点服务器域名 转 IP. 对接 Cloudflare/Google/IP-API. 支持缓存
 
 - [🐞⚠️ bug 警告] 设置 `Path 路径`, 修改 `Network 网络类型`
 
