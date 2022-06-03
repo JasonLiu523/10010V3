@@ -61,7 +61,7 @@ const autoSort = String($.getdata(KEY_SORT)) === 'true'
 const resolve = String($.getdata(KEY_RESOLVE)) === 'true'
 const resolver = $.getdata(KEY_RESOLVER)
 /* 域名解析等待时间(单位 秒) 因为 API 有频次限制*/
-const sleep = $.getdata(KEY_SLEEP) || 0.1
+const sleep = $.getdata(KEY_SLEEP) || 0
 /* 域名解析结果缓存时间(单位 秒) */
 const expire = $.getdata(KEY_EXPIRE) || 30 * 60 // 若 <= 0 则不缓存
 /* 域名解析结果缓存最大数 */
