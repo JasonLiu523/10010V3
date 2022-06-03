@@ -30,6 +30,7 @@
         "@xream.sub_store_mega.port",
         "@xream.sub_store_mega.sort",
         "@xream.sub_store_mega.resolve",
+        "@xream.sub_store_mega.resolver",
         "@xream.sub_store_mega.ipPrefix",
         "@xream.sub_store_mega.ipSuffix",
         "@xream.sub_store_mega.sleep",
@@ -151,7 +152,28 @@
           "name": "域名 转 IP",
           "val": false,
           "type": "boolean",
-          "desc": "默认禁用. 使用 ip-api.com 解析域名"
+          "desc": "默认禁用. 使用网络请求解析域名"
+        },
+        {
+          "id": "@xream.sub_store_mega.resolver",
+          "name": "域名 转 IP 服务",
+          "type": "selects",
+          "items": [
+            {
+              "key": "cloudflare",
+              "label": "Cloudflare"
+            },
+            {
+              "key": "google",
+              "label": "Google"
+            },
+            {
+              "key": "ip-api",
+              "label": "IP-API(有频次限制)"
+            }
+          ],
+          "val": "cloudflare",
+          "desc": "默认 Cloudflare"
         },
         {
           "id": "@xream.sub_store_mega.ipPrefix",
@@ -170,9 +192,9 @@
         {
           "id": "@xream.sub_store_mega.sleep",
           "name": "域名解析等待时间(单位 秒)",
-          "val": 1.5,
+          "val": 0,
           "type": "number",
-          "desc": "因为 API 有频次限制 默认每次查询间隔 1.5 秒"
+          "desc": "因为网络请求的接口一般有频次限制 默认每次查询间隔 0 秒"
         },
         {
           "id": "@xream.sub_store_mega.expire",

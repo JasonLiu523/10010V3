@@ -12,6 +12,7 @@ const KEY_SUFFIX = `@xream.${key}.suffix`
 const KEY_PORT = `@xream.${key}.port`
 const KEY_SORT = `@xream.${key}.sort`
 const KEY_RESOLVE = `@xream.${key}.resolve`
+const KEY_RESOLVER = `@xream.${key}.resolver`
 const KEY_HOST_PREFIX = `@xream.${key}.hostPrefix`
 const KEY_HOST_SUFFUX = `@xream.${key}.hostSuffix`
 const KEY_PATH_PREFIX = `@xream.${key}.pathPrefix`
@@ -58,8 +59,9 @@ const port = $.getdata(KEY_PORT)
 const autoSort = String($.getdata(KEY_SORT)) === 'true'
 /* 域名 转 IP */
 const resolve = String($.getdata(KEY_RESOLVE)) === 'true'
+const resolver = $.getdata(KEY_RESOLVER)
 /* 域名解析等待时间(单位 秒) 因为 API 有频次限制*/
-const sleep = $.getdata(KEY_SLEEP) || 1.5
+const sleep = $.getdata(KEY_SLEEP) || 0.1
 /* 域名解析结果缓存时间(单位 秒) */
 const expire = $.getdata(KEY_EXPIRE) || 30 * 60 // 若 <= 0 则不缓存
 /* 域名解析结果缓存最大数 */
@@ -135,12 +137,12 @@ async function main(proxies) {
             delete cache[p.server]
           }
         } else {
-          console.log(`❌ cache miss: ${p.server}`)
+          console.log(`⚠️ cache miss: ${p.server}`)
           delete cache[p.server]
         }
         /* 在线查询 */
         if (!isIPV4(ip)) {
-          console.log(`开始在线查询: ${p.server}`)
+          console.log(`👉🏻 开始在线查询: ${resolver} ${p.server}`)
           resolveTimes += 1
           if (mock) {
             console.log(`模拟在线查询 随机 IP`)
@@ -149,39 +151,95 @@ async function main(proxies) {
             )}.${Math.round(Math.random() * 200)}`
           } else {
             try {
-              const res = await $.http.get({
-                url: `http://ip-api.com/json/${encodeURIComponent(p.server)}?lang=zh-CN`,
-                headers: {
-                  'User-Agent':
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
-                },
-              })
-              const resStatus = $.lodash_get(res, 'status')
-              console.log('↓ res status')
-              console.log(resStatus)
-              let body = $.lodash_get(res, 'body')
-              console.log('↓ res body')
-              console.log(body)
-              body = $.toObj(body)
-              const status = $.lodash_get(body, 'status')
-              if (status !== 'success') {
-                throw new Error(`${p.server} 请求 ${status} ${$.lodash_get(e, 'message') || '未知错误'}`)
-              }
-              ip = $.lodash_get(body, 'query')
-              console.log('↓ ip')
-              console.log(ip)
-              if (!isIPV4(ip)) {
-                throw new Error(`${p.server} 解析 ${ip} 不是 IPV4`)
+              if (resolver === 'google') {
+                const res = await $.http.get({
+                  url: `https://8.8.4.4/resolve?name=${encodeURIComponent(p.server)}&type=A`,
+                  headers: {
+                    accept: 'application/dns-json',
+                    'User-Agent':
+                      'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
+                  },
+                })
+                const resStatus = $.lodash_get(res, 'status')
+                console.log('↓ res status')
+                console.log(resStatus)
+                let body = $.lodash_get(res, 'body')
+                console.log('↓ res body')
+                console.log(body)
+                body = $.toObj(body)
+                const status = $.lodash_get(body, 'Status')
+                if (status !== 0) {
+                  throw new Error(`${resolver} ${p.server} 请求 ${resStatus} ${status}`)
+                }
+                ip = $.lodash_get(body, 'Answer.0.data')
+                console.log('↓ ip')
+                console.log(ip)
+                if (!isIPV4(ip)) {
+                  throw new Error(`${resolver} ${p.server} 解析 ${ip} 不是 IPV4`)
+                }
+              } else if(resolver === 'ip-api') {
+                const res = await $.http.get({
+                  url: `http://ip-api.com/json/${encodeURIComponent(p.server)}?lang=zh-CN`,
+                  headers: {
+                    'User-Agent':
+                      'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
+                  },
+                })
+                const resStatus = $.lodash_get(res, 'status')
+                console.log('↓ res status')
+                console.log(resStatus)
+                let body = $.lodash_get(res, 'body')
+                console.log('↓ res body')
+                console.log(body)
+                body = $.toObj(body)
+                const status = $.lodash_get(body, 'status')
+                if (status !== 'success') {
+                  throw new Error(`${p.server} 请求 ${status} ${$.lodash_get(body, 'message') || '未知错误'}`)
+                }
+                ip = $.lodash_get(body, 'query')
+
+                console.log('↓ ip')
+                console.log(ip)
+                if (!isIPV4(ip)) {
+                  throw new Error(`${resolver} ${p.server} 解析 ${ip} 不是 IPV4`)
+                }
+              }else {
+                const res = await $.http.get({
+                  url: `https://1.0.0.1/dns-query?name=${encodeURIComponent(p.server)}&type=A`,
+                  headers: {
+                    accept: 'application/dns-json',
+                    'User-Agent':
+                      'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
+                  },
+                })
+                const resStatus = $.lodash_get(res, 'status')
+                console.log('↓ res status')
+                console.log(resStatus)
+                let body = $.lodash_get(res, 'body')
+                console.log('↓ res body')
+                console.log(body)
+                body = $.toObj(body)
+                const status = $.lodash_get(body, 'Status')
+                if (status !== 0) {
+                  throw new Error(`${resolver} ${p.server} 请求 ${resStatus} ${status}`)
+                  // throw new Error(`${p.server} 请求 ${status} ${$.lodash_get(body, 'message') || '未知错误'}`)
+                }
+                ip = $.lodash_get(body, 'Answer.0.data')
+                console.log('↓ ip')
+                console.log(ip)
+                if (!isIPV4(ip)) {
+                  throw new Error(`${resolver} ${p.server} 解析 ${ip} 不是 IPV4`)
+                }
               }
             } catch (e) {
               console.log(e)
-              console.log(`❌ 在线查询 ${p.server} 失败: ${$.lodash_get(e, 'message') || e}`)
+              console.log(`❌ 在线查询 ${resolver} ${p.server} 失败: ${$.lodash_get(e, 'message') || e}`)
               throw new Error(e)
             }
             /* 等待 */
             await new Promise(r => setTimeout(r, sleep * 1000))
           }
-          console.log(`在线查询结果: ${p.server} ${ip}`)
+          console.log(`👉🏻 在线查询结果: ${resolver} ${p.server} ${ip}`)
           if (isIPV4(ip)) {
             $.lodash_set(cache, cacheKey, [ip, Date.now()])
             console.log(`在线查询结果有效 set cache: ${p.server} ${ip} expire in ${Math.round(expire / 60)} min(s)`)
