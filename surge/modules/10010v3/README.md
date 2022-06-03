@@ -25,7 +25,19 @@
 
 [https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule)
 
-`Shadowrocket` 也支持 使用类似 `Surge`
+## Shadowrocket
+
+> 吐槽 为什么就 Shadowrocket 用户要手把手教 🐶
+
+兼容 直接使用 Surge 模块 [https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule)
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/21.jpg"></td>
+    <td valign="top"><img src="screenshots/22.jpg"></td>
+    <td valign="top"><img src="screenshots/23.jpg"></td>
+  </tr>
+ </table>
 
 ## Stash 使用覆写
 
