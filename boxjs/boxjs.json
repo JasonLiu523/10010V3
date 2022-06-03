@@ -6,6 +6,216 @@
   "repo": "https://github.com/xream/scripts/tree/main",
   "apps": [
     {
+      "id": "xream.sub_store_mega",
+      "name": "Sub-Store Mega",
+      "descs_html": [
+        "<a href=\"https://github.com/xream/scripts/tree/main/surge/modules/sub-store-scripts/mega\">查看文档</a>",
+        "Sub-Store 脚本使用方法: 打开 Sub-Store => 订阅 => 编辑 => 节点操作+ => 脚本操作 => 链接 => 粘贴<a href=\"https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sub-store-scripts/mega/index.js\">脚本链接</a> => 保存",
+        "<a onClick=\"window.location.reload(true);\">刷新</a>"
+      ],
+      "keys": [
+        "@xream.sub_store_mega.disabled",
+        "@xream.sub_store_mega.title",
+        "@xream.sub_store_mega.prefix",
+        "@xream.sub_store_mega.suffix",
+        "@xream.sub_store_mega.host",
+        "@xream.sub_store_mega.hostPrefix",
+        "@xream.sub_store_mega.hostSuffix",
+        "@xream.sub_store_mega.path",
+        "@xream.sub_store_mega.pathPrefix",
+        "@xream.sub_store_mega.pathSuffix",
+        "@xream.sub_store_mega.network",
+        "@xream.sub_store_mega.networkPrefix",
+        "@xream.sub_store_mega.networkSuffix",
+        "@xream.sub_store_mega.port",
+        "@xream.sub_store_mega.sort",
+        "@xream.sub_store_mega.resolve",
+        "@xream.sub_store_mega.ipPrefix",
+        "@xream.sub_store_mega.ipSuffix",
+        "@xream.sub_store_mega.sleep",
+        "@xream.sub_store_mega.expire",
+        "@xream.sub_store_mega.cacheMaxSize",
+        "@xream.sub_store_mega.notifyOnSuccessDisabled",
+        "@xream.sub_store_mega.mock",
+        "@xream.sub_store_mega.clearCache"
+      ],
+      "author": "@xream",
+      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/sub-store-scripts/mega",
+      "settings": [
+        {
+          "id": "@xream.sub_store_mega.disabled",
+          "name": "禁用",
+          "val": false,
+          "type": "boolean",
+          "desc": "禁用后将返回原始节点数据"
+        },
+        {
+          "id": "@xream.sub_store_mega.title",
+          "name": "通知标题",
+          "val": "",
+          "type": "text",
+          "desc": "默认为 Sub-Store Mega"
+        },
+        {
+          "id": "@xream.sub_store_mega.prefix",
+          "name": "节点名前缀",
+          "val": "",
+          "type": "text",
+          "desc": "默认为空. 例 [免流骚机场]"
+        },
+        {
+          "id": "@xream.sub_store_mega.suffix",
+          "name": "节点名后缀",
+          "val": "",
+          "type": "text",
+          "desc": "默认为空. 例 [全国停机]"
+        },
+        {
+          "id": "@xream.sub_store_mega.host",
+          "name": "Host 混淆",
+          "val": "",
+          "type": "text",
+          "desc": "默认为空 不修改. 例 a.189.cn"
+        },
+        {
+          "id": "@xream.sub_store_mega.hostPrefix",
+          "name": "为修改了 Host 的节点名添加前缀",
+          "val": "",
+          "type": "text",
+          "desc": "默认为空"
+        },
+        {
+          "id": "@xream.sub_store_mega.hostSuffix",
+          "name": "为修改了 Host 的节点名添加后缀",
+          "val": "",
+          "type": "text",
+          "desc": "默认为空. 例 [微博混淆]"
+        },
+        {
+          "id": "@xream.sub_store_mega.path",
+          "name": "Path 路径",
+          "val": "",
+          "type": "text",
+          "desc": "默认为空 不修改. 例 /TS/recharge/tzUrl.html"
+        },
+        {
+          "id": "@xream.sub_store_mega.pathPrefix",
+          "name": "为修改了 Path 的节点名添加前缀",
+          "val": "",
+          "type": "text",
+          "desc": "默认为空"
+        },
+        {
+          "id": "@xream.sub_store_mega.pathSuffix",
+          "name": "为修改了 Path 的节点名添加后缀",
+          "val": "",
+          "type": "text",
+          "desc": "默认为空. 例 [广停路径]"
+        },
+        {
+          "id": "@xream.sub_store_mega.network",
+          "name": "Network 网络(所谓的 vmess tcp 加混淆应该为 http)",
+          "type": "text",
+          "desc": "默认为空 不修改. 例 ws"
+        },
+        {
+          "id": "@xream.sub_store_mega.networkPrefix",
+          "name": "为节点名添加 network 前缀",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认禁用"
+        },
+        {
+          "id": "@xream.sub_store_mega.networkSuffix",
+          "name": "为节点名添加 network 后缀",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认禁用. 例: [WS]"
+        },
+        {
+          "id": "@xream.sub_store_mega.port",
+          "name": "端口",
+          "val": "",
+          "type": "number",
+          "desc": "默认为空 不修改. 例 443"
+        },
+        {
+          "id": "@xream.sub_store_mega.sort",
+          "name": "排序",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认禁用. 脚本内部有一个我自用的根据节点名排序的逻辑 随时可能更改"
+        },
+        {
+          "id": "@xream.sub_store_mega.resolve",
+          "name": "域名 转 IP",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认禁用. 使用 ip-api.com 解析域名"
+        },
+        {
+          "id": "@xream.sub_store_mega.ipPrefix",
+          "name": "为 IP 节点添加前缀",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认禁用"
+        },
+        {
+          "id": "@xream.sub_store_mega.ipSuffix",
+          "name": "为 IP 节点添加后缀",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认禁用. 例 [1.1.1.1]"
+        },
+        {
+          "id": "@xream.sub_store_mega.sleep",
+          "name": "域名解析等待时间(单位 秒)",
+          "val": 1.5,
+          "type": "number",
+          "desc": "因为 API 有频次限制 默认每次查询间隔 1.5 秒"
+        },
+        {
+          "id": "@xream.sub_store_mega.expire",
+          "name": "域名解析结果缓存时间(单位 秒)",
+          "val": 1800,
+          "type": "number",
+          "desc": "默认 1800 秒(30 分钟). 若 <= 0 则不缓存"
+        },
+        {
+          "id": "@xream.sub_store_mega.cacheMaxSize",
+          "name": "域名解析结果缓存最大数",
+          "val": 100,
+          "type": "number",
+          "desc": "默认 100"
+        },
+        {
+          "id": "@xream.sub_store_mega.notifyOnSuccessDisabled",
+          "name": "禁用成功后的通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认会在成功后发送通知"
+        },
+        {
+          "id": "@xream.sub_store_mega.mock",
+          "name": "⚠️ 模拟域名解析 请勿自己开启",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认禁用. 启用后不会在线解析, 模拟结果为随机 IP"
+        },
+        {
+          "id": "@xream.sub_store_mega.clearCache",
+          "name": "⚠️ 下次清除缓存",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认禁用. 启用后下次将清除缓存, 然后自动禁用"
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sub-store-scripts/mega/assets/icon.png",
+        "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sub-store-scripts/mega/assets/icon.png"
+      ]
+    },
+    {
       "id": "xream.gist",
       "name": "Gist 备份",
       "descs_html": [
