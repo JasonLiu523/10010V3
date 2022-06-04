@@ -31,7 +31,7 @@ $.setdata(new Date().toLocaleString('zh'), KEY_INITED)
       },
     })
     // console.log(res)
-    const status = $.lodash_get(res, 'status')
+    const status = $.lodash_get(res, 'status') || $.lodash_get(res, 'statusCode') || 200
     console.log('↓ res status')
     console.log(status)
     let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
@@ -79,7 +79,7 @@ $.setdata(new Date().toLocaleString('zh'), KEY_INITED)
       }),
     })
     // console.log(res)
-    const status = $.lodash_get(res, 'status')
+    const status = $.lodash_get(res, 'status') || $.lodash_get(res, 'statusCode') || 200
     console.log('↓ res status')
     console.log(status)
     let resBody = String($.lodash_get(res, 'body') || $.lodash_get(res, 'rawBody'))
