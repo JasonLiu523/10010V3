@@ -386,7 +386,7 @@ function setPath(p, path) {
     } else if (p.network === 'h2') {
       $.lodash_set(p, 'h2-opts.path', path)
     } else if (p.network === 'http') {
-      $.lodash_set(p, 'http-opts.path', path)
+      $.lodash_set(p, 'http-opts.path', [path])
     } else if (p.network) {
       $.lodash_set(p, `${p.network}-opts.path`, path)
     }
@@ -415,7 +415,7 @@ function setNetwork(p, network) {
     } else if (p.network === 'h2') {
       pathOpt = $.lodash_get(p, 'h2-opts.path')
     } else if (p.network === 'http') {
-      pathOpt = $.lodash_get(p, 'http-opts.path')
+      pathOpt = $.lodash_get(p, 'http-opts.path.0')
     } else if (p.network) {
       pathOpt = $.lodash_get(p, `${p.network}-opts.path`)
     }
