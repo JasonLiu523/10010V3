@@ -12,7 +12,7 @@
 
 - [🐞⚠️ bug 警告] 设置 `Path 路径`, 修改 `Network 网络类型`
 
-> ⚠️ Sub-Store 目前输出的非 WS 节点不会有混淆 建议先筛选 WS 节点, 防止用上没免流混淆的节点. ⚠️
+> ⚠️ Sub-Store 对非 ws 支持不完整. 但你可以设置一个新 host 和 path ⚠️
 
 - 节点名/Host/Path/Network/IP 的前缀/后缀
 

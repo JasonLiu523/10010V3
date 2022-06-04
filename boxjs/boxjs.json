@@ -118,7 +118,7 @@
           "id": "@xream.sub_store_mega.network",
           "name": "Network 网络(所谓的 vmess tcp 加混淆应该为 http)",
           "type": "text",
-          "desc": "⚠️ Sub-Store 目前输出的非 WS 节点不会有混淆 建议先筛选 WS 节点, 防止用上没免流混淆的节点. ⚠️ 默认为空 不修改. 例 ws"
+          "desc": "⚠️ Sub-Store 对非 ws 支持不完整. 但你可以设置一个新 host 和 path ⚠️ 默认为空 不修改. 例 ws"
         },
         {
           "id": "@xream.sub_store_mega.defaultNetworkPath",

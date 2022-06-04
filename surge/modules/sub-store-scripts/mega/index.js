@@ -231,7 +231,8 @@ async function resolveServer(p) {
             if (status !== 0) {
               throw new Error(`${resolver} ${p.server} 请求 ${resStatus} ${status}`)
             }
-            ip = $.lodash_get(body, 'Answer.0.data')
+            const answers = $.lodash_get(body, 'Answer') || []
+            ip = $.lodash_get(answers, `${answers.length-1}.data`)
             console.log('↓ ip')
             console.log(ip)
             if (!isIPV4(ip)) {
@@ -284,7 +285,8 @@ async function resolveServer(p) {
               throw new Error(`${resolver} ${p.server} 请求 ${resStatus} ${status}`)
               // throw new Error(`${p.server} 请求 ${status} ${$.lodash_get(body, 'message') || '未知错误'}`)
             }
-            ip = $.lodash_get(body, 'Answer.0.data')
+            const answers = $.lodash_get(body, 'Answer') || []
+            ip = $.lodash_get(answers, `${answers.length-1}.data`)
             console.log('↓ ip')
             console.log(ip)
             if (!isIPV4(ip)) {
