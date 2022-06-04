@@ -134,7 +134,7 @@ async function main(proxies) {
     }
   }
 
-  return result.sort((a, b) => b.sort - a.sort)
+  return result.sort((a, b) => b._sort - a._sort)
 }
 
 async function proxyHander(p) {
@@ -352,7 +352,7 @@ function sort(p) {
   //  if(name.startsWith('国内') && name.includes('内蒙') && name.includes('香港')){
   //    sort = 7
   //  }
-  p.sort = sort
+  p._sort = sort
   return p
 }
 function setHost(p, host) {
@@ -372,8 +372,8 @@ function setHost(p, host) {
     } else if (p.network) {
       $.lodash_set(p, `${p.network}-opts.headers.Host`, [host])
     }
-    if (p.network && !p.hostSet) {
-      p.hostSet = true
+    if (p.network && !p._hostSet) {
+      p._hostSet = true
       p = setName(p, hostPrefix ? hostPrefix : '', hostSuffix ? hostSuffix : '')
     }
   }
@@ -390,15 +390,15 @@ function setPath(p, path) {
     } else if (p.network) {
       $.lodash_set(p, `${p.network}-opts.path`, path)
     }
-    if (p.network && !p.pathSet) {
-      p.pathSet = true
+    if (p.network && !p._pathSet) {
+      p._pathSet = true
       p = setName(p, pathPrefix ? pathPrefix : '', pathSuffix ? pathSuffix : '')
     }
   }
   return p
 }
 function setNetwork(p, network) {
-  if (['vmess', 'vless'].includes(p.type) && p.network) {
+  if (['vmess', 'vless'].includes(p.type)) {
     let hostOpt
     if (p.network === 'ws') {
       hostOpt = $.lodash_get(p, 'ws-opts.headers.Host')
@@ -421,8 +421,12 @@ function setNetwork(p, network) {
     }
     delete p[`${p.network}-opts`]
     p.network = network
-    setHost(p, hostOpt)
-    setPath(p, pathOpt)
+    if (hostOpt) {
+      setHost(p, hostOpt)
+    }
+    if (pathOpt) {
+      setPath(p, pathOpt)
+    }
   }
   return p
 }
