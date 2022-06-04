@@ -406,23 +406,24 @@ ${pkgs.join('\n')}
   if (durationFree < 0 || durationRemain < 0) {
     console.log(`流量变化 < 0 可能是什么包失效了(比如月初)或者联通接口问题 本次不发送`)
   } else {
-    if (durationFree >= ignoreFlow || durationRemain >= ignoreFlow) {
-      if (!remainFlowOnly || durationRemain > 0) {
-        if ($.isRequest() && requestNotifyDisabled) {
-          console.log(`禁用作为请求脚本使用时的通知`)
-        } else if ($.isPanel() && panelNotifyDisabled) {
-          console.log(`禁用作为 panel 脚本使用时的通知`)
-        } else if (notifyDisabled) {
-          console.log(`禁用通知`)
-        } else {
-          console.log(`通知`)
+     if (notifyDisabled) {
+      console.log(`禁用通知`)
+    } else if ($.isRequest() && requestNotifyDisabled) {
+      console.log(`禁用作为请求脚本使用时的通知`)
+    } else if ($.isPanel() && panelNotifyDisabled) {
+      console.log(`禁用作为 panel 脚本使用时的通知`)
+    } else {
+      if (durationFree >= ignoreFlow || durationRemain >= ignoreFlow) {
+        if (!remainFlowOnly || (remainFlowOnly && durationRemain >= ignoreFlow)) {
+          console.log(`未设置当前时间段内无*非免流*不通知, 或 设置了且跳>=阈值`)
+          console.log(`🔔🔔🔔 通知`)
           notify(msg.title, msg.subtitle, msg.body)
+        } else {
+          console.log(`当前时间段内无*非免流*, 不通知`)
         }
       } else {
-        console.log(`当前时间段内无*非免流*, 不通知`)
+        console.log(`小于流量变化忽略阈值, 不通知`);
       }
-    } else {
-      console.log(`小于流量变化忽略阈值, 不通知`)
     }
   }
 }
@@ -610,6 +611,9 @@ function round(...args) {
   return createRound('round')(...args)
 }
 function formatFlow(number, precision) {
+  if (!Number.isFinite(Number.parseFloat(number))) {
+    return '0M'
+  }
   if (number < 1024) {
     return round(number, precision) + 'M'
   }
