@@ -25,6 +25,7 @@
         "@xream.sub_store_mega.pathPrefix",
         "@xream.sub_store_mega.pathSuffix",
         "@xream.sub_store_mega.network",
+        "@xream.sub_store_mega.defaultNetworkPath",
         "@xream.sub_store_mega.networkPrefix",
         "@xream.sub_store_mega.networkSuffix",
         "@xream.sub_store_mega.port",
@@ -118,6 +119,13 @@
           "name": "Network 网络(所谓的 vmess tcp 加混淆应该为 http)",
           "type": "text",
           "desc": "默认为空 不修改. 例 ws"
+        },
+        {
+          "id": "@xream.sub_store_mega.defaultNetworkPath",
+          "name": "设置 Network 网络时 默认的 Path 路径",
+          "val": "/",
+          "type": "text",
+          "desc": "原始数据无 path 时, 默认设置为 / "
         },
         {
           "id": "@xream.sub_store_mega.networkPrefix",

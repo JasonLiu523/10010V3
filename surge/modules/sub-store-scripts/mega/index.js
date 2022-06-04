@@ -7,6 +7,7 @@ const KEY_TITLE = `@xream.${key}.title`
 const KEY_HOST = `@xream.${key}.host`
 const KEY_PATH = `@xream.${key}.path`
 const KEY_NETWORK = `@xream.${key}.network`
+const KEY_DEFAULT_NETWORK_PATH = `@xream.${key}.defaultNetworkPath`
 const KEY_PREFIX = `@xream.${key}.prefix`
 const KEY_SUFFIX = `@xream.${key}.suffix`
 const KEY_PORT = `@xream.${key}.port`
@@ -37,6 +38,8 @@ const host = $.getdata(KEY_HOST)
 const pathOpt = $.getdata(KEY_PATH)
 /* network */
 const network = $.getdata(KEY_NETWORK)
+/* network */
+const defaultNetworkPath = $.getdata(KEY_DEFAULT_NETWORK_PATH) || '/'
 /* 节点名前缀 */
 const prefix = $.getdata(KEY_PREFIX)
 /* 节点名后缀 */
@@ -138,6 +141,10 @@ async function main(proxies) {
 }
 
 async function proxyHander(p) {
+  /* network */
+  if (network) {
+    p = setNetwork(p, network)
+  }
   /* 混淆 */
   if (host) {
     p = setHost(p, host)
@@ -146,10 +153,7 @@ async function proxyHander(p) {
   if (pathOpt) {
     p = setPath(p, pathOpt)
   }
-  /* network */
-  if (network) {
-    p = setNetwork(p, network)
-  }
+
 
   /* 设置端口 */
   if (port) {
@@ -356,7 +360,7 @@ function sort(p) {
   return p
 }
 function setHost(p, host) {
-  if (['vmess', 'vless'].includes(p.type) && p.network) {
+  if (['vmess', 'vless'].includes(p.type)) {
     /* 把 非 server 的部分都设置为 host */
     /* skip-cert-verify 在这里设为 true 有需求就再加一个节点操作吧 */
     p['skip-cert-verify'] = true
@@ -380,7 +384,7 @@ function setHost(p, host) {
   return p
 }
 function setPath(p, path) {
-  if (['vmess', 'vless'].includes(p.type) && p.network) {
+  if (['vmess', 'vless'].includes(p.type)) {
     if (p.network === 'ws') {
       $.lodash_set(p, 'ws-opts.path', path)
     } else if (p.network === 'h2') {
@@ -424,9 +428,7 @@ function setNetwork(p, network) {
     if (hostOpt) {
       setHost(p, hostOpt)
     }
-    if (pathOpt) {
-      setPath(p, pathOpt)
-    }
+    setPath(p, pathOpt || defaultNetworkPath)
   }
   return p
 }
