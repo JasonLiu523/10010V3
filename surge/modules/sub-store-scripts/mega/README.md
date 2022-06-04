@@ -12,6 +12,8 @@
 
 - [🐞⚠️ bug 警告] 设置 `Path 路径`, 修改 `Network 网络类型`
 
+> ⚠️ Sub-Store 目前输出的非 WS 节点不会有混淆 建议先筛选 WS 节点, 防止用上没免流混淆的节点. ⚠️
+
 - 节点名/Host/Path/Network/IP 的前缀/后缀
 
 <table>
