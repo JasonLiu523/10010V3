@@ -53,6 +53,12 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 ## 使用脚本参数配置
 
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/8.png"></td>
+  </tr>
+</table>
+
 引用格式如下：
 
 例 设置 Host 混淆为 `a.189.cn`, 为修改了 Host 的节点名添加后缀 `[北停]`, 开启 `域名转 IP`
