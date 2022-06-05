@@ -18,6 +18,10 @@
 
 <table>
   <tr>
+    <td valign="top"><img src="screenshots/10.png"></td>
+    <td valign="top"><img src="screenshots/9.png"></td>
+  </tr>
+  <tr>
     <td valign="top"><img src="screenshots/7.png"></td>
     <td valign="top"><img src="screenshots/1.png"></td>
   </tr>
