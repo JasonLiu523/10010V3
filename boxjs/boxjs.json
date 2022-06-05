@@ -46,7 +46,7 @@
       "settings": [
         {
           "id": "@xream.sub_store_mega.disabled",
-          "name": "禁用",
+          "name": "是否禁用",
           "val": false,
           "type": "boolean",
           "desc": "禁用后将返回原始节点数据"
@@ -132,14 +132,14 @@
           "name": "为节点名添加 network 前缀",
           "val": false,
           "type": "boolean",
-          "desc": "默认禁用"
+          "desc": "默认为空"
         },
         {
           "id": "@xream.sub_store_mega.networkSuffix",
           "name": "为节点名添加 network 后缀",
           "val": false,
           "type": "boolean",
-          "desc": "默认禁用. 例: [WS]"
+          "desc": "默认为空. 例: [WS]"
         },
         {
           "id": "@xream.sub_store_mega.port",
