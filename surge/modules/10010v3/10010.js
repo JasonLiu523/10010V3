@@ -92,7 +92,7 @@ const detail = {}
 })()
   .catch(e => {
     console.log(e)
-    notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || e}`, {})
+    notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || $.lodash_get(e, 'error') || e}`, {})
   })
   .finally(() => {
     if ($.isV2p()) {
@@ -126,7 +126,7 @@ async function query({ cookie }) {
     body = JSON.parse(body)
   } catch (e) {}
   $.log('↓ res body')
-  console.log(body)
+  console.log($.toStr(body))
   if ($.lodash_get(body, 'code') !== '0000') {
     if (String(body) === '999999' || String(body) === '999998') {
       throw new Error('Cookie 无效')
@@ -479,13 +479,13 @@ async function notify(title, subtitle, body) {
           resBody = JSON.parse(resBody)
         } catch (e) {}
         $.log('↓ res body')
-        console.log(resBody)
+        console.log($.toStr(resBody))
         if ($.lodash_get(resBody, 'code') !== 200) {
           throw new Error($.lodash_get(resBody, 'message') || '未知错误')
         }
       } catch (e) {
         console.log(e)
-        $.msg(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌ bark 请求`, `${$.lodash_get(e, 'message') || e}`, {})
+        $.msg(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌ bark 请求`, `${$.lodash_get(e, 'message') || $.lodash_get(e, 'error') || e}`, {})
       }
     }
 
@@ -527,7 +527,7 @@ async function info({ cookie }) {
     body = JSON.parse(body)
   } catch (e) {}
   $.log('↓ res body')
-  console.log(body)
+  console.log($.toStr(body))
   if ($.lodash_get(body, 'code') !== 'Y') {
     if (String(body) === '999999' || String(body) === '999998') {
       throw new Error('Cookie 无效')
@@ -565,7 +565,7 @@ async function sign({ mobile, password, appId }) {
     body = JSON.parse(body)
   } catch (e) {}
   $.log('↓ res body')
-  console.log(body)
+  console.log($.toStr(body))
   if ($.lodash_get(body, 'code') !== '0') {
     throw new Error($.lodash_get(body, 'dsc') || '未知错误')
   }
