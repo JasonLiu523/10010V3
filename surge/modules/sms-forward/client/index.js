@@ -36,7 +36,7 @@ socket.on('event', async (data) => {
       }),
       actions: [copyBtn]
     },  async (error, response, metadata) => {
-      console.log(response, metadata);
+      // console.log(response, metadata);
       if (response === 'activate' && _.get(metadata, 'activationValue') === copyBtn) {
         await copyNotify()
       }
@@ -51,7 +51,7 @@ socket.on('event', async (data) => {
       actions: [fullBtn],
       
     },  async (error, response, metadata) => {
-      console.log(response, metadata);
+      // console.log(response, metadata);
       if (response === 'activate' && _.get(metadata, 'activationValue') === fullBtn) {
         await fullNotify()
       }
