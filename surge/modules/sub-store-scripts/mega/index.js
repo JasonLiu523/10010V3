@@ -319,18 +319,20 @@ function sort(p) {
   } else if (p.name.startsWith('国内')) {
     // 国内开头 排默认排序的下面
     sort = -1
-  } else if (p.name.includes('香港2')) {
+  } else if (p.name.includes('香港6')) {
     // 含关键词的排上面
     sort = 20
-  } else if (p.name.includes('香港7')) {
+  } else if (p.name.includes('香港2')) {
     sort = 19
-  } else if (p.name.includes('香港3')) {
-    sort = 19
-  } else if (p.name.includes('香港1')) {
-    sort = 18
-  } else if (p.name.includes('香港')) {
-    sort = 15
   } else if (p.name.includes('韩国')) {
+    sort = 18
+  } else if (p.name.includes('香港4')) {
+    sort = 17
+  } else if (p.name.includes('香港3')) {
+    sort = 16
+  } else if (p.name.includes('孟买')) {
+    sort = 15
+  } else if (p.name.includes('香港')) {
     sort = 14
   } else if (p.name.includes('日本')) {
     sort = 13

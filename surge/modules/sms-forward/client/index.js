@@ -8,11 +8,12 @@ const io = require('socket.io-client')
 const {SERVER, MAX_LENGTH } = process.env
 const socket = io.connect(
   SERVER,
-  { reconnect: true }
+  { reconnect: true,  transports: [ 'websocket', 'polling' ]  }
 )
 
-socket.on('connect', function (socket) {
-  console.log('Connected!')
+socket.on('connect',  () => {
+  const engine = socket.io.engine;
+  console.log(`Connected! ${engine.transport.name}`)
 })
 socket.on('event', async (data) => {
   const { default: clipboardy } = await import('clipboardy')
@@ -63,9 +64,9 @@ socket.on('event', async (data) => {
   }
 })
 
-socket.on('disconnect', function () {
+socket.on('disconnect',  () => {
   console.log(`disconnect`)
 })
-socket.on('error', function (e) {
+socket.on('error', e => {
   console.error(`error`, e)
 })
