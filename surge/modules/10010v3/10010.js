@@ -318,7 +318,8 @@ async function query({ cookie }) {
   console.log(detail)
   const resourcesDetails = $.lodash_get(detail, 'resources.resources.details')
   const unsharedDetails = $.lodash_get(detail, 'resources.unshared.details')
-  if ((!Array.isArray(resourcesDetails) || resourcesDetails.length === 0) && (!Array.isArray(unsharedDetails) || unsharedDetails.length === 0)) {
+  const rzbresourcesDetails = $.lodash_get(detail, 'resources.rzbresources.details')
+  if ((!Array.isArray(resourcesDetails) || resourcesDetails.length === 0) && (!Array.isArray(unsharedDetails) || unsharedDetails.length === 0) && (!Array.isArray(rzbresourcesDetails) || rzbresourcesDetails.length === 0)) {
     console.log(`联通未返回包数据 正常情况 习惯就好 🔚`)
     return
   }
