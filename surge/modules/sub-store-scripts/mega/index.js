@@ -315,16 +315,16 @@ function sort(p) {
   } else if (p.name.startsWith('国内')) {
     // 国内开头 排默认排序的下面
     sort = -1
-  } else if (p.name.includes('香港6')) {
+  } else if (p.name.includes('韩国')) {
     // 含关键词的排上面
     sort = 20
-  } else if (p.name.includes('香港2')) {
+  } else if (p.name.includes('香港6')) {
     sort = 19
-  } else if (p.name.includes('韩国')) {
-    sort = 18
   } else if (p.name.includes('香港4')) {
-    sort = 17
+    sort = 18
   } else if (p.name.includes('香港3')) {
+    sort = 17
+  } else if (p.name.includes('香港2')) {
     sort = 16
   } else if (p.name.includes('孟买')) {
     sort = 15
