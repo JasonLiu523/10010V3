@@ -165,8 +165,9 @@ hostname = smartgate.ywtbsupappw.sh.gov.cn, pcr.json
 
 <table>
   <tr>
-    <td valign="top"><img src="screenshots/5.jpg"></td>
-    <td valign="top"><img src="screenshots/14.PNG"></td>
+    <td valign="top"><img src="screenshots/6.jpeg"></td>
+    <td valign="top"><img src="screenshots/4.jpg"></td>
+    <td valign="top"><img src="screenshots/7.PNG"></td>
   </tr>
  </table>
 ```
