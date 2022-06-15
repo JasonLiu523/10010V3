@@ -142,6 +142,8 @@ BoxJs 的缓存数据是由定时任务更新的
 
 此处用到了 Scriptable 的 [WidgetDate](https://docs.scriptable.app/widgetdate/) 为真实时时间
 
+> 未适配中/大组件
+
 ### 如何配置获取实时数据
 
 请求 `http(s)://pcr.json` 接口, 直接返回信息.
