@@ -45,18 +45,19 @@ let isPcrJSON
       $.log('ℹ️ 是 pcr.json')
       isPcrJSON = true
 
-      result = { pcr: await getPcr() }
+      result = { pcr: await pcr() }
     } else if (/https?:\/\/smartgate\.ywtbsupappw\.sh\.gov\.cn\/ebus\/swift\/mw\/v1/.test(url)) {
       $.log('ℹ️ 是抓包')
       if (!headers || !body) {
         throw new Error('未获取到 headers/body')
       }
-      $.setjson({ headers, body }, KEY_MW)
+      const mwOpts = $.getjson(KEY_MW) || {}
+      $.setjson({ ...mwOpts, headers, body }, KEY_MW)
       await notify(`核酸报告`, `✅ 获取到 headers/body`, `已保存`)
     }
   } else {
     $.log('ℹ️ 不是 request')
-    await getPcr()
+    await pcr()
   }
 })()
   .catch(async e => {
@@ -84,7 +85,7 @@ let isPcrJSON
         : result
     )
   })
-async function getPcr() {
+async function getMw() {
   let mw
   try {
     console.log(`① 开始获取 mw`)
@@ -96,11 +97,15 @@ async function getPcr() {
     if (!mwHeaders || !mwBody) {
       throw new Error('无 headers/body 请先打开随申办微信小程序')
     }
-    const mwRes = await $.http.post({
+    if ($.isNode()) {
+      mwHeaders['Content-Type'] = 'application/json'
+    }
+    let mwRes = await $.http.post({
       url: `https://smartgate.ywtbsupappw.sh.gov.cn/ebus/swift/mw/v1`,
       headers: mwHeaders,
-      body: JSON.parse(mwBody),
+      body: $.isNode() ? mwBody : JSON.parse(mwBody),
     })
+
     const mwResStatus = $.lodash_get(mwRes, 'status') || $.lodash_get(mwRes, 'statusCode') || 200
     $.log('↓ res status', mwResStatus)
     let mwResBody = String($.lodash_get(mwRes, 'body'))
@@ -109,9 +114,9 @@ async function getPcr() {
     } catch (e) {}
     $.log('↓ res body', $.toStr(mwResBody))
     mw = $.lodash_get(mwResBody, 'data')
-    if (!mw) {
+    if (String($.lodash_get(mwResBody, 'code')) !== '200' || !mw) {
       throw new Error(
-        $.lodash_get(mwResBody, 'desc') ||
+        [$.lodash_get(mwResBody, 'desc'), $.lodash_get(mwResBody, 'data')].filter(i => i != null).join('; ') ||
           $.lodash_get(mwResBody, 'error') ||
           $.lodash_get(mwResBody, 'message') ||
           '未知错误'
@@ -119,11 +124,16 @@ async function getPcr() {
     }
     $.log('✅ 获取到 mw', mw)
     // await notify(`核酸报告`, `✅ 获取到 mw`, mw)
+    $.setjson({ ...mwOpts, mw }, KEY_MW)
+    return mw
   } catch (e) {
-    console.log(e)
+    $.log(e)
+    $.log($.toStr(e))
+    $.log('可尝试打开随申办微信小程序 重新抓包')
     throw new Error(`获取 mw 失败: ${$.lodash_get(e, 'message') || e}`)
   }
-  let pcrResBody
+}
+async function getPcr({ mw }) {
   try {
     console.log(`② 开始获取报告`)
     const pcrRes = await $.http.post({
@@ -134,7 +144,7 @@ async function getPcr() {
     })
     const pcrResStatus = $.lodash_get(pcrRes, 'status') || $.lodash_get(pcrRes, 'statusCode') || 200
     $.log('↓ res status', pcrResStatus)
-    pcrResBody = String($.lodash_get(pcrRes, 'body'))
+    let pcrResBody = String($.lodash_get(pcrRes, 'body'))
     try {
       pcrResBody = JSON.parse(pcrResBody)
     } catch (e) {}
@@ -149,12 +159,32 @@ async function getPcr() {
       )
     }
     // await notify(`核酸报告`, `✅ 获取到 pcr`, pcr)
+    return pcrResBody
   } catch (e) {
-    console.log(e)
+    $.log(e)
+    $.log($.toStr(e))
     throw new Error(`获取 pcr 失败: ${$.lodash_get(e, 'message') || e}`)
   }
+}
+async function pcr() {
+  const mwOpts = $.getjson(KEY_MW) || {}
 
-  let latestPcr = $.lodash_get(pcrResBody, 'data.0')
+  let mw = $.lodash_get(mwOpts, 'mw')
+
+  let pcr
+  if (mw) {
+    $.log('使用缓存的 mw', mw)
+    try {
+      pcr = await getPcr({ mw })
+    } catch (e) {}
+  }
+  if (!pcr) {
+    $.log('使用最新的 mw', mw)
+    mw = await getMw()
+    pcr = await getPcr({ mw })
+  }
+
+  let latestPcr = $.lodash_get(pcr, 'data.0')
   let latestSampleDate = $.lodash_get(latestPcr, 'sample_date')
   let latestReportDate = $.lodash_get(latestPcr, 'report_date')
 
@@ -164,7 +194,7 @@ async function getPcr() {
 
   if (!reportedReportDate) {
     $.log('没有检测时间 应该是检测中 使用上一次')
-    reportedPcr = $.lodash_get(pcrResBody, 'data.1')
+    reportedPcr = $.lodash_get(pcr, 'data.1')
     reportedSampleDate = $.lodash_get(reportedPcr, 'sample_date')
     reportedReportDate = $.lodash_get(reportedPcr, 'report_date')
   } else {
@@ -196,11 +226,11 @@ async function getPcr() {
       body: renderTpl(bodyTpl, msgData),
     }
 
-    pcrResBody.msg = msg
-    pcrResBody.msgData = msgData
-    pcrResBody.reportedPcr = reportedPcr
+    pcr.msg = msg
+    pcr.msgData = msgData
+    pcr.reportedPcr = reportedPcr
     if (!latestReportDate) {
-      pcrResBody.latestPcr = latestPcr
+      pcr.latestPcr = latestPcr
     }
     // if (totalDiffHours <= alertHours) {
     //   $.log(`剩余有效期小于等于 ${alertHours}, 发送通知`)
@@ -221,15 +251,15 @@ async function getPcr() {
     //     $.log('不发送通知')
     //   }
     // }
-    $.setjson(pcrResBody, KEY_PCR)
-    $.log('pcrResBody', $.toStr(pcrResBody))
+    $.setjson(pcr, KEY_PCR)
+    $.log('pcrResBody', $.toStr(pcr))
     $.log('通知预览', msg.title, msg.subtitle, msg.body)
     const requestNotifyDisabled = $.getdata(KEY_REQUEST_NOTIFY_DISABLED)
 
     if (String(requestNotifyDisabled) !== 'true') {
       notify(msg.title, msg.subtitle, msg.body)
     }
-    return pcrResBody
+    return pcr
   }
 }
 async function notify(title, subtitle, body) {
@@ -256,7 +286,8 @@ async function notify(title, subtitle, body) {
           throw new Error($.lodash_get(resBody, 'message') || $.lodash_get(resBody, 'msg') || '未知错误')
         }
       } catch (e) {
-        console.log(e)
+        $.log(e)
+        $.log($.toStr(e))
         $.msg('核酸报告', `❌ PushDeer 请求`, `${$.lodash_get(e, 'message') || $.lodash_get(e, 'error') || e}`, {})
       }
     }
@@ -281,7 +312,8 @@ async function notify(title, subtitle, body) {
           throw new Error($.lodash_get(resBody, 'message') || $.lodash_get(resBody, 'msg') || '未知错误')
         }
       } catch (e) {
-        console.log(e)
+        $.log(e)
+        $.log($.toStr(e))
         $.msg('核酸报告', `❌ bark 请求`, `${$.lodash_get(e, 'message') || $.lodash_get(e, 'error') || e}`, {})
       }
     }
