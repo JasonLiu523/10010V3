@@ -11,9 +11,9 @@ const KEY_ALERT_HOURS = `${namespace}.${key}.alertHours`
 const KEY_ALERT_TIME = `${namespace}.${key}.alertTime`
 const KEY_BARK = `${namespace}.${key}.bark`
 const KEY_PUSHDEER = `${namespace}.${key}.pushdeer`
-const KEY_TITLE = `@${namespace}.10010.title`
-const KEY_SUBTITLE = `@${namespace}.10010.subtitle`
-const KEY_BODY = `@${namespace}.10010.body`
+const KEY_TITLE = `@${namespace}.${key}.title`
+const KEY_SUBTITLE = `@${namespace}.${key}.subtitle`
+const KEY_BODY = `@${namespace}.${key}.body`
 const KEY_REQUEST_NOTIFY_DISABLED = `${namespace}.${key}.requestNotifyDisabled`
 
 const expireHours = $.getdata(KEY_EXPIRE_HOURS) || 72
