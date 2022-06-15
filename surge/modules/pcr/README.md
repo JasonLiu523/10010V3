@@ -15,7 +15,12 @@
 <table>
   <tr>
     <td valign="top"><img src="screenshots/4.jpg"></td>
+    <td valign="top"><img src="screenshots/8.jpeg"></td>
     <td valign="top"><img src="screenshots/5.jpg"></td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="screenshots/1.gif"></td>
+    <td valign="top"><img src="screenshots/2.gif"></td>
   </tr>
 </table>
 
@@ -115,7 +120,7 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 可在 BoxJs 里设置 `Bark/自建服务端等` 为 `https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fpcr%2Fasset%2Ficon.png&copy=[复制内容]&sound=shake&level=timeSensitive`
 
-`[推送标题]` `[推送内容]` `[复制内容]` 会被自动替换. 其他参数请参考 Bark 的设置说明.
+`[推送标题]` `[推送内容]` 会被自动替换. 其他参数请参考 Bark 的设置说明.
 
 > 聪明的你一定能看懂吧
 
@@ -132,6 +137,10 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 ### 缓存数据的有效性/实时性
 
 BoxJs 的缓存数据是由定时任务更新的
+
+但是会根据缓存中的最近一次已出检测结果的采样时间和 BoxJs 配置中的有效时长展示剩余有效时间
+
+此处用到了 Scriptable 的 [WidgetDate](https://docs.scriptable.app/widgetdate/) 为真实时时间
 
 ### 如何配置获取实时数据
 
@@ -166,6 +175,10 @@ hostname = smartgate.ywtbsupappw.sh.gov.cn, pcr.json
 [PCR.js](https://raw.githubusercontent.com/xream/scripts/main/scriptable/pcr/PCR.js)
 
 <table>
+  <tr>
+    <td valign="top"><img src="screenshots/1.gif"></td>
+    <td valign="top"><img src="screenshots/2.gif"></td>
+  </tr>
   <tr>
     <td valign="top"><img src="screenshots/6.jpeg"></td>
     <td valign="top"><img src="screenshots/4.jpg"></td>
