@@ -129,7 +129,9 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 原理: 优先从 `http(s)://pcr.json` 获取实时数据, 如果失败则从 `http://boxjs.net/query/boxdata` 获取缓存数据.
 
-boxjs 的缓存数据是由定时任务更新的
+### 缓存数据的有效性/实时性
+
+BoxJs 的缓存数据是由定时任务更新的
 
 ### 如何配置获取实时数据
 

@@ -82,11 +82,11 @@
           "desc": "[推送全文] 会被自动替换. 形如 https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX&text=[推送全文]"
         },
         {
-          "id": "@xream.10010.requestNotifyDisabled",
+          "id": "@xream.pcr.requestNotifyDisabled",
           "name": "禁用作为请求脚本使用时的通知",
           "val": false,
           "type": "boolean",
-          "desc": "默认启用"
+          "desc": "默认禁用"
         },
         {
           "id": "@xream.pcr.pcr",
