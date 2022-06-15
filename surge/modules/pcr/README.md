@@ -12,6 +12,13 @@
 
 🚀 支持 Scriptable 小组件
 
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/4.jpg"></td>
+    <td valign="top"><img src="screenshots/5.jpg"></td>
+  </tr>
+</table>
+
 ## 直接使用 Surge 模块
 
 > 默认每天早上 8 点推送 若要自定义 参考下面的配置 自己修改 cron 的部分
