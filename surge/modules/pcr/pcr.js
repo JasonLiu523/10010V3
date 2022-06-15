@@ -191,6 +191,7 @@ async function pcr() {
   let reportedPcr = latestPcr
   let reportedSampleDate = latestSampleDate
   let reportedReportDate = latestReportDate
+  let reportedReportTimestamp
 
   if (!reportedReportDate) {
     $.log('没有检测时间 应该是检测中 使用上一次')
@@ -203,7 +204,8 @@ async function pcr() {
     latestReportDate = undefined
   }
   if (reportedSampleDate) {
-    const diff = new Date().getTime() - new Date(reportedSampleDate.replace(/-/g, '/')).getTime()
+    reportedReportTimestamp = new Date(reportedSampleDate.replace(/-/g, '/')).getTime()
+    const diff = new Date().getTime() - reportedReportTimestamp
     const diffHours = expireHours - diff / 1000 / 3600
 
     const diffDays = Math.floor(diffHours / 24)
@@ -226,6 +228,7 @@ async function pcr() {
       body: renderTpl(bodyTpl, msgData),
     }
 
+    pcr.reportedReportTimestamp = reportedReportTimestamp
     pcr.msg = msg
     pcr.msgData = msgData
     pcr.reportedPcr = reportedPcr
