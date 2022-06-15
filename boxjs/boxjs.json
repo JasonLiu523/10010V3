@@ -15,7 +15,7 @@
       "scripts": [
         {
           "name": "手动执行",
-          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/pcr/index.js"
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/pcr/pcr.js"
         }
       ],
       "keys": [

@@ -173,7 +173,7 @@ async function getPcr() {
     latestReportDate = undefined
   }
   if (reportedSampleDate) {
-    const diff = new Date().getTime() - new Date(reportedSampleDate).getTime()
+    const diff = new Date().getTime() - new Date(reportedSampleDate.replace(/-/g, '/')).getTime()
     const diffHours = expireHours - diff / 1000 / 3600
 
     const diffDays = Math.floor(diffHours / 24)
