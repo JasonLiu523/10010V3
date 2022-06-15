@@ -86,7 +86,7 @@
           "name": "禁用作为请求脚本使用时的通知",
           "val": false,
           "type": "boolean",
-          "desc": "默认禁用"
+          "desc": "默认禁用启用"
         },
         {
           "id": "@xream.pcr.pcr",
