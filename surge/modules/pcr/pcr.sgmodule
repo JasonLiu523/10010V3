@@ -1,0 +1,12 @@
+#!name=核酸报告
+#!desc=https://github.com/xream/scripts/tree/main/surge/modules/pcr
+
+[Script]
+核酸报告-抓包 = type=http-request,pattern=https?:\/\/smartgate\.ywtbsupappw\.sh\.gov\.cn\/ebus\/swift\/mw\/v1,requires-body=1,max-size=0,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/pcr/pcr.js
+
+核酸报告-接口 = type=http-request,pattern=^https?:\/\/pcr\.json,requires-body=1,max-size=0,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/pcr/pcr.js
+
+核酸报告-定时任务 = type=cron,cronexp=0 8 * * *,timeout=30,script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/pcr/pcr.js
+
+[MITM]
+hostname = %APPEND% smartgate.ywtbsupappw.sh.gov.cn, pcr.json

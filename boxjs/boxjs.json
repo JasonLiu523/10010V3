@@ -6,6 +6,103 @@
   "repo": "https://github.com/xream/scripts/tree/main",
   "apps": [
     {
+      "id": "xream.pcr",
+      "name": "核酸报告",
+      "descs_html": [
+        "<a href=\"https://github.com/xream/scripts/tree/main/surge/modules/pcr\">查看文档</a>",
+        "<a onClick=\"window.location.reload(true);\">刷新</a>"
+      ],
+      "scripts": [
+        {
+          "name": "手动执行",
+          "script": "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/pcr/index.js"
+        }
+      ],
+      "keys": [
+        "@xream.pcr.disabled",
+        "@xream.pcr.expireHours",
+        "@xream.pcr.bark",
+        "@xream.pcr.pushdeer",
+        "@xream.pcr.title",
+        "@xream.pcr.subtitle",
+        "@xream.pcr.body",
+        "@xream.pcr.requestNotifyDisabled",
+        "@xream.pcr.pcr"
+      ],
+      "author": "@xream",
+      "repo": "https://github.com/xream/scripts/tree/main/surge/modules/pcr",
+      "settings": [
+        {
+          "id": "@xream.pcr.disabled",
+          "name": "禁用",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.pcr.expireHours",
+          "name": "有效时长(单位 小时)",
+          "val": 72,
+          "type": "number",
+          "desc": "默认 72 小时"
+        },
+        {
+          "id": "@xream.pcr.title",
+          "name": "通知标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: 核酸报告 剩余有效时间"
+        },
+        {
+          "id": "@xream.pcr.subtitle",
+          "name": "通知副标题模板",
+          "val": "",
+          "type": "text",
+          "desc": "默认: [剩余小时数] 小时, 例: 48 小时"
+        },
+        {
+          "id": "@xream.pcr.body",
+          "name": "通知正文模板",
+          "val": "",
+          "type": "textarea",
+          "desc": "默认: 检测中 [检测中的采样时间], 例: 检测中 2022-06-13 22:32:02"
+        },
+        {
+          "id": "@xream.pcr.bark",
+          "name": "转发到 Bark/自建服务端 等",
+          "val": "",
+          "type": "textarea",
+          "desc": "[推送标题], [推送内容], [复制内容] 会被自动替换. 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=sms&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fxream%2Fscripts%2Fmain%2Fsurge%2Fmodules%2Fpcr%2Fasset%2F1.png&sound=shake&level=timeSensitive"
+        },
+        {
+          "id": "@xream.pcr.pushdeer",
+          "name": "转发到 PushDeer/PushPlus 等",
+          "val": "",
+          "type": "textarea",
+          "desc": "[推送全文] 会被自动替换. 形如 https://api2.pushdeer.com/message/push?pushkey=XXXXXXXXXXX&text=[推送全文]"
+        },
+        {
+          "id": "@xream.10010.requestNotifyDisabled",
+          "name": "禁用作为请求脚本使用时的通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.pcr.pcr",
+          "name": "核酸报告数据缓存",
+          "placeholder": "",
+          "val": "",
+          "type": "textarea",
+          "desc": ""
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/pcr/asset/icon.png",
+        "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/pcr/asset/icon.png"
+      ]
+    },
+    {
       "id": "xream.sub_store_mega",
       "name": "Sub-Store Mega",
       "descs_html": [
