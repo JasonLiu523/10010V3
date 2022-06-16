@@ -130,12 +130,15 @@ class Widget extends Base {
 
     w.addSpacer()
 
-    const bodyText = w.addText(data.msg.body)
-    bodyText.font = Font.boldSystemFont(10)
-    bodyText.textColor = Color.dynamic(Color.black(), Color.white())
-    bodyText.centerAlignText()
-    bodyText.textOpacity = 0.5
-
+    const latestPcr = data.msgData.latestPcr || {}
+    const latestPcrSampleDate = latestPcr.sample_date
+    if (latestPcrSampleDate) {
+      const bodyText = w.addText(latestPcrSampleDate)
+      bodyText.font = Font.boldSystemFont(10)
+      bodyText.textColor = Color.dynamic(Color.black(), Color.white())
+      bodyText.centerAlignText()
+      bodyText.textOpacity = 0.5
+    }
     w.addSpacer()
 
     const nowText = w.addText(
