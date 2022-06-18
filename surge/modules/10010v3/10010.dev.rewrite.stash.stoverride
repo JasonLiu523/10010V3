@@ -8,13 +8,13 @@ http:
     - 10010.json
   script:
     - match: ^https?:\/\/10010\.json
-      name: "10010v3"
+      name: "10010v3dev"
       type: request
       require-body: true
       timeout: 120
       # debug: true
 
 script-providers:
-  "10010v3":
+  "10010v3dev":
     url: https://raw.githubusercontents.com/xream/scripts/main/surge/modules/10010v3/10010-dev.js
     interval: 86400
