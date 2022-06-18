@@ -1,0 +1,20 @@
+name: 10010v3(dev)
+desc: 联通余量(v3-dev)
+
+http:
+  force-http-engine:
+    - "10010.json:80"
+  mitm:
+    - 10010.json
+  script:
+    - match: ^https?:\/\/10010\.json
+      name: "10010v3"
+      type: request
+      require-body: true
+      timeout: 120
+      # debug: true
+
+script-providers:
+  "10010v3":
+    url: https://raw.githubusercontents.com/xream/scripts/main/surge/modules/10010v3/10010-dev.js
+    interval: 86400
