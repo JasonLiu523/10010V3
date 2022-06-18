@@ -260,7 +260,7 @@ async function pcr() {
     const requestNotifyDisabled = $.getdata(KEY_REQUEST_NOTIFY_DISABLED)
 
     if (String(requestNotifyDisabled) !== 'true') {
-      notify(msg.title, msg.subtitle, msg.body)
+      await notify(msg.title, msg.subtitle, msg.body)
     }
     return pcr
   }
