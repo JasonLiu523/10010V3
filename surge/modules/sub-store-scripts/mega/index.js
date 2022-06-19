@@ -345,11 +345,13 @@ function sort(p) {
 function setHost(p, host) {
   if (['vmess', 'vless'].includes(p.type)) {
     /* 把 非 server 的部分都设置为 host */
-    /* skip-cert-verify 在这里设为 true 有需求就再加一个节点操作吧 */
-    p['skip-cert-verify'] = true
     p.servername = host
-    p['tls-hostname'] = host
-    p.sni = host
+    if (p.tls) {
+      /* skip-cert-verify 在这里设为 true 有需求就再加一个节点操作吧 */
+      p['skip-cert-verify'] = true
+      p['tls-hostname'] = host
+      p.sni = host
+    }
     if (p.network === 'ws') {
       $.lodash_set(p, 'ws-opts.headers.Host', host)
     } else if (p.network === 'h2') {
