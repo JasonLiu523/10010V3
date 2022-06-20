@@ -90,9 +90,9 @@ const detail = {}
 
   // }
 })()
-  .catch(e => {
+  .catch(async e => {
     console.log(e)
-    notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || $.lodash_get(e, 'error') || e}`, {})
+    await notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || $.lodash_get(e, 'error') || e}`, {})
   })
   .finally(() => {
     if ($.isV2p()) {
@@ -429,7 +429,7 @@ ${pkgs.join('\n')}
         if (!remainFlowOnly || (remainFlowOnly && durationNotFree >= ignoreFlow)) {
           console.log(`未设置当前时间段内无*非免流*不通知, 或 设置了且跳>=阈值`)
           console.log(`🔔🔔🔔 通知`)
-          notify(msg.title, msg.subtitle, msg.body)
+          await notify(msg.title, msg.subtitle, msg.body)
         } else {
           console.log(`当前时间段内无*非免流*, 不通知`)
         }

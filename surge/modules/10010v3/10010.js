@@ -90,9 +90,9 @@ const detail = {}
 
   // }
 })()
-  .catch(e => {
+  .catch(async e => {
     console.log(e)
-    notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || $.lodash_get(e, 'error') || e}`, {})
+    await notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || $.lodash_get(e, 'error') || e}`, {})
   })
   .finally(() => {
     if ($.isV2p()) {
@@ -197,6 +197,7 @@ async function query({ cookie }) {
   detail.addUpFree = 0
   detail.remain = 0
   detail.total = 0
+  detail.tw = 0
   detail.resources = {}
   for (const key in body) {
     const field = String(key).toLowerCase()
@@ -311,6 +312,10 @@ async function query({ cookie }) {
     }
   }
   detail.free = parseFloat(detail.freeFlow) + parseFloat(detail.addUpFree)
+  let tw = parseFloat($.lodash_get(detail, 'resources.twresources.userResource'))
+  if (!isNaN(tw) && tw > 0) {
+    detail.tw = tw  
+  }
   const lastDetail = $.getjson(KEY_DETAIL)
   console.log('上次记录:')
   console.log(lastDetail)
@@ -319,18 +324,23 @@ async function query({ cookie }) {
   const resourcesDetails = $.lodash_get(detail, 'resources.resources.details')
   const unsharedDetails = $.lodash_get(detail, 'resources.unshared.details')
   const rzbresourcesDetails = $.lodash_get(detail, 'resources.rzbresources.details')
-  if ((!Array.isArray(resourcesDetails) || resourcesDetails.length === 0) && (!Array.isArray(unsharedDetails) || unsharedDetails.length === 0) && (!Array.isArray(rzbresourcesDetails) || rzbresourcesDetails.length === 0)) {
+  consttwresourcesDetails = $.lodash_get(detail, 'resources.twresources.details')
+  if ((!Array.isArray(resourcesDetails) || resourcesDetails.length === 0) && (!Array.isArray(unsharedDetails) || unsharedDetails.length === 0) && (!Array.isArray(rzbresourcesDetails) || rzbresourcesDetails.length === 0) && (!Array.isArray(consttwresourcesDetails) || consttwresourcesDetails.length === 0)) {
     console.log(`联通未返回包数据 正常情况 习惯就好 🔚`)
     return
   }
   let duration = 0
   let durationFree = 0
+  let durationNotFree = 0
   let durationRemain = 0
+  let durationTw = 0
   if (lastDetail) {
     duration = (now - parseFloat($.lodash_get(lastDetail, 'now'))) / 1000 / 60
     if (!isNaN(duration) && duration > 0) {
       durationFree = parseFloat(detail.free) - parseFloat($.lodash_get(lastDetail, 'free'))
+      durationTw = parseFloat(detail.tw) - parseFloat($.lodash_get(lastDetail, 'tw'))
       durationRemain = parseFloat($.lodash_get(lastDetail, 'remain')) - parseFloat(detail.remain)
+      durationNotFree = durationRemain + durationTw
     } else {
       duration = 0
     }
@@ -348,7 +358,7 @@ async function query({ cookie }) {
   const msgData = {
     ...detail,
     duration,
-    durationRemain,
+    durationNotFree,
     durationFree,
     otherText,
     now: new Date(detail.now).toLocaleString('zh'),
@@ -374,9 +384,10 @@ ${pkgs.join('\n')}
 总共流量: ${formatFlow(detail.total, 2)}
 额外免流流量: ${formatFlow(detail.addUpFree, 2)}
 修正后总免流: ${formatFlow(detail.free, 2)}
+套外总流量: ${formatFlow(detail.tw, 2)}
 间隔时长: ${formatDuration(duration)}
 期间免流: ${formatFlow(durationFree, 2)}
-期间非免: ${formatFlow(durationRemain, 2)}
+期间非免: ${formatFlow(durationNotFree, 2)}
 流量变化忽略阈值: ${formatFlow(ignoreFlow, 2)}
 当前时间段内有*非免流*才会通知: ${remainFlowOnly}
 通知标题模板: ${titleTpl}
@@ -404,7 +415,7 @@ ${pkgs.join('\n')}
     },
   }
   $.setdata(detailText, KEY_DETAIL_TEXT)
-  if (durationFree < 0 || durationRemain < 0) {
+  if (durationFree < 0 || durationNotFree < 0) {
     console.log(`流量变化 < 0 可能是什么包失效了(比如月初)或者联通接口问题 本次不发送`)
   } else {
      if (notifyDisabled) {
@@ -414,11 +425,11 @@ ${pkgs.join('\n')}
     } else if ($.isPanel() && panelNotifyDisabled) {
       console.log(`禁用作为 panel 脚本使用时的通知`)
     } else {
-      if (durationFree >= ignoreFlow || durationRemain >= ignoreFlow) {
-        if (!remainFlowOnly || (remainFlowOnly && durationRemain >= ignoreFlow)) {
+      if (durationFree >= ignoreFlow || durationNotFree >= ignoreFlow) {
+        if (!remainFlowOnly || (remainFlowOnly && durationNotFree >= ignoreFlow)) {
           console.log(`未设置当前时间段内无*非免流*不通知, 或 设置了且跳>=阈值`)
           console.log(`🔔🔔🔔 通知`)
-          notify(msg.title, msg.subtitle, msg.body)
+          await notify(msg.title, msg.subtitle, msg.body)
         } else {
           console.log(`当前时间段内无*非免流*, 不通知`)
         }
@@ -505,10 +516,11 @@ function renderTpl(tpl, data) {
     .replace('[总免]', formatFlow(data.free, 2))
     .replace('[时]', formatDuration(data.duration))
     .replace('[现]', data.now)
-    .replace('[跳]', formatFlow(data.durationRemain, 2))
+    .replace('[跳]', formatFlow(data.durationNotFree, 2))
     .replace('[免]', formatFlow(data.durationFree, 2))
     .replace('[剩]', formatFlow(data.remain, 2))
     .replace('[总]', formatFlow(data.total, 2))
+    .replace('[套外]', formatFlow(data.tw, 2))
     .replace('[单]', data.otherText)
     .replace('[详]', data.pkgs?data.pkgs.join('\n'): '')
     .replace(/  +/g, ' ')
