@@ -119,6 +119,7 @@ async function getMw() {
         [$.lodash_get(mwResBody, 'desc'), $.lodash_get(mwResBody, 'data')].filter(i => i != null).join('; ') ||
           $.lodash_get(mwResBody, 'error') ||
           $.lodash_get(mwResBody, 'message') ||
+          $.lodash_get(mwResBody, 'errmsg') ||
           '未知错误'
       )
     }
@@ -127,10 +128,10 @@ async function getMw() {
     $.setjson({ ...mwOpts, mw }, KEY_MW)
     return mw
   } catch (e) {
+    $.log('获取 mw 失败')
     $.log(e)
     $.log($.toStr(e))
-    $.log('可尝试打开随申办微信小程序 重新抓包')
-    throw new Error(`获取 mw 失败: ${$.lodash_get(e, 'message') || e}`)
+    throw new Error(`随申办小程序 重新抓包: ${$.lodash_get(e, 'message') || e}`)
   }
 }
 async function getPcr({ mw }) {
