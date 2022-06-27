@@ -700,6 +700,7 @@
         "@xream.10010.disabled",
         "@xream.10010.requestNotifyDisabled",
         "@xream.10010.panelNotifyDisabled",
+        "@xream.10010.tileNotifyDisabled",
         "@xream.10010.notifyDisabled",
         "@xream.10010.cookie",
         "@xream.10010.mobile",
@@ -857,7 +858,14 @@
         },
         {
           "id": "@xream.10010.panelNotifyDisabled",
-          "name": "禁用作为 panel 脚本使用时的通知",
+          "name": "禁用作为 Surge 面板 (Panel) 脚本使用时的通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
+        },
+        {
+          "id": "@xream.10010.tileNotifyDisabled",
+          "name": "禁用作为 Stash 面板 (Tile) 脚本使用时的通知",
           "val": false,
           "type": "boolean",
           "desc": "默认启用"

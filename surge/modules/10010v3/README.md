@@ -365,6 +365,8 @@ script-providers:
     interval: 86400
 ```
 
+请求时的通知可在 BoxJs 设置中关闭: 禁用作为 Stash 面板 (Tile) 脚本使用时的通知
+
 ## Surge 面板 (Panel)
 
 <table>
@@ -379,7 +381,7 @@ script-providers:
 
 > 仅供参考 以该 app 最新配置为准 自行配置
 
-请求时的通知可在 Box.js 设置中关闭(禁用作为 panel 脚本使用时的通知).
+请求时的通知可在 BoxJs 设置中关闭: 禁用作为 Surge 面板 (Panel) 脚本使用时的通知
 
 ```
 [MITM]
