@@ -18,7 +18,8 @@ const $ = new Env('10010', {dataFile: `${namespace==='xream'?'':`${namespace}-`}
 
 $.isRequest = () => typeof $request !== 'undefined' 
 $.isV2p = () => typeof $evui !== 'undefined'
-$.isPanel = () => typeof $input != 'undefined' && $.lodash_get($input, 'purpose') === 'panel'
+$.isPanel = () => $.isSurge() && typeof $input != 'undefined' && $.lodash_get($input, 'purpose') === 'panel'
+$.isTile = () => $.isStash() && !$.isRequest()
 
 const KEY_INITED = `@${namespace}.10010.inited`
 const KEY_DISABLED = `@${namespace}.10010.disabled`
@@ -106,6 +107,11 @@ const detail = {}
         title: $.lodash_get(detail, 'msg.title'),
         content: `${$.lodash_get(detail, 'msg.subtitle')}\n${$.lodash_get(detail, 'msg.body')}`,
         ...arg,
+      })
+    } else if ($.isTile()) {
+      $.done({
+        title: `${$.lodash_get(detail, 'msg.title')}`,
+        content: `${$.lodash_get(detail, 'msg.subtitle')}\n${$.lodash_get(detail, 'msg.body')}`,
       })
     } else {
       $.done(result)

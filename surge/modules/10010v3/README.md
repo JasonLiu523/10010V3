@@ -29,7 +29,7 @@
 
 > 吐槽 为什么就 Shadowrocket 用户要手把手教 🐶
 
-兼容 直接使用 Surge 模块 [https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule](https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule)
+兼容 直接使用 Surge 模块 [https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule](htptps://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.sgmodule)
 
 <table>
   <tr>
@@ -339,7 +339,33 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 
 脚本会尝试加载同目录下的 `_ABC_10010_sendNotify.js` 文件, 再尝试加载 `10010_sendNotify.js`, 最后尝试加载 `sendNotify.js`. 所以你可以创建一个 `_ABC_10010_sendNotify.js` 文件实现通知的自定义逻辑.
 
-## Surge Panel
+## Stash 面板 (Tile)
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/24.jpg"></td>
+  </tr>
+</table>
+
+参考 [Stash 面板 (Tile) 官方文档](https://stash.wiki/features/tile#%E9%85%8D%E7%BD%AE%E6%A0%BC%E5%BC%8F)
+
+自行编辑配置(请先按照正常流程完成 BoxJs 配置, 正常登录)
+
+```
+tiles:
+  - name: "10010v3-tile"
+    interval: 600
+    title: "联通余量"
+    content: ""
+    icon: "arrow.up.arrow.down.circle"
+    backgroundColor: "#663399"
+script-providers:
+  "10010v3-tile":
+    url: "https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010.js"
+    interval: 86400
+```
+
+## Surge 面板 (Panel)
 
 <table>
   <tr>
@@ -375,7 +401,7 @@ panel-10010 = script-name=panel-10010,update-interval=1
 
 原理: 优先从 `http(s)://10010.json` 获取实时数据, 如果失败则从 `http://boxjs.net/query/boxdata` 获取缓存数据.
 
-boxjs 的缓存数据是由定时任务更新的
+BoxJs 的缓存数据是由定时任务更新的
 
 ### 如何配置获取实时数据
 
