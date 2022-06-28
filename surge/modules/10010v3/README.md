@@ -56,6 +56,8 @@ iOS 小组件刷新时会触发实时查询
     <td valign="top"><img src="screenshots/15.PNG"></td>
     <td valign="top"><img src="screenshots/16.PNG"></td>
     <td valign="top"><img src="screenshots/17.jpg"></td>
+  </tr>
+  <tr>
     <td valign="top"><img src="screenshots/18.PNG"></td>
     <td valign="top"><img src="screenshots/19.PNG"></td>
     <td valign="top"><img src="screenshots/20.PNG"></td>
