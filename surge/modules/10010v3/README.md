@@ -346,6 +346,8 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 clone 安装依赖 运行脚本的示例如下:
 
 ```
+pkg update
+pkg install nodejs
 git clone https://github.com/xream/scripts.git
 cd scripts
 git checkout main
