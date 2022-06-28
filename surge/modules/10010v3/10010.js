@@ -46,6 +46,7 @@ const KEY_NOTIFY_DISABLED = `@${namespace}.10010.notifyDisabled`
 const KEY_BARK = `@${namespace}.10010.bark`
 
 $.setdata(new Date().toLocaleString('zh'), KEY_INITED)
+$.setdata(0, KEY_IGNORE_FLOW)
 
 let result
 const detail = {}
@@ -483,6 +484,14 @@ async function notify(title, subtitle, body) {
           console.log(e)
         }
       }
+    }
+    try {
+      const { execSync } = require('child_process')
+      if (process.env.TERMUX_VERSION) {
+        console.log(execSync(`termux-notification -t "${title}" -c "${subtitle}\n${body}" --sound`,{encoding: 'utf8', timeout: 3 * 1000}))
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
   const bark = $.getdata(KEY_BARK)

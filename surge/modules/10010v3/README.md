@@ -4,7 +4,7 @@
 
 使用了 [chavyleung 大佬的 Env.js](https://github.com/chavyleung/scripts/blob/master/Env.js)
 
-兼容 QuanX, Surge, Loon, Shadowrocket, Stash, [elecV2P](https://github.com/elecV2/elecV2P), [青龙](https://github.com/whyour/qinglong) 等
+兼容 QuanX, Surge, Loon, Shadowrocket, Stash, [elecV2P](https://github.com/elecV2/elecV2P), [青龙](https://github.com/whyour/qinglong), Termux(Android) 等
 
 > Loon 似乎不支持 http api 在 Box.js 里执行脚本. 故不支持短信验证码登录
 
@@ -340,6 +340,35 @@ process.env.BARK_PUSH="https://api.day.app/123456789"
 意思是清除默认的钉钉的环境变量, 并设置 Bark 的环境变量
 
 脚本会尝试加载同目录下的 `_ABC_10010_sendNotify.js` 文件, 再尝试加载 `10010_sendNotify.js`, 最后尝试加载 `sendNotify.js`. 所以你可以创建一个 `_ABC_10010_sendNotify.js` 文件实现通知的自定义逻辑.
+
+## Termux(Android)
+
+clone 安装依赖 运行脚本的示例如下:
+
+```
+git clone https://github.com/xream/scripts.git
+cd scripts
+git checkout main
+npm i
+cd surge/modules/10010v3
+node 10010.js
+```
+
+其他的配置基本与青龙等 Node.js 环境相同
+
+### termux-notification
+
+若按照 [Termux:API](https://wiki.termux.com/wiki/Termux:API) 完成了安装配置, 脚本将调用 termux-notification 发送通知.
+
+### 定时任务/自启动
+
+自己参考 [Termux:Boot](https://wiki.termux.com/wiki/Termux:Boot), [Termux-services](https://wiki.termux.com/wiki/Termux-services) 里的 `cronie` 配置
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/25.png"></td>
+  </tr>
+</table>
 
 ## Stash 面板 (Tile)
 
