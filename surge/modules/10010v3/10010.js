@@ -19,7 +19,7 @@ const $ = new Env('10010', {dataFile: `${namespace==='xream'?'':`${namespace}-`}
 $.isRequest = () => typeof $request !== 'undefined' 
 $.isV2p = () => typeof $evui !== 'undefined'
 $.isPanel = () => $.isSurge() && typeof $input != 'undefined' && $.lodash_get($input, 'purpose') === 'panel'
-$.isTile = () => $.isStash() && !$.isRequest()
+$.isTile = () => $.isStash() && typeof $script != 'undefined' && $.lodash_get($script, 'type') === 'tile'
 
 const KEY_INITED = `@${namespace}.10010.inited`
 const KEY_DISABLED = `@${namespace}.10010.disabled`
