@@ -13,6 +13,7 @@ if (typeof __filename !== 'undefined') {
     console.log(`尝试从文件名称中读取 namespace: ${namespace}`)
   }
 }
+console.log(`namespace ${namespace}`)
 
 const $ = new Env('10010', {dataFile: `${namespace==='xream'?'':`${namespace}-`}10010-box.dat`})
 
