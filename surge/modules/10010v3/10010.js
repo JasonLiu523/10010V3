@@ -524,6 +524,7 @@ function renderTpl(tpl, data) {
   return tpl
     .replace('[套]', data.packageName || '')
     .replace('[总免]', formatFlow(data.free, 2))
+    .replace('[总用]', formatFlow(data.sum, 2))
     .replace('[时]', formatDuration(data.duration))
     .replace('[现]', data.now)
     .replace('[跳]', formatFlow(data.durationNotFree, 2))
