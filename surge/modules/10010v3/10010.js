@@ -46,7 +46,6 @@ const KEY_NOTIFY_DISABLED = `@${namespace}.10010.notifyDisabled`
 const KEY_BARK = `@${namespace}.10010.bark`
 
 $.setdata(new Date().toLocaleString('zh'), KEY_INITED)
-$.setdata(0, KEY_IGNORE_FLOW)
 
 let result
 const detail = {}
