@@ -39,6 +39,7 @@ const KEY_OTHER_PKG = `@${namespace}.10010.otherPkg`
 const KEY_IGNORE_FLOW = `@${namespace}.10010.ignoreFlow`
 const KEY_REMAIN_FLOW_ONLY = `@${namespace}.10010.remainFlowOnly`
 const KEY_OTHER_PKG_TPL = `@${namespace}.10010.otherPkgTpl`
+const KEY_SYSTEM_NOTIFY_DISABLED = `@${namespace}.10010.systemNotifyDisabled`
 const KEY_REQUEST_NOTIFY_DISABLED = `@${namespace}.10010.requestNotifyDisabled`
 const KEY_PANEL_NOTIFY_DISABLED = `@${namespace}.10010.panelNotifyDisabled`
 const KEY_TILE_NOTIFY_DISABLED = `@${namespace}.10010.tileNotifyDisabled`
@@ -141,8 +142,12 @@ async function query({ cookie }) {
   if (code !== '0000') {
     if (String(body) === '999999' || String(body) === '999998') {
       errMsg = 'Cookie 无效'
-    } else if(code==='4114030182'){
+    } else if(code === '4114030182'){
       errMsg = '系统升级'
+      if (String($.getdata(KEY_SYSTEM_NOTIFY_DISABLED)) === 'true') {
+        $.log('禁用联通系统升级时的通知')
+        return
+      }
     } else if(desc){
       errMsg = desc
     }
@@ -507,6 +512,7 @@ async function notify(title, subtitle, body) {
       try {
         const url = bark.replace('[推送标题]', encodeURIComponent(title)).replace('[推送内容]', encodeURIComponent(`${subtitle}\n${body}`))
         $.log(`开始 bark 请求: ${url}`)
+        $.log(`${title}\n\n${subtitle}\n\n${body}`)
         const res = await $.http.get({ url })
         // console.log(res)
         const status = $.lodash_get(res, 'status')

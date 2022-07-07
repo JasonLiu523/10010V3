@@ -698,6 +698,7 @@
       ],
       "keys": [
         "@xream.10010.disabled",
+        "@xream.10010.systemNotifyDisabled",
         "@xream.10010.requestNotifyDisabled",
         "@xream.10010.panelNotifyDisabled",
         "@xream.10010.tileNotifyDisabled",
@@ -848,6 +849,13 @@
           "val": "",
           "type": "textarea",
           "desc": "[推送标题]/[推送内容]会被自动替换 形如 https://api.day.app/XXXXXXXXX/[推送标题]/[推送内容]?group=10010&autoCopy=1&isArchive=1&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fanker1209%2Ficon%2Fmain%2Fzglt.png&sound=shake&level=timeSensitive"
+        },
+        {
+          "id": "@xream.10010.systemNotifyDisabled",
+          "name": "禁用联通系统升级时的通知",
+          "val": false,
+          "type": "boolean",
+          "desc": "默认启用"
         },
         {
           "id": "@xream.10010.requestNotifyDisabled",
