@@ -135,11 +135,18 @@ async function query({ cookie }) {
   } catch (e) {}
   $.log('↓ res body')
   console.log($.toStr(body))
-  if ($.lodash_get(body, 'code') !== '0000') {
+  const code = String($.lodash_get(body, 'code'))
+  const desc = $.lodash_get(body, 'desc')
+  let errMsg = '未知错误'
+  if (code !== '0000') {
     if (String(body) === '999999' || String(body) === '999998') {
-      throw new Error('Cookie 无效')
+      errMsg = 'Cookie 无效'
+    } else if(code==='4114030182'){
+      errMsg = '系统升级'
+    } else if(desc){
+      errMsg = desc
     }
-    throw new Error('未知错误')
+    throw new Error(errMsg)
   }
 
   const now = new Date().getTime()

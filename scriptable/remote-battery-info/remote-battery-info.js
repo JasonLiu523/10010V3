@@ -125,7 +125,7 @@ class Widget extends Base {
 
   // 获取电量值
   async getInfo() {
-    let data = {}
+    let data = {level: 0, status: ''}
     try {
       const req = new Request(`${this.settings['api']}/battery/query`)
       req.headers = {
