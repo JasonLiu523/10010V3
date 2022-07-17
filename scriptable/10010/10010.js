@@ -1,6 +1,9 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-gray; icon-glyph: magic;
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: deep-gray; icon-glyph: magic;
 
  
 
@@ -37,12 +40,11 @@ class Widget extends Base {
       console.log('getBoxjsData from http://boxjs.net/query/boxdata')
       try {
         const req = new Request('http://boxjs.net/query/boxdata')
-        req.timeoutInterval = 10
+        req.timeoutInterval = 3
         req.method = 'GET'
         const res = await req.loadJSON()
         console.log(res)
         const detail = res.datas["@xream.10010.detail"]
-        console.log(detail)
         return JSON.parse(detail)
       } catch (e) {
         console.error(e)
@@ -74,6 +76,80 @@ class Widget extends Base {
     }
     
     return await this[`${this.widgetFamily}Widget`]({ data, url: this.url })
+  }
+
+  /**
+   * 渲染 iOS 16 锁屏圆形小组件
+   */
+  async accessoryCircularWidget ({url, data}) {
+    const w = new ListWidget()
+    
+
+    // w.addSpacer();
+   
+    // const titleText = w.addText(data.msg.title)
+    // titleText.font = Font.boldSystemFont(12)
+    // titleText.textColor = Color.dynamic(Color.black(), Color.white())
+    // titleText.centerAlignText()
+    // titleText.textOpacity = 0.5
+      
+    // w.addSpacer()
+
+    const subtitleText = w.addText(data.msg.subtitle)
+    subtitleText.font = Font.boldSystemFont(12)
+    subtitleText.textColor = Color.dynamic(Color.black(), Color.white())
+    subtitleText.centerAlignText()
+    subtitleText.textOpacity = 0.75
+      
+    // w.addSpacer()
+
+    const bodyText = w.addText(data.msg.body)
+    bodyText.font = Font.boldSystemFont(12)
+    bodyText.textColor = Color.dynamic(Color.black(), Color.white())
+    bodyText.centerAlignText()
+    bodyText.textOpacity = 0.75
+      
+    // w.addSpacer()
+    
+    w.url = url
+    return w
+  }
+
+  /**
+   * 渲染 iOS 16 锁屏长方形组件
+   */
+  async accessoryRectangularWidget ({url, data}) {
+    const w = new ListWidget()
+    
+
+    // w.addSpacer();
+   
+    const titleText = w.addText(data.msg.title)
+    titleText.font = Font.boldSystemFont(12)
+    titleText.textColor = Color.dynamic(Color.black(), Color.white())
+    titleText.centerAlignText()
+    titleText.textOpacity = 0.5
+      
+    // w.addSpacer()
+
+    const subtitleText = w.addText(data.msg.subtitle)
+    subtitleText.font = Font.boldSystemFont(12)
+    subtitleText.textColor = Color.dynamic(Color.black(), Color.white())
+    subtitleText.centerAlignText()
+    subtitleText.textOpacity = 0.75
+      
+    // w.addSpacer()
+
+    const bodyText = w.addText(data.msg.body)
+    bodyText.font = Font.boldSystemFont(12)
+    bodyText.textColor = Color.dynamic(Color.black(), Color.white())
+    bodyText.centerAlignText()
+    bodyText.textOpacity = 0.75
+      
+    // w.addSpacer()
+    
+    w.url = url
+    return w
   }
 
   /**

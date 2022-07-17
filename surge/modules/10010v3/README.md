@@ -475,4 +475,12 @@ hostname = 10010.json
     <td valign="top"><img src="screenshots/14.PNG"></td>
   </tr>
  </table>
+
+Scriptable Testflight 版支持 iOS 16 锁屏小组件. 空间有限, 请自定义通知模板内容.
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/26.jpg"></td>
+  </tr>
+ </table>
 ```
