@@ -40,7 +40,7 @@ class Widget extends Base {
       console.log('getBoxjsData from http://boxjs.net/query/boxdata')
       try {
         const req = new Request('http://boxjs.net/query/boxdata')
-        req.timeoutInterval = 3
+        req.timeoutInterval = 10
         req.method = 'GET'
         const res = await req.loadJSON()
         console.log(res)
