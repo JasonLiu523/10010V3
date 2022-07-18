@@ -11,6 +11,8 @@ const title = getVal('title') || 'Sub-Store Mega'
 const disabled = getVal('disabled')
 /* 混淆 */
 const host = getVal('host')
+/* method */
+const method = getVal('method')
 /* 路径 */
 const pathOpt = getVal('path')
 /* network */
@@ -358,6 +360,9 @@ function setHost(p, host) {
       $.lodash_set(p, 'h2-opts.host', [host])
     } else if (p.network === 'http') {
       $.lodash_set(p, 'http-opts.headers.Host', [host])
+      if (method) {
+        $.lodash_set(p, 'http-opts.headers.method', method)
+      }
     } else if (p.network) {
       $.lodash_set(p, `${p.network}-opts.headers.Host`, [host])
     }

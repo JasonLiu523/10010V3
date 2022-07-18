@@ -115,6 +115,7 @@
         "@xream.sub_store_mega.title",
         "@xream.sub_store_mega.prefix",
         "@xream.sub_store_mega.suffix",
+        "@xream.sub_store_mega.method",
         "@xream.sub_store_mega.host",
         "@xream.sub_store_mega.hostPrefix",
         "@xream.sub_store_mega.hostSuffix",
@@ -237,6 +238,12 @@
           "val": false,
           "type": "boolean",
           "desc": "默认为空. 例: [WS]"
+        },
+        {
+          "id": "@xream.sub_store_mega.method",
+          "name": "method",
+          "type": "text",
+          "desc": "例 GET 网络为 http 时, 可能需要设置此项"
         },
         {
           "id": "@xream.sub_store_mega.port",
