@@ -106,13 +106,14 @@ async function operator(proxies = []) {
 }
 async function main(proxies) {
   let result = []
-  if (sleep <= 0) {
-    result = await Promise.all(proxies.map(p => proxyHander(p)))
-  } else {
-    for await (let p of proxies) {
-      p = await proxyHander(p)
-      result.push(p)
-    }
+  const limit = 15; // more than 20 concurrency may result in surge TCP connection shortage.
+  const totalBatch = Math.ceil(proxies.length / limit);
+  for (let i = 0; i < totalBatch; i++) {
+      const currentBatch = [];
+      for (let p of proxies.splice(0, limit)) {
+          currentBatch.push(proxyHander(p));
+      }
+      result.push(...await Promise.all(currentBatch))
   }
 
   return result.sort((a, b) => b._sort - a._sort)
