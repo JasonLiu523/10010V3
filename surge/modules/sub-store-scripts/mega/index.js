@@ -94,8 +94,8 @@ async function operator(proxies = []) {
     if (!notifyOnSuccessDisabled) {
       $.msg(
         title,
-        `✅ 总耗时 ${Math.round((Date.now() - startedAt) / 1000)}s`,
-        `使用缓存数 ${cacheHitTimes}\n解析成功数 ${resolvedCount}\n解析失败数 ${unresolvedCount}`
+        `✅ 节点数 ${result.length} 总耗时 ${Math.round((Date.now() - startedAt) / 1000)}s`,
+        `[解析] 缓存 ${cacheHitTimes} 成功 ${resolvedCount} 失败 ${unresolvedCount}`
       )
     }
     return result
