@@ -65,13 +65,15 @@ BoxJs v0.10.0 后 支持一键添加订阅 可点击尝试 [http://boxjs.com/#/s
 
 引用格式如下：
 
-例 设置 Host 混淆为 `a.189.cn`, 为修改了 Host 的节点名添加后缀 `[北停]`, 开启 `域名转 IP`
+例 设置 Host 混淆为 `a.189.cn`, 为修改了 Host 的节点名添加后缀 `[北停]`, 开启 `域名转 IP`, `并发数` 为 5.
 
-`https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sub-store-scripts/mega/index.js#title=免流骚&host=a.189.cn&hostSuffix=[北停]&resolve=true`
+`https://raw.githubusercontent.com/xream/scripts/main/surge/modules/sub-store-scripts/mega/index.js#title=免流骚&host=a.189.cn&hostSuffix=[北停]&resolve=true&concurrency=5`
 
 参数列表如下：
 
 `disabled` 是否禁用. 禁用后将返回原始节点数据
+
+`concurrency` 并发数. 默认 15. 若因为并发过多导致失败, 可将此值设小
 
 `title` 通知标题 默认为 `Sub-Store Mega`
 

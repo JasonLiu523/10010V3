@@ -112,6 +112,7 @@
       ],
       "keys": [
         "@xream.sub_store_mega.disabled",
+        "@xream.sub_store_mega.concurrency",
         "@xream.sub_store_mega.title",
         "@xream.sub_store_mega.prefix",
         "@xream.sub_store_mega.suffix",
@@ -148,6 +149,13 @@
           "val": false,
           "type": "boolean",
           "desc": "禁用后将返回原始节点数据"
+        },
+        {
+          "id": "@xream.sub_store_mega.concurrency",
+          "name": "并发数",
+          "val": 15,
+          "type": "number",
+          "desc": "默认 15. 若因为并发过多导致失败, 可将此值设小"
         },
         {
           "id": "@xream.sub_store_mega.title",

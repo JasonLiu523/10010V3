@@ -9,6 +9,7 @@ const KEY_CACHE = `${namespace}.cache`
 const title = getVal('title') || 'Sub-Store Mega'
 
 const disabled = getVal('disabled')
+const concurrency = getVal('concurrency') || 15
 /* 混淆 */
 const host = getVal('host')
 /* method */
@@ -106,11 +107,10 @@ async function operator(proxies = []) {
 }
 async function main(proxies) {
   let result = []
-  const limit = 15; // more than 20 concurrency may result in surge TCP connection shortage.
-  const totalBatch = Math.ceil(proxies.length / limit);
+  const totalBatch = Math.ceil(proxies.length / concurrency);
   for (let i = 0; i < totalBatch; i++) {
       const currentBatch = [];
-      for (let p of proxies.splice(0, limit)) {
+      for (let p of proxies.splice(0, concurrency)) {
           currentBatch.push(proxyHander(p));
       }
       result.push(...await Promise.all(currentBatch))
