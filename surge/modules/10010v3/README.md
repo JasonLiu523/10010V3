@@ -481,6 +481,7 @@ Scriptable Testflight 版支持 iOS 16 锁屏小组件. 空间有限, 请自定�
 <table>
   <tr>
     <td valign="top"><img src="screenshots/26.jpg"></td>
+    <td valign="top"><img src="screenshots/27.jpg"></td>
   </tr>
  </table>
 ```
