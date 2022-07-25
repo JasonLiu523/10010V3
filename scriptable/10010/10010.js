@@ -79,6 +79,43 @@ class Widget extends Base {
   }
 
   /**
+   * 渲染 iOS 16 锁屏最上方一行的小组件
+   */
+  async accessoryInlineWidget ({url, data}) {
+    const w = new ListWidget()
+    
+
+    // w.addSpacer();
+   
+    // const titleText = w.addText(data.msg.title)
+    // titleText.font = Font.boldSystemFont(12)
+    // titleText.textColor = Color.dynamic(Color.black(), Color.white())
+    // titleText.centerAlignText()
+    // titleText.textOpacity = 0.5
+      
+    // w.addSpacer()
+
+    // const subtitleText = w.addText(data.msg.subtitle)
+    // subtitleText.font = Font.boldSystemFont(12)
+    // subtitleText.textColor = Color.dynamic(Color.black(), Color.white())
+    // subtitleText.centerAlignText()
+    // subtitleText.textOpacity = 0.75
+      
+    // w.addSpacer()
+
+    const bodyText = w.addText(data.msg.body)
+    bodyText.font = Font.boldSystemFont(12)
+    bodyText.textColor = Color.dynamic(Color.black(), Color.white())
+    bodyText.centerAlignText()
+    bodyText.textOpacity = 0.75
+      
+    // w.addSpacer()
+    
+    w.url = url
+    return w
+  }
+
+  /**
    * 渲染 iOS 16 锁屏圆形小组件
    */
   async accessoryCircularWidget ({url, data}) {
