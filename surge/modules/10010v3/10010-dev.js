@@ -13,12 +13,14 @@ if (typeof __filename !== 'undefined') {
     console.log(`尝试从文件名称中读取 namespace: ${namespace}`)
   }
 }
+console.log(`namespace ${namespace}`)
 
 const $ = new Env('10010', {dataFile: `${namespace==='xream'?'':`${namespace}-`}10010-box.dat`})
 
 $.isRequest = () => typeof $request !== 'undefined' 
 $.isV2p = () => typeof $evui !== 'undefined'
-$.isPanel = () => typeof $input != 'undefined' && $.lodash_get($input, 'purpose') === 'panel'
+$.isPanel = () => $.isSurge() && typeof $input != 'undefined' && $.lodash_get($input, 'purpose') === 'panel'
+$.isTile = () => $.isStash() && typeof $script != 'undefined' && $.lodash_get($script, 'type') === 'tile'
 
 const KEY_INITED = `@${namespace}.10010.inited`
 const KEY_DISABLED = `@${namespace}.10010.disabled`
@@ -37,8 +39,10 @@ const KEY_OTHER_PKG = `@${namespace}.10010.otherPkg`
 const KEY_IGNORE_FLOW = `@${namespace}.10010.ignoreFlow`
 const KEY_REMAIN_FLOW_ONLY = `@${namespace}.10010.remainFlowOnly`
 const KEY_OTHER_PKG_TPL = `@${namespace}.10010.otherPkgTpl`
+const KEY_SYSTEM_NOTIFY_DISABLED = `@${namespace}.10010.systemNotifyDisabled`
 const KEY_REQUEST_NOTIFY_DISABLED = `@${namespace}.10010.requestNotifyDisabled`
 const KEY_PANEL_NOTIFY_DISABLED = `@${namespace}.10010.panelNotifyDisabled`
+const KEY_TILE_NOTIFY_DISABLED = `@${namespace}.10010.tileNotifyDisabled`
 const KEY_NOTIFY_DISABLED = `@${namespace}.10010.notifyDisabled`
 const KEY_BARK = `@${namespace}.10010.bark`
 
@@ -107,6 +111,11 @@ const detail = {}
         content: `${$.lodash_get(detail, 'msg.subtitle')}\n${$.lodash_get(detail, 'msg.body')}`,
         ...arg,
       })
+    } else if ($.isTile()) {
+      $.done({
+        title: `${$.lodash_get(detail, 'msg.title')}`,
+        content: `${$.lodash_get(detail, 'msg.subtitle')}\n${$.lodash_get(detail, 'msg.body')}`,
+      })
     } else {
       $.done(result)
     }
@@ -127,11 +136,22 @@ async function query({ cookie }) {
   } catch (e) {}
   $.log('↓ res body')
   console.log($.toStr(body))
-  if ($.lodash_get(body, 'code') !== '0000') {
+  const code = String($.lodash_get(body, 'code'))
+  const desc = $.lodash_get(body, 'desc')
+  let errMsg = '未知错误'
+  if (code !== '0000') {
     if (String(body) === '999999' || String(body) === '999998') {
-      throw new Error('Cookie 无效')
+      errMsg = 'Cookie 无效'
+    } else if(code === '4114030182'){
+      errMsg = '系统升级'
+      if (String($.getdata(KEY_SYSTEM_NOTIFY_DISABLED)) === 'true') {
+        $.log('禁用联通系统升级时的通知')
+        return
+      }
+    } else if(desc){
+      errMsg = desc
     }
-    throw new Error('未知错误')
+    throw new Error(errMsg)
   }
 
   const now = new Date().getTime()
@@ -145,6 +165,7 @@ async function query({ cookie }) {
   const remainFlowOnly = String($.getdata(KEY_REMAIN_FLOW_ONLY)) === 'true'
   const requestNotifyDisabled = String($.getdata(KEY_REQUEST_NOTIFY_DISABLED)) === 'true'
   const panelNotifyDisabled = String($.getdata(KEY_PANEL_NOTIFY_DISABLED)) === 'true'
+  const tileNotifyDisabled = String($.getdata(KEY_TILE_NOTIFY_DISABLED)) === 'true'
   const notifyDisabled = String($.getdata(KEY_NOTIFY_DISABLED)) === 'true'
   const time = $.lodash_get(body, 'time')
   const packageName = $.lodash_get(body, 'packageName')
@@ -423,7 +444,9 @@ ${pkgs.join('\n')}
     } else if ($.isRequest() && requestNotifyDisabled) {
       console.log(`禁用作为请求脚本使用时的通知`)
     } else if ($.isPanel() && panelNotifyDisabled) {
-      console.log(`禁用作为 panel 脚本使用时的通知`)
+      console.log(`禁用作为 Surge 面板 (Panel) 脚本使用时的通知`)
+    } else if ($.isTile() && tileNotifyDisabled) {
+      console.log(`禁用作为 Stash 面板 (Tile) 脚本使用时的通知`)
     } else {
       if (durationFree >= ignoreFlow || durationNotFree >= ignoreFlow) {
         if (!remainFlowOnly || (remainFlowOnly && durationNotFree >= ignoreFlow)) {
@@ -473,6 +496,14 @@ async function notify(title, subtitle, body) {
         }
       }
     }
+    try {
+      const { execSync } = require('child_process')
+      if (process.env.TERMUX_VERSION) {
+        console.log(execSync(`termux-notification -t "${title}" -c "${subtitle}\n${body}" --sound`,{encoding: 'utf8', timeout: 3 * 1000}))
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
   const bark = $.getdata(KEY_BARK)
 
@@ -481,6 +512,7 @@ async function notify(title, subtitle, body) {
       try {
         const url = bark.replace('[推送标题]', encodeURIComponent(title)).replace('[推送内容]', encodeURIComponent(`${subtitle}\n${body}`))
         $.log(`开始 bark 请求: ${url}`)
+        $.log(`${title}\n\n${subtitle}\n\n${body}`)
         const res = await $.http.get({ url })
         // console.log(res)
         const status = $.lodash_get(res, 'status')
@@ -514,6 +546,7 @@ function renderTpl(tpl, data) {
   return tpl
     .replace('[套]', data.packageName || '')
     .replace('[总免]', formatFlow(data.free, 2))
+    .replace('[总用]', formatFlow(data.sum, 2))
     .replace('[时]', formatDuration(data.duration))
     .replace('[现]', data.now)
     .replace('[跳]', formatFlow(data.durationNotFree, 2))
