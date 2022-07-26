@@ -18,7 +18,7 @@ const KEY_MOBILE = '@xream.10010.mobile'
     
 
     const mobile = $.getdata(KEY_MOBILE)
-
+    $.log(`手机号: ${mobile}`)
 
     if (!mobile) {
       throw new Error('⚠️ 请配置 手机号(mobile) 记得保存')
@@ -27,7 +27,7 @@ const KEY_MOBILE = '@xream.10010.mobile'
   }
 })()
   .catch(e => {
-    console.error(e)
+    console.log(e)
     $.msg('10010', `❌`, `${$.lodash_get(e, 'message') || e}`, {})
   })
   .finally(() => $.done())

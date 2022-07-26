@@ -21,6 +21,9 @@ const KEY_APPID = '@xream.10010.appId'
     const mobile = $.getdata(KEY_MOBILE)
     const code = $.getdata(KEY_CODE)
 
+    $.log(`手机号: ${mobile}`)
+    $.log(`验证码: ${code}`)
+
 
     if (!mobile||!code) {
       throw new Error('⚠️ 请配置 手机号(mobile) 验证码(code) 记得保存')
@@ -29,7 +32,7 @@ const KEY_APPID = '@xream.10010.appId'
   }
 })()
   .catch(e => {
-    console.error(e)
+    console.log(e)
     $.msg('10010', `❌`, `${$.lodash_get(e, 'message') || e}`, {})
   })
   .finally(() => $.done())
