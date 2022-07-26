@@ -1,0 +1,24 @@
+name: PCR
+desc: 核酸报告
+
+http:
+  force-http-engine:
+    - "pcr.json:80"
+    - "pcr.json:443"
+  mitm:
+    - "pcr.json"
+  script:
+    - match: https?:\/\/smartgate\.ywtbsupappw\.sh\.gov\.cn\/ebus\/swift\/mw\/v1
+      name: pcr
+      type: request
+      require-body: true
+      timeout: 120
+    - match: ^https?:\/\/pcr\.json
+      name: pcr
+      type: response
+      require-body: true
+      timeout: 120
+script-providers:
+  "pcr":
+    url: https://raw.githubusercontent.com/xream/scripts/main/surge/modules/pcr/pcr.js
+    interval: 86400
