@@ -8,13 +8,13 @@ http:
   mitm:
     - 10010.json
   script:
-    - match: ^https?:\/\/10010\.json/sms/send
+    - match: ^https?:\/\/10010\.json\/sms\/send
       name: "10010v.sms.send"
       type: request
       require-body: true
       timeout: 120
       # debug: true
-    - match: ^https?:\/\/10010\.json/sms/sign
+    - match: ^https?:\/\/10010\.json\/sms\/sign
       name: "10010v3.sms.sign"
       type: request
       require-body: true
