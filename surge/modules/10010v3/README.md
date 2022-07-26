@@ -385,7 +385,7 @@ node 10010.js
 
 参考 [Stash 面板 (Tile) 官方文档](https://stash.wiki/features/tile#%E9%85%8D%E7%BD%AE%E6%A0%BC%E5%BC%8F)
 
-自行编辑配置(请先按照正常流程完成 BoxJs 配置, 正常登录)
+最新版 Stash 覆写已自带面板配置 ~~自行编辑配置~~(请先按照正常流程完成 BoxJs 配置, 正常登录)
 
 ```
 tiles:
