@@ -9,7 +9,7 @@ http:
     - 10010.json
   script:
     - match: ^https?:\/\/10010\.json\/sms\/send
-      name: "10010v.sms.send"
+      name: "10010v3.sms.send"
       type: request
       require-body: true
       timeout: 120
@@ -36,7 +36,7 @@ tiles:
     backgroundColor: "#663399"
 
 script-providers:
-  "10010v.sms.send":
+  "10010v3.sms.send":
     url: https://raw.githubusercontent.com/xream/scripts/main/surge/modules/10010v3/10010_send_sms.js
     interval: 86400
   "10010v3.sms.sign":
