@@ -12,19 +12,19 @@ http:
       name: "10010v3.sms.send"
       type: request
       require-body: true
-      timeout: 120
+      timeout: 60
       # debug: true
     - match: ^https?:\/\/10010\.json\/sms\/sign
       name: "10010v3.sms.sign"
       type: request
       require-body: true
-      timeout: 120
+      timeout: 60
       # debug: true
     - match: ^https?:\/\/10010\.json
       name: "10010v3"
       type: request
       require-body: true
-      timeout: 120
+      timeout: 60
       # debug: true
 
 tiles:
@@ -34,6 +34,12 @@ tiles:
     content: ""
     icon: "arrow.up.arrow.down.circle"
     backgroundColor: "#663399"
+
+cron:
+  script:
+    - name: "10010v3"
+      cron: "*/5 * * * *" # at every 5th minute
+      timeout: 60
 
 script-providers:
   "10010v3.sms.send":
