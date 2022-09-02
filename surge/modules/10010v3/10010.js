@@ -101,7 +101,7 @@ const detail = {}
   .finally(() => {
     if ($.isNode()) {
       try {
-        require('fs').writeFileSync(namespace === 'xream' ? '10010.txt' : `10010(${namespace}).txt`, $.getdata(KEY_COOKIE), 'utf-8')
+        require('fs').writeFileSync(namespace === 'xream' ? '10010.txt' : `10010_${namespace}.txt`, $.getdata(KEY_COOKIE), 'utf-8')
       } catch (e) {
         console.error(e);
       }
