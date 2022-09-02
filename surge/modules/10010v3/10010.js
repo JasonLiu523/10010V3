@@ -99,6 +99,13 @@ const detail = {}
     await notify(namespace === 'xream' ? '10010' : `10010(${namespace})`, `❌`, `${$.lodash_get(e, 'message') || $.lodash_get(e, 'error') || e}`, {})
   })
   .finally(() => {
+    if ($.isNode()) {
+      try {
+        require('fs').writeFileSync(namespace === 'xream' ? '10010.txt' : `10010(${namespace}).txt`, $.getdata(KEY_COOKIE), 'utf-8')
+      } catch (e) {
+        console.error(e);
+      }
+    }
     if ($.isV2p()) {
       $.done()
     } else if ($.isPanel()) {
